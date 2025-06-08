@@ -1,0 +1,17 @@
+/*GENERAL*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Source Sans 3", sans-serif;
+    background-color: #ffffff !important;
+    font-size: 1.5rem !important;
+    color: #333336 !important;
+}
+
+h1.titulo{
+    display:none;
+}

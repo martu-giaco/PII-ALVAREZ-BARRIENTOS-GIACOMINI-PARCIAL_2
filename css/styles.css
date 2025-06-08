@@ -29,3 +29,24 @@ a.navbar-brand{
     background-size: contain;
     margin: 0.5rem;
 }
+/*LINKS*/
+a{
+    color: #333336 !important;
+    text-decoration: none;
+}
+a:hover{
+    color: black !important;
+}
+/*FOOTER*/
+footer ul ul.submenu{
+    padding-left: 1rem !important;
+}
+footer ul ul.submenu li a{
+    color: #6e6e73 !important;
+}
+footer ul ul.submenu li a:hover{
+    color: #333336 !important;
+}
+footer ul li{
+    list-style: none
+}

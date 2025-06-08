@@ -43,9 +43,9 @@
     }, 
     {
         "vinculo": "carrito",
-        "texto": "Carrito de compras",
+        "texto": "Mi Carrito",
         "title": "Carrito", 
-        "inMenu": false
+        "inMenu": true
     }, 
     {
         "vinculo": "404",

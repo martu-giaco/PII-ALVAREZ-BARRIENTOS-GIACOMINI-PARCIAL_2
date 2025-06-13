@@ -12,7 +12,7 @@
             <p>Comprobando que sos estudiante universitario</p>
         </div>
     </section>
-    <section class="text-center m-3 p-5" id="macbook-promo">
+    <section class="text-center m-3 mb-5 p-5" id="macbook-promo">
         <p class="mb-0">Nueva</p>
         <h3 class="px-5">MacBook Air</h3>
         <a href="" class="mt-5">Ver más</a>

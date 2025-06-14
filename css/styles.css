@@ -127,7 +127,7 @@ div.container-inicio section.categorias div div.card img{
     margin: 2rem 0;
 }
 div.container-inicio section.categorias div div.card div.card-body a.btn{
-    color: #333336 !important;
+    color: #232325 !important;
     background-color: transparent !important;
     border: none !important;
     text-decoration: none;
@@ -137,6 +137,37 @@ div.container-inicio section.categorias div div.card div.card-body a.btn:hover{
     color: black !important;
     text-decoration: underline !important;
 }
+
+/*CONTACTO*/
+div.container-contacto img{
+    box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
+    -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
+    -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
+}
+div.container-contacto div form > div.d-flex.justify-content-between > div{
+    width: 49%;
+}
+div.container-contacto div form input.btn{
+    width: 100%;
+    background-color: #202022 !important;
+    border: none !important;
+}
+div.container-contacto div form input.btn:hover{
+    background-color: rgb(24, 24, 24) !important;
+    color: white !important;
+}
+div.container-contacto > div{
+    width: 80%;
+    margin: 2rem auto;
+}
+div.container-contacto section{
+    width: 80%;
+    margin: 2rem auto;
+}
+div.container-contacto section.d-flex{
+    align-items: center !important;
+}
+
 /*FOOTER*/
 footer{
     padding: 3rem;

@@ -10,6 +10,7 @@
         <div id="descuento-estudiantes" class="m-3">
             <h3>Disfrutá de hasta un 30% de descuento</h3>
             <p>Comprobando que sos estudiante universitario</p>
+            <a href="">Soy estudiante!</a>
         </div>
     </section>
     <section class="text-center m-3 mb-5 p-5" id="macbook-promo">
@@ -17,7 +18,7 @@
         <h3 class="px-5">MacBook Air</h3>
         <a href="" class="mt-5">Ver más</a>
     </section>
-    <section class="categorias mt-5 mb-5">
+    <section class="categorias mt-5 pt-5 mb-5">
         <h2 class="text-center">Encontrá lo que estás buscando</h2>
         <!-- AGREGAR LOS RESPECTIVOS LINKS DE LAS CATEGORIAS Y DESPUES BORRAR ESTE PARRAFO no me sale hacer un comentario asssdraaaaaaaaaaaaa -->
         <div class="d-flex justify-content-center flex-wrap mt-4">

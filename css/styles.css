@@ -93,6 +93,18 @@ div.container-inicio section div#descuento-estudiantes p{
     border-radius: 1rem;
     text-align: center;
 }
+div.container-inicio section div#descuento-estudiantes a{
+    background-color: rgb(238, 130, 58)!important;
+    color: white !important;
+    padding: 0.4rem 1rem;
+    border-radius: 1rem;
+    text-align: center;
+}
+div.container-inicio section div#descuento-estudiantes a:hover{
+    box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
+    -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
+    -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);  
+}
 div.container-inicio section#macbook-promo{
     background-image: url(../assets/imagenes/inicio/macbook-promo.jpg);
     background-size: cover;

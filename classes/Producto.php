@@ -52,8 +52,8 @@ class Producto
         $conexion = (new Conexion())->getConexion();
 
         $query = "SELECT p.id_producto, p.id_marca, m.marca, p.nombre, p.presentacion, p.precio, p.foto
-                  FROM productos AS p
-                  JOIN marcas AS m ON p.id_marca = m.id_marca";
+                FROM productos AS p
+                JOIN marcas AS m ON p.id_marca = m.id_marca";
 
         $stmt = $conexion->prepare($query);
         $stmt->execute();
@@ -92,7 +92,7 @@ class Producto
         $conexion = (new Conexion())->getConexion();
 
         $query = "INSERT INTO productos (id_marca, nombre, presentacion, precio, foto)
-                  VALUES (:id_marca, :nombre, :presentacion, :precio, :foto)";
+                VALUES (:id_marca, :nombre, :presentacion, :precio, :foto)";
 
         $stmt = $conexion->prepare($query);
         $stmt->execute([
@@ -112,9 +112,9 @@ class Producto
         $conexion = (new Conexion())->getConexion();
 
         $query = "SELECT p.id_producto, p.id_marca, m.marca, p.nombre, p.presentacion, p.precio, p.foto
-                  FROM productos AS p
-                  JOIN marcas AS m ON p.id_marca = m.id_marca
-                  WHERE p.id_producto = :id";
+                FROM productos AS p
+                JOIN marcas AS m ON p.id_marca = m.id_marca
+                WHERE p.id_producto = :id";
 
         $stmt = $conexion->prepare($query);
         $stmt->setFetchMode(PDO::FETCH_CLASS, self::class);
@@ -133,8 +133,8 @@ class Producto
         $conexion = (new Conexion())->getConexion();
 
         $query = "UPDATE productos 
-                  SET id_marca = :id_marca, nombre = :nombre, presentacion = :presentacion, precio = :precio, foto = :foto 
-                  WHERE id_producto = :id";
+                SET id_marca = :id_marca, nombre = :nombre, presentacion = :presentacion, precio = :precio, foto = :foto 
+                WHERE id_producto = :id";
 
         $stmt = $conexion->prepare($query);
         $stmt->execute([

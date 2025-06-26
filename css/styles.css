@@ -200,6 +200,26 @@ div.container-productos main div div div a.btn:hover{
     background-color: #0071e3 !important;
 }
 
+div.container-productos section.categorias div div.card{
+    margin-right: 1rem;
+    text-align: center;
+    border: none !important;
+}
+div.container-productos section.categorias div div.card img{
+    margin: 2rem 0;
+}
+div.container-productos section.categorias div div.card div.card-body a.btn{
+    color: #232325 !important;
+    background-color: transparent !important;
+    border: none !important;
+    text-decoration: none;
+    font-weight: 600;
+}
+div.container-productos section.categorias div div.card div.card-body a.btn:hover{
+    color: black !important;
+    text-decoration: underline !important;
+}
+
 /*ALUMNAS*/
 div.container-alumnas > div#alumna:nth-child(2){
     border-left:1px solid #dfdfdf !important;

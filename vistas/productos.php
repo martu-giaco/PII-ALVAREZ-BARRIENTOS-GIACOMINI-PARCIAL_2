@@ -27,4 +27,36 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
     </div>
 </main>
+
+    <section class="categorias mt-5 pt-5 mb-5">
+        <h2 class="text-center">Encontrá lo que estás buscando</h2>
+        <!-- AGREGAR LOS RESPECTIVOS LINKS DE LAS CATEGORIAS Y DESPUES BORRAR ESTE PARRAFO no me sale hacer un comentario, asssdraaaaaaaaaaaaa -->
+        <div class="d-flex justify-content-center flex-wrap mt-4">
+            <div class="card" style="width: 18rem;">
+                <img src="assets/imagenes/categorias-fotitos/mac-categoria.png" class="card-img-top" alt="Mac">
+                <div class="card-body">
+                    <a href="#" class="btn btn-primary stretched-link">Mac</a>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="assets/imagenes/categorias-fotitos/iphone-categoria.png" class="card-img-top" alt="iPhone">
+                <div class="card-body">
+                    <a href="#" class="btn btn-primary stretched-link">iPhone</a>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="assets/imagenes/categorias-fotitos/ipad-categoria.png" class="card-img-top" alt="iPad">
+                <div class="card-body">
+                    <a href="#" class="btn btn-primary stretched-link">iPad</a>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <img src="assets/imagenes/categorias-fotitos/airpods-categoria.png" class="card-img-top" alt="airpods">
+                <div class="card-body">
+                    <a href="#" class="btn btn-primary stretched-link">Airpods</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
 </div>

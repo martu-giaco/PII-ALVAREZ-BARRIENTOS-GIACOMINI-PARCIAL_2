@@ -10,6 +10,7 @@ $jsBootstrap = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/j
     
     $secciones_menu = Secciones::secciones_menu();
     
+    /* determina que vista mostar */
     $seccion = isset($_GET['sec']) ? $_GET['sec'] : 'inicio';
     if(!in_array($seccion, $secciones_validas)){
         $vista = '404';
@@ -17,6 +18,7 @@ $jsBootstrap = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/j
         $vista = $seccion;
     }
     
+    /* obtener título de la sección */
     $secciones = Secciones::secciones_del_sitio();
     $title_seccion = "";
     foreach ($secciones as $value) {

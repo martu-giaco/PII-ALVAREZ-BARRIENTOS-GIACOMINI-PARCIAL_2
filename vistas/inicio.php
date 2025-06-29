@@ -10,7 +10,7 @@
         <div id="descuento-estudiantes" class="m-3">
             <h3>Disfrutá de hasta un 30% de descuento</h3>
             <p>Comprobando que sos estudiante universitario</p>
-            <a href="">Soy estudiante!</a>
+            <a href="https://www.apple.com/cl-edu/store">Soy estudiante!</a>
         </div>
     </section>
     <section class="text-center m-3 mb-5 p-5" id="macbook-promo">

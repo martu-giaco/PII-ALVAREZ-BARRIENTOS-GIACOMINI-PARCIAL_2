@@ -1,9 +1,9 @@
 <div class="container-alumnas d-flex justify-content-center flex-wrap align-items-start m-5 p-5">
     <div class="mx-5" id="alumna">
-        <img src="" alt="Martina Álvarez">
+        <img src="assets/imagenes/alumnas/martu-a.png" alt="Martina Álvarez">
         <div>
-            <h2>Martina Álvarez</h2>
-            <p>cumpleaños</p>
+            <h2>Martina Alvarez</h2>
+            <p>21/12/2005</p>
             <p>martina.alvarez@davinci.edu.ar</p>
         </div>
     </div>

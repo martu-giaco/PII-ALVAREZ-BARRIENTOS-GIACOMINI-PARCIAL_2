@@ -22,9 +22,12 @@ h1.titulo{
     display:none;
 }
 
+.btn{
+    border-radius: 50px !important;
+}
+
 /*NAVBAR*/
 header nav.navbar{
-    height: 3rem;
     background-color: #6e6e7307 !important;
 }
 header nav div#navbarNav{
@@ -142,6 +145,13 @@ div.container-inicio section.categorias div div.card{
     border: none !important;
 }
 
+#carouselCategoria .card{
+    margin: 5em;
+}
+
+#carouselCategorias{
+    height: 100%;
+}
 
 div.container-inicio section.categorias div div.card img{
     margin: 2rem 0;
@@ -157,6 +167,7 @@ div.container-inicio section.categorias div div.card div.card-body a.btn:hover{
     color: black !important;
     text-decoration: underline !important;
 }
+
 
 /*CONTACTO*/
 div.container-contacto img{

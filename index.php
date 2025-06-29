@@ -1,10 +1,11 @@
 <?php
-// Bootstrap CSS y JS CDN
-$cssBootstrap = '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">';
-$jsBootstrap = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>';
-?>
+// Iniciar sesión al comienzo del script (obligatorio para usar $_SESSION)
+session_start();
 
-<?php
+// Bootstrap CSS y JS CDN
+$cssBootstrap = '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">';
+$jsBootstrap = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>';
+
 // Carga clase para manejar secciones
 require_once "classes/secciones.php";
 
@@ -32,6 +33,27 @@ foreach ($secciones as $s) {
         $title_seccion = $s->getTitle();
         break;
     }
+}
+
+// **Definimos $categorias SOLO para ciertas vistas que lo necesitan**
+if (in_array($vista, ['inicio', 'categoria', 'productos'])) {
+    // Si tenés base de datos conectada, acá iría la consulta para traerlas
+    // Por simplicidad, usamos un array fijo:
+
+    $categorias = [
+        ['id' => 1, 'nombre' => 'iphone'],
+        ['id' => 2, 'nombre' => 'ipad'],
+        ['id' => 3, 'nombre' => 'mac'],
+        ['id' => 4, 'nombre' => 'apple watch'],
+        ['id' => 5, 'nombre' => 'airpods'],
+        ['id' => 6, 'nombre' => 'accesorios'],
+        ['id' => 7, 'nombre' => 'apple tv'],
+        ['id' => 8, 'nombre' => 'homepod'],
+        ['id' => 9, 'nombre' => 'perifericos'],
+    ];
+} else {
+    // Para otras vistas que no usen $categorias, lo definimos vacío para evitar errores
+    $categorias = [];
 }
 ?>
 

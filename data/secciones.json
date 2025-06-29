@@ -43,7 +43,7 @@
     }, 
     {
         "vinculo": "carrito",
-        "texto": "Mi Carrito",
+        "texto": "<i class='fa-solid fa-cart-shopping'></i> Carrito",
         "title": "Carrito", 
         "inMenu": true
     }, 
@@ -51,6 +51,12 @@
         "vinculo": "404",
         "texto": "Error 404",
         "title": "Página no encontrada", 
+        "inMenu": false
+    },
+    {
+        "vinculo": "categoria",
+        "texto": "Categoría",
+        "title": "Productos por categoría",
         "inMenu": false
     }
 ]

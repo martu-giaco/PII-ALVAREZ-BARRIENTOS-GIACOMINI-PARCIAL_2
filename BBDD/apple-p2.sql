@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2025 at 09:28 PM
+-- Generation Time: Jun 29, 2025 at 10:23 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,34 @@ SET time_zone = "+00:00";
 --
 -- Database: `apple-p2`
 --
+CREATE DATABASE IF NOT EXISTS `apple-p2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `apple-p2`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categorias`
+--
+
+CREATE TABLE `categorias` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categorias`
+--
+
+INSERT INTO `categorias` (`id`, `nombre`) VALUES
+(1, 'iphone'),
+(2, 'ipad'),
+(3, 'mac'),
+(4, 'apple watch'),
+(5, 'airpods'),
+(6, 'accesorios'),
+(7, 'apple tv'),
+(8, 'homepod'),
+(9, 'perifericos');
 
 -- --------------------------------------------------------
 
@@ -58,12 +86,54 @@ INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio`, `imagen`) VALU
 (16, 'Apple Pencil 2', 'Precisión para tus ideas.', 290000.00, ''),
 (17, 'Mac Studio', 'Diseñado para profesionales creativos.', 4500000.00, ''),
 (18, 'Studio Display', 'Pantalla Retina profesional.', 3900000.00, ''),
-(19, 'iPhone 13', 'Equilibrio entre potencia y precio.', 1350000.00, ''),
-(20, 'Smart Battery Case', 'Batería extra para iPhone.', 175000.00, '');
+(19, 'iPhone 13', 'Equilibrio entre potencia y precio.', 1350000.00, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `producto_categoria`
+--
+
+CREATE TABLE `producto_categoria` (
+  `producto_id` int(11) NOT NULL,
+  `categoria_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `producto_categoria`
+--
+
+INSERT INTO `producto_categoria` (`producto_id`, `categoria_id`) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 1),
+(7, 3),
+(8, 3),
+(9, 3),
+(10, 2),
+(11, 7),
+(12, 8),
+(13, 6),
+(14, 9),
+(15, 6),
+(16, 6),
+(17, 3),
+(18, 7),
+(19, 1),
+(20, 6);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `categorias`
+--
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `productos`
@@ -72,8 +142,21 @@ ALTER TABLE `productos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `producto_categoria`
+--
+ALTER TABLE `producto_categoria`
+  ADD PRIMARY KEY (`producto_id`,`categoria_id`),
+  ADD KEY `fk_categoria` (`categoria_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `categorias`
+--
+ALTER TABLE `categorias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `productos`

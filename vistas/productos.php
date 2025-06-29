@@ -22,21 +22,22 @@ if ($categoria_nombre) {
 }
 ?>
 
-<main class="container my-5">
+<main class="container-fluid my-5">
     <div class="row justify-content-center">
+        <h2 class="mb-4">Productos <?= $categoria_nombre ? "en '$categoria_nombre'" : ''; ?></h2>
+        
         <?php if (!empty($productos)): ?>
             <?php foreach ($productos as $producto): ?>
-                <?php
-                    // Debug ruta imagen (quita esta línea cuando esté todo OK)
-                    echo "<!-- IMG PATH: " . htmlspecialchars($producto->getRutaImagen()) . " -->";
-                ?>
+                <!-- <?php var_dump($producto->getRutaImagen())?> -->
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
-                        <img
-                            src="<?= htmlspecialchars($producto->getRutaImagen()) ?>"
-                            alt="<?= htmlspecialchars($producto->getNombre()) ?>"
-                            class="card-img-top"
-                        >
+                        <img 
+                            src="<?= htmlspecialchars($producto->getRutaImagen()) ?>" 
+                            alt="<?= htmlspecialchars($producto->getNombre()) ?>" 
+                            class="card-img-top" 
+                            style="object-fit: contain; max-height: 250px;"
+                        />
+
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title"><?= htmlspecialchars($producto->getNombre()); ?></h5>
 
@@ -59,7 +60,7 @@ if ($categoria_nombre) {
                                 </p>
                             <?php endif; ?>
 
-                            <a href="index.php?sec=detalleProducto&id=<?= $producto->getId(); ?>" class="btn btn-dark mt-auto">
+                            <a href="index.php?sec=detalleProducto&id=<?= $producto->getId(); ?>" class="btn btn-dark py-3 w-75 mx-auto my-2">
                                 <i class="fas fa-info-circle me-1"></i> Ver Detalles
                             </a>
                         </div>
@@ -74,16 +75,19 @@ if ($categoria_nombre) {
     </div>
 
     <hr class="my-5">
-    <h3 class="text-center mb-4">Explorar categorías</h3>
+
+    <h3 class="mb-4">Explorar categorías</h3>
     <div class="d-flex justify-content-center flex-wrap gap-4">
         <?php foreach ($categorias as $cat): ?>
+            
             <div class="card text-center" style="width: 14rem;">
-                <img src="assets/imagenes/categorias-fotitos/<?= strtolower($cat['nombre']); ?>-categoria.png"
-                     class="card-img-top"
-                     alt="<?= htmlspecialchars($cat['nombre']); ?>">
-
+                <img 
+                    src="assets/imagenes/categorias-fotitos/<?= strtolower($cat['nombre']); ?>-categoria.png"
+                    class="card-img-top"
+                    alt="<?= htmlspecialchars($cat['nombre']); ?>"
+                >
                 <div class="card-body">
-                    <a href="?nombre=<?= urlencode($cat['nombre']); ?>" class="btn btn-primary stretched-link">
+                    <a href="?nombre=<?= urlencode($cat['nombre']); ?>" class="btn stretched-link">
                         <?= htmlspecialchars($cat['nombre']); ?>
                     </a>
                 </div>

@@ -6,10 +6,16 @@
 }
 
 html{
-    font-family: "Source Sans 3", sans-serif;
+    font-family: 'SF Pro Display', sans-serif !important;
     background-color: #ffffff !important;
     font-size: 0.8rem !important;
     color: #333336 !important;
+}
+
+body{
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* Header - Main (flexible) - Footer */
+    min-height: 100vh;
 }
 
 h1.titulo{
@@ -135,6 +141,8 @@ div.container-inicio section.categorias div div.card{
     text-align: center;
     border: none !important;
 }
+
+
 div.container-inicio section.categorias div div.card img{
     margin: 2rem 0;
 }
@@ -183,10 +191,8 @@ div.container-contacto section.d-flex{
 /*PRODUCTOS*/
 div.container-productos main div div div.card{
     border: 0 transparent !important;
-    border-radius: 2rem;
-    box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
-    -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
-    -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(71, 71, 71, 0.15) !important;
 }
 div.container-productos main div div div a.btn{
     background-color: #232325 !important;

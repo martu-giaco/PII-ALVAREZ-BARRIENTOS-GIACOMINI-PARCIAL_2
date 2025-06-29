@@ -1,124 +1,168 @@
 <?php
-require_once 'Conexion.php';
+require_once __DIR__ . '/Conexion.php';
 
 class Producto
 {
     private $id;
     private $nombre;
-    private $presentacion;
+    private $descripcion;
     private $precio;
-    private $foto;
     private $categorias = [];
 
-    // Getters
-    public function getId() { return $this->id; }
-    public function getNombre() { return $this->nombre; }
-    public function getPresentacion() { return $this->presentacion; }
-    public function getPrecio() { return $this->precio; }
-    public function getFoto() { return $this->foto; }
-    public function getCategorias() { return $this->categorias; }
+    public function __construct($id, $nombre, $descripcion, $precio, $categorias = [])
+    {
+        $this->id = $id;
+        $this->nombre = $nombre;
+        $this->descripcion = $descripcion;
+        $this->precio = $precio;
+        $this->categorias = $categorias;
+    }
 
-    // Obtener todos los productos con categorías cargadas
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    public function getDescripcion()
+    {
+        return $this->descripcion;
+    }
+
+    public function getPrecio()
+    {
+        return $this->precio;
+    }
+
+    public function getCategorias()
+    {
+        return $this->categorias;
+    }
+
+    public function getRutaImagen(): string
+    {
+        $formatos = ['png', 'jpg', 'jpeg', 'webp'];
+
+        if (empty($this->categorias)) {
+            return "assets/imagenes/prods/default.jpg";
+        }
+
+        $producto = strtolower(str_replace(' ', '-', $this->nombre)); // genera: "airpods-pro-2"
+        $categoria = strtolower(str_replace(' ', '-', $this->categorias[0]['nombre'])); // por ejemplo: "airpod"
+        $base = "{$categoria}_{$producto}"; // genera: "airpod_airpods-pro-2"
+
+        $dir = __DIR__ . "/../assets/imagenes/prods/{$categoria}/";
+
+        foreach ($formatos as $ext) {
+            $archivo = "{$base}.{$ext}";
+            if (file_exists($dir . $archivo)) {
+                return "assets/imagenes/prods/{$categoria}/{$archivo}";
+            }
+        }
+
+        return "assets/imagenes/prods/default.jpg";
+    }
+
+    public function getImagenes(): array
+    {
+        $imagenes = [];
+        $formatos = ['png', 'jpg', 'jpeg', 'webp'];
+
+        if (empty($this->categorias)) {
+            return [['ruta' => 'default.png']];
+        }
+
+        $categoria = strtolower(str_replace(' ', '-', $this->categorias[0]['nombre']));
+        $producto = strtolower(str_replace(' ', '-', $this->nombre));
+        $base = "{$categoria}_{$producto}";
+        $dir = __DIR__ . "/../assets/imagenes/prods/{$categoria}/";
+
+        for ($i = 0; $i <= 5; $i++) {
+            $nombreArchivo = $i === 0 ? $base : "{$base}_{$i}";
+
+            foreach ($formatos as $ext) {
+                $archivo = "{$nombreArchivo}.{$ext}";
+                $rutaCompleta = $dir . $archivo;
+
+                if (file_exists($rutaCompleta)) {
+                    $imagenes[] = ['ruta' => "{$categoria}/{$archivo}"];
+                    break;
+                }
+            }
+        }
+
+        if (empty($imagenes)) {
+            $imagenes[] = ['ruta' => 'default.png'];
+        }
+
+        return $imagenes;
+    }
+
+    public static function get_x_id(int $id): ?Producto
+    {
+        $conexion = new Conexion();
+        $db = $conexion->getConexion();
+
+        $stmt = $db->prepare("SELECT * FROM productos WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $datos = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$datos)
+            return null;
+
+        $stmtCat = $db->prepare("
+            SELECT c.nombre 
+            FROM categorias c
+            JOIN producto_categoria pc ON c.id = pc.categoria_id
+            WHERE pc.producto_id = :id
+        ");
+        $stmtCat->execute(['id' => $id]);
+        $categorias = $stmtCat->fetchAll(PDO::FETCH_ASSOC);
+
+        return new Producto(
+            $datos['id'],
+            $datos['nombre'],
+            $datos['descripcion'],
+            $datos['precio'],
+            $categorias
+        );
+    }
+
     public static function todosProductosCompletos(): array
     {
-        $conexion = (new Conexion())->getConexion();
-        $stmt = $conexion->prepare("SELECT * FROM productos");
-        $stmt->execute();
+        $conexion = new Conexion();
+        $db = $conexion->getConexion();
 
+        $stmt = $db->query("SELECT id FROM productos");
         $productos = [];
-        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $producto = new self();
-            $producto->asignarDatosDesdeArray($fila);
-            $producto->cargarCategorias();
-            $productos[] = $producto;
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $productos[] = self::get_x_id((int) $row['id']);
         }
         return $productos;
     }
 
-    // Obtener productos filtrados por categoría con categorías cargadas
     public static function productosPorCategoriaCompletos(string $categoriaNombre): array
     {
-        $conexion = (new Conexion())->getConexion();
-        $stmt = $conexion->prepare("
-            SELECT p.*
+        $conexion = new Conexion();
+        $db = $conexion->getConexion();
+
+        $stmt = $db->prepare("
+            SELECT p.id
             FROM productos p
             JOIN producto_categoria pc ON p.id = pc.producto_id
-            JOIN categorias c ON c.id = pc.categoria_id
+            JOIN categorias c ON pc.categoria_id = c.id
             WHERE c.nombre = :nombre
         ");
         $stmt->execute(['nombre' => $categoriaNombre]);
 
         $productos = [];
-        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $producto = new self();
-            $producto->asignarDatosDesdeArray($fila);
-            $producto->cargarCategorias();
-            $productos[] = $producto;
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $productos[] = self::get_x_id((int) $row['id']);
         }
         return $productos;
-    }
-
-    // Obtener un producto por su ID, con categorías cargadas
-    public static function get_x_id(int $id): ?self
-    {
-        $conexion = (new Conexion())->getConexion();
-        $stmt = $conexion->prepare("SELECT * FROM productos WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-
-        $fila = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$fila) {
-            return null;
-        }
-
-        $producto = new self();
-        $producto->asignarDatosDesdeArray($fila);
-        $producto->cargarCategorias();
-
-        return $producto;
-    }
-
-    // Método privado para asignar propiedades desde array
-    private function asignarDatosDesdeArray(array $datos): void
-    {
-        $this->id = $datos['id'] ?? null;
-        $this->nombre = $datos['nombre'] ?? '';
-        $this->presentacion = $datos['descripcion'] ?? '';
-        $this->precio = $datos['precio'] ?? 0;
-        $this->foto = $datos['imagen'] ?? '';
-    }
-
-    // Carga las categorías asociadas al producto
-    public function cargarCategorias(): void
-    {
-        if (!$this->id) {
-            $this->categorias = [];
-            return;
-        }
-
-        $conexion = (new Conexion())->getConexion();
-        $stmtCat = $conexion->prepare("
-            SELECT c.id, c.nombre
-            FROM categorias c
-            JOIN producto_categoria pc ON c.id = pc.categoria_id
-            WHERE pc.producto_id = :id
-        ");
-        $stmtCat->execute(['id' => $this->id]);
-        $this->categorias = $stmtCat->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Devuelve la ruta para la imagen del producto según su primera categoría
-    public function getRutaImagen(): string
-    {
-        $categoria = 'default';
-        if (!empty($this->categorias)) {
-            $categoria = strtolower(str_replace(' ', '', trim($this->categorias[0]['nombre'])));
-        }
-
-        $archivo = $this->foto ?: 'default.png';
-        if (!preg_match('/\.(png|jpg|jpeg|gif)$/i', $archivo)) {
-            $archivo .= '.png';
-        }
-
-        return "assets/imagenes/prods/{$categoria}/{$archivo}";
     }
 }

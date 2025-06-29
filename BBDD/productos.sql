@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2025 at 08:04 AM
+-- Generation Time: Jun 29, 2025 at 11:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,7 +47,7 @@ INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio`, `imagen`) VALU
 (5, 'AirPods Pro 2', 'Auriculares con cancelación activa de ruido.', 380000.00, ''),
 (6, 'iPhone SE', 'Compacto, potente y asequible.', 720000.00, ''),
 (7, 'MacBook Air M2', 'Ligera, potente y silenciosa.', 1750000.00, ''),
-(8, 'iMac 24\"', 'Todo en uno con pantalla Retina.', 2500000.00, ''),
+(8, 'iMac 24', 'Todo en uno con pantalla Retina.', 2500000.00, ''),
 (9, 'Mac Mini', 'Pequeño tamaño, gran rendimiento.', 990000.00, ''),
 (10, 'iPad Mini', 'Pantalla compacta, alto rendimiento.', 790000.00, ''),
 (11, 'Apple TV 4K', 'Entretenimiento en su máxima expresión.', 560000.00, ''),

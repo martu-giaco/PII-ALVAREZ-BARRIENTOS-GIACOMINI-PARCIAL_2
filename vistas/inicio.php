@@ -40,7 +40,7 @@
                                 <div class="card" style="width: 15rem;">
                                     <img src="assets/imagenes/categorias-fotitos/<?= str_replace(' ', '-', strtolower($cat['nombre'])) ?>-categoria.png"
                                         class="card-img-top mx-auto d-block" alt="<?= htmlspecialchars($cat['nombre']); ?>"
-                                        style="height: 150px; object-fit: cover;">
+                                        style="object-fit: cover;">
                                     <div class="card-body d-flex justify-content-center">
                                         <a href="index.php?sec=categoria&nombre=<?= urlencode($cat['nombre']); ?>"
                                             class="stretched-link text-decoration-none text-dark fw-semibold">

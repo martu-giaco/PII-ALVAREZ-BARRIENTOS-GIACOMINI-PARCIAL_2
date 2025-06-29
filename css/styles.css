@@ -53,6 +53,7 @@ div.container-inicio section.header{
     box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
+    background-repeat: no-repeat;
 }
 div.container-inicio section div#ipads-colores{
     background-image: url(../assets/imagenes/inicio/ipads-colores.jpg);

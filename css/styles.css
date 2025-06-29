@@ -18,6 +18,7 @@ h1.titulo{
 
 /*NAVBAR*/
 header nav.navbar{
+    height: 3rem;
     background-color: #6e6e7307 !important;
 }
 header nav div#navbarNav{
@@ -196,7 +197,27 @@ div.container-productos main div div div a.btn{
     width: 100%;
 }
 div.container-productos main div div div a.btn:hover{
-    background-color: #213448 !important;
+    background-color: #0071e3 !important;
+}
+
+div.container-productos section.categorias div div.card{
+    margin-right: 1rem;
+    text-align: center;
+    border: none !important;
+}
+div.container-productos section.categorias div div.card img{
+    margin: 2rem 0;
+}
+div.container-productos section.categorias div div.card div.card-body a.btn{
+    color: #232325 !important;
+    background-color: transparent !important;
+    border: none !important;
+    text-decoration: none;
+    font-weight: 600;
+}
+div.container-productos section.categorias div div.card div.card-body a.btn:hover{
+    color: black !important;
+    text-decoration: underline !important;
 }
 
 /*ALUMNAS*/
@@ -205,160 +226,35 @@ div.container-alumnas > div#alumna:nth-child(2){
     border-right:1px solid #dfdfdf !important;
 }
 /*FOOTER*/
-footer {
-    padding: 2rem 1rem;
+footer{
+    padding: 3rem;
     background-color: #6e6e7307;
 }
-
-.footer-container {
-    max-width: 100%;
+footer > div{
+    width: 80rem;
+    align-items: center;
     margin: 0 auto;
-    box-sizing: border-box;
-    overflow-x: hidden;
 }
-
-.footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-}
-
-.footer-menu ul {
-    list-style: none;
+footer div ul{
     padding-left: 0;
-    margin: 0;
+    margin-right: 3rem;
 }
-
-.footer-menu a {
-    font-weight: 500;
-    text-decoration: none;
-    color: #000;
+footer div ul ul.submenu{
+    padding-left: 1rem !important;
 }
-
-.footer-menu .submenu {
-    padding-left: 1rem;
-    margin-top: 0.5rem;
+footer div ul ul.submenu li a{
+    color: #6e6e73 !important;
 }
-
-.footer-menu .submenu li a {
-    color: #6e6e73;
+footer div ul ul.submenu li a:hover{
+    color: #333336 !important;
 }
-
-.footer-menu .submenu li a:hover {
-    color: #333336;
+footer div ul li{
+    list-style: none
 }
-
-.footer-logo img {
-    max-width: 80px;
-    height: auto;
+footer div#footer-detalles{
+    color: #6e6e73b9 !important;
+    border-top: 0.1rem solid #6e6e7348;
 }
-
-#footer-detalles {
-    color: #6e6e73b9;
-    border-top: 1px solid #6e6e7348;
-    margin-top: 2rem;
+footer div#footer-detalles p{
     padding-top: 1rem;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    text-align: center;
-    gap: 0.5rem;
-}
-
-#footer-detalles p {
-    margin: 0;
-    white-space: nowrap;
-}
-
-/*BREAKPOINT*/
-
-/* Tablet */
-@media (min-width: 487px) and (max-width: 990px) {
-    .footer-links {
-        justify-content: center;
-        text-align: center;
-    }
-
-    #footer-detalles {
-        justify-content: center;
-    }
-
-    .footer-logo {
-        text-align: center;
-        width: 100%;
-    }
-
-    .container-productos .row > div {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-
-    .banner-desktop {
-        display: none !important;
-    }
-
-    .banner-tablet {
-        display: block !important;
-    }
-}
-
-/* móviles */
-@media (max-width: 487px){
-
-    .container-inicio section.d-flex {
-        flex-direction: column !important;
-        align-items: center;
-    }
-
-    .container-inicio section.d-flex > div {
-        width: 90% !important;
-        height: 25rem;
-        padding: 1.5rem;
-        text-align: center;
-    }
-
-    #ipads-colores h3,
-    #descuento-estudiantes h3 {
-        font-size: 1.5rem;
-        padding: 2rem 1rem 1rem;
-    }
-
-    #descuento-estudiantes p {
-        padding: 0 1rem;
-        font-size: 0.95rem;
-    }
-
-    #ipads-colores a,
-    #descuento-estudiantes a {
-        display: inline-block;
-        margin-top: 1rem;
-        font-size: 1rem;
-        padding: 0.5rem 1.2rem;
-    }
-
-    /* Sección MacBook promo */
-    section#macbook-promo {
-        padding: 2rem 1rem !important;
-        height: auto;
-    }
-
-    section#macbook-promo h3 {
-        font-size: 2rem;
-        padding: 0;
-    }
-
-    section#macbook-promo a {
-        margin-top: 1.5rem;
-        display: inline-block;
-    }
-
-    .banner-desktop {
-        display: none !important;
-    }
-
-    .banner-tablet {
-        display: block !important;
-    }
 }

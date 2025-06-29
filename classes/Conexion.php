@@ -16,7 +16,8 @@ class Conexion
         try
         {
             $this->db = new PDO(self::DB_DSN, self::DB_USER, self::DB_PASS );
-        }catch (Exception $e){
+        } catch (Exception $e)
+        {
             die('Error al conectar con MySQL.');
         }
     }

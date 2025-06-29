@@ -144,10 +144,7 @@ div.container-inicio section.categorias div div.card{
     margin-right: 1rem;
     text-align: center;
     border: none !important;
-}
-
-#carouselCategoria .card{
-    margin: 5em;
+    border-color: transparent !important;
 }
 
 #carouselCategorias{
@@ -169,6 +166,52 @@ div.container-inicio section.categorias div div.card div.card-body a.btn:hover{
     text-decoration: underline !important;
 }
 
+/*categorias*/
+div.container-categoria  div div div.card-producto{
+    border: 0 transparent !important;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(71, 71, 71, 0.15) !important;
+}
+div.container-categoria  div div div a.btn{
+    background-color: #232325 !important;
+    color: white !important;
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    text-align: center;
+    width: 100% !important;
+    border-color: transparent !important;
+}
+div.container-categoria  div div div a.btn:hover{
+    background-color: #0071e3 !important;
+    border-color: transparent !important;
+}
+div.container-categoria section.categorias div div.card-producto{
+    margin-right: 1rem;
+    text-align: center;
+    border: none !important;
+}
+body > div > div.row.justify-content-center > div > div > img{
+    padding: 2rem 0;
+}
+
+#carouselCategorias > div > div > div > div{
+    margin-right: 1rem;
+    text-align: center;
+    border: none !important;
+    border-color: transparent !important;
+}
+
+div.container-categoria section.categorias div div.card-producto div.card-body a.btn{
+    color: #232325 !important;
+    background-color: transparent !important;
+    border: none !important;
+    text-decoration: none;
+    font-weight: 600;
+}
+div.container-categoria section.categorias div div.card-producto div.card-body a.btn:hover{
+    color: black !important;
+    text-decoration: underline !important;
+}
 
 /*CONTACTO*/
 div.container-contacto img{
@@ -180,7 +223,7 @@ div.container-contacto div form > div.d-flex.justify-content-between > div{
     width: 49%;
 }
 div.container-contacto div form input.btn{
-    width: 100%;
+    width: 100% !important;
     background-color: #202022 !important;
     border: none !important;
 }
@@ -201,7 +244,7 @@ div.container-contacto section.d-flex{
 }
 
 /*PRODUCTOS*/
-div.container-productos main div div div.card{
+div.container-productos main div div div.card-producto{
     border: 0 transparent !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(71, 71, 71, 0.15) !important;
@@ -217,23 +260,30 @@ div.container-productos main div div div a.btn{
 div.container-productos main div div div a.btn:hover{
     background-color: #0071e3 !important;
 }
-
-div.container-productos section.categorias div div.card{
+div.container-productos section.categorias div div.card-producto{
     margin-right: 1rem;
     text-align: center;
     border: none !important;
 }
-div.container-productos section.categorias div div.card img{
-    margin: 2rem 0;
+body > main > div > main > div.row.justify-content-center > div > div > img{
+    padding: 2rem 0;
 }
-div.container-productos section.categorias div div.card div.card-body a.btn{
+
+#carouselCategorias > div > div > div > div{
+    margin-right: 1rem;
+    text-align: center;
+    border: none !important;
+    border-color: transparent !important;
+}
+
+div.container-productos section.categorias div div.card-producto div.card-body a.btn{
     color: #232325 !important;
     background-color: transparent !important;
     border: none !important;
     text-decoration: none;
     font-weight: 600;
 }
-div.container-productos section.categorias div div.card div.card-body a.btn:hover{
+div.container-productos section.categorias div div.card-producto div.card-body a.btn:hover{
     color: black !important;
     text-decoration: underline !important;
 }
@@ -243,6 +293,7 @@ div.container-alumnas > div#alumna:nth-child(2){
     border-left:1px solid #dfdfdf !important;
     border-right:1px solid #dfdfdf !important;
 }
+
 /*FOOTER*/
 footer{
     padding: 3rem;

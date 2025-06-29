@@ -30,7 +30,7 @@
         $chunks = array_chunk($categorias, 4); // 5 tarjetas por slide
         ?>
 
-        <div id="carouselCategorias" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000"
+        <div id="carouselCategorias" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000"
             data-bs-wrap="true">
             <div class="carousel-inner">
                 <?php foreach ($chunks as $index => $chunk): ?>

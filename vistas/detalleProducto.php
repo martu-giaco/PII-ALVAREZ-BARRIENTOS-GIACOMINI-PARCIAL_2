@@ -33,7 +33,7 @@ if (!$producto) {
             <form method="POST" action="carrito.php">
                 <input type="hidden" name="agregar_id" value="<?= $producto->getId(); ?>">
                 <button type="submit" class="btn btn-dark mt-4 py-2 px-4">
-                    <i class="fas fa-plus me-2"></i> Agregar al carrito
+                    Agregar al carrito
                 </button>
             </form>
         </div>

@@ -31,9 +31,9 @@ $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php if (!empty($productos)): ?>
                 <?php foreach ($productos as $producto): ?>
                     <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm">
+                        <div class="card card-producto h-100 shadow-sm">
                             <img src="<?= $producto->getRutaImagen() ?>" alt="<?= htmlspecialchars($producto->getNombre()) ?>"
-                                class="card-img-top" style="object-fit: contain; max-height: 250px;" />
+                                class="card-img-top" style="object-fit: contain; " />
                             <div class="card-body d-flex flex-column justify-content-end">
                                 <h5 class="card-title"><?= htmlspecialchars($producto->getNombre()); ?></h5>
 
@@ -41,24 +41,10 @@ $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     $<?= number_format($producto->getPrecio(), 2, ',', '.'); ?>
                                 </p>
 
-                                <?php if (!empty($producto->getCategorias())): ?>
-                                    <p>
-                                        Categoría:
-                                        <?php
-                                        $cats = [];
-                                        foreach ($producto->getCategorias() as $cat) {
-                                            $nombreCat = $cat['nombre'];
-                                            $urlCat = 'vistas/categoria.php?nombre=' . urlencode($nombreCat);
-                                            $cats[] = "<a href=\"$urlCat\">" . htmlspecialchars($nombreCat) . "</a>";
-                                        }
-                                        echo implode(', ', $cats);
-                                        ?>
-                                    </p>
-                                <?php endif; ?>
-
                                 <a href="index.php?sec=detalleProducto&id=<?= $producto->getId(); ?>"
-                                    class="btn py-3 w-75 mx-auto my-2">
-                                    <i class="fas fa-info-circle me-1"></i> Ver Detalles
+                                    class="btn py-3 my-2">
+                                    
+                                    Ver Detalles
                                 </a>
                             </div>
                         </div>
@@ -73,7 +59,7 @@ $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <hr class="my-5">
 
-        <h3 class="mb-4">Explorar categorías</h3>
+        <h3 class="mb-4 text-center">Explorar categorías</h3>
         <?php
         // Asegurarse que $categorias esté definido y sea un array
         if (!isset($categorias) || !is_array($categorias)) {
@@ -83,14 +69,14 @@ $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $chunks = array_chunk($categorias, 4); // 5 tarjetas por slide
         ?>
 
-        <div id="carouselCategorias" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1000"
+        <div id="carouselCategorias" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000"
             data-bs-wrap="true">
             <div class="carousel-inner">
                 <?php foreach ($chunks as $index => $chunk): ?>
                     <div class="carousel-item <?= $index === 0 ? 'active' : ''; ?>">
                         <div class="d-flex justify-content-center gap-4 flex-wrap">
                             <?php foreach ($chunk as $cat): ?>
-                                <div class="card" style="width: 15rem;">
+                                <div class="card" >
                                     <img src="assets/imagenes/categorias-fotitos/<?= str_replace(' ', '-', strtolower($cat['nombre'])) ?>-categoria.png"
                                         class="card-img-top mx-auto d-block" alt="<?= htmlspecialchars($cat['nombre']); ?>"
                                         style="height: 150px; object-fit: cover;">

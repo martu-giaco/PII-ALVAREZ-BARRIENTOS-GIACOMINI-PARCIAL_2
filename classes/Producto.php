@@ -52,7 +52,7 @@ class Producto
         }
 
         $producto = strtolower(str_replace(' ', '-', $this->nombre)); // genera: "airpods-pro-2"
-        $categoria = strtolower(str_replace(' ', '-', $this->categorias[0]['nombre'])); // por ejemplo: "airpod"
+        $categoria = strtolower(str_replace(' ', '-', $this->categorias[0]['nombre']));
         $base = "{$categoria}_{$producto}"; // genera: "airpod_airpods-pro-2"
 
         $dir = __DIR__ . "/../assets/imagenes/prods/{$categoria}/";

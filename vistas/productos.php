@@ -38,7 +38,7 @@ if ($categoria_nombre) {
                             style="object-fit: contain; max-height: 250px;"
                         />
 
-                        <div class="card-body d-flex flex-column">
+                        <div class="card-body d-flex flex-column justify-content-end">
                             <h5 class="card-title"><?= htmlspecialchars($producto->getNombre()); ?></h5>
 
                             <p class="card-text text-primary fw-semibold">

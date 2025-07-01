@@ -1,0 +1,204 @@
+{
+    "productos": [
+        {
+            "id": 1,
+            "nombre": "iPhone 14",
+            "descripcion": "Última generación de iPhone con cámara mejorada.",
+            "precio": 1450000.00,
+            "imagen": ""
+        },
+        {
+            "id": 2,
+            "nombre": "iPad Air",
+            "descripcion": "Ideal para estudiar y trabajar.",
+            "precio": 850000.00,
+            "imagen": ""
+        },
+        {
+            "id": 3,
+            "nombre": "MacBook Pro",
+            "descripcion": "Rendimiento extremo para creativos.",
+            "precio": 3100000.00,
+            "imagen": ""
+        },
+        {
+            "id": 4,
+            "nombre": "Apple Watch Series 8",
+            "descripcion": "Controla tu salud desde tu muñeca.",
+            "precio": 650000.00,
+            "imagen": ""
+        },
+        {
+            "id": 5,
+            "nombre": "Airpods Pro 2",
+            "descripcion": "Auriculares con cancelación activa de ruido.",
+            "precio": 380000.00,
+            "imagen": ""
+        },
+        {
+            "id": 6,
+            "nombre": "iPhone SE",
+            "descripcion": "Compacto, potente y asequible.",
+            "precio": 720000.00,
+            "imagen": ""
+        },
+        {
+            "id": 7,
+            "nombre": "MacBook Air M2",
+            "descripcion": "Ligera, potente y silenciosa.",
+            "precio": 1750000.00,
+            "imagen": ""
+        },
+        {
+            "id": 8,
+            "nombre": "iMac 24",
+            "descripcion": "Todo en uno con pantalla Retina.",
+            "precio": 2500000.00,
+            "imagen": ""
+        },
+        {
+            "id": 9,
+            "nombre": "Mac Mini",
+            "descripcion": "Pequeño tamaño, gran rendimiento.",
+            "precio": 990000.00,
+            "imagen": ""
+        },
+        {
+            "id": 10,
+            "nombre": "iPad Mini",
+            "descripcion": "Pantalla compacta, alto rendimiento.",
+            "precio": 790000.00,
+            "imagen": ""
+        },
+        {
+            "id": 11,
+            "nombre": "Apple TV 4K",
+            "descripcion": "Entretenimiento en su máxima expresión.",
+            "precio": 560000.00,
+            "imagen": ""
+        },
+        {
+            "id": 12,
+            "nombre": "HomePod Mini",
+            "descripcion": "Sonido sorprendente para su tamaño.",
+            "precio": 320000.00,
+            "imagen": ""
+        },
+        {
+            "id": 13,
+            "nombre": "Magic Keyboard",
+            "descripcion": "Teclado cómodo y elegante.",
+            "precio": 210000.00,
+            "imagen": ""
+        },
+        {
+            "id": 14,
+            "nombre": "Magic Mouse",
+            "descripcion": "Precisión y diseño.",
+            "precio": 180000.00,
+            "imagen": ""
+        },
+        {
+            "id": 15,
+            "nombre": "AirTag",
+            "descripcion": "Localiza todo fácilmente.",
+            "precio": 45000.00,
+            "imagen": ""
+        },
+        {
+            "id": 16,
+            "nombre": "Apple Pencil 2",
+            "descripcion": "Precisión para tus ideas.",
+            "precio": 290000.00,
+            "imagen": ""
+        },
+        {
+            "id": 17,
+            "nombre": "Mac Studio",
+            "descripcion": "Diseñado para profesionales creativos.",
+            "precio": 4500000.00,
+            "imagen": ""
+        },
+        {
+            "id": 18,
+            "nombre": "Studio Display",
+            "descripcion": "Pantalla Retina profesional.",
+            "precio": 3900000.00,
+            "imagen": ""
+        },
+        {
+            "id": 19,
+            "nombre": "iPhone 13",
+            "descripcion": "Equilibrio entre potencia y precio.",
+            "precio": 1350000.00,
+            "imagen": ""
+        },
+        {
+            "id": 20,
+            "nombre": "Smart Battery Case",
+            "descripcion": "Batería extra para iPhone.",
+            "precio": 175000.00,
+            "imagen": ""
+        }
+    ],
+    "categorias": {
+        "1": {
+            "id": 1,
+            "nombre": "iphone"
+        },
+        "2": {
+            "id": 2,
+            "nombre": "ipad"
+        },
+        "3": {
+            "id": 3,
+            "nombre": "mac"
+        },
+        "4": {
+            "id": 4,
+            "nombre": "apple watch"
+        },
+        "5": {
+            "id": 5,
+            "nombre": "airpods"
+        },
+        "6": {
+            "id": 6,
+            "nombre": "accesorios"
+        },
+        "7": {
+            "id": 7,
+            "nombre": "apple tv"
+        },
+        "8": {
+            "id": 8,
+            "nombre": "homepod"
+        },
+        "9": {
+            "id": 9,
+            "nombre": "perifericos"
+        }
+    },
+    "producto_categoria": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 1,
+        "7": 3,
+        "8": 3,
+        "9": 3,
+        "10": 2,
+        "11": 7,
+        "12": 8,
+        "13": 6,
+        "14": 9,
+        "15": 6,
+        "16": 6,
+        "17": 3,
+        "18": 7,
+        "19": 1,
+        "20": 6
+    }
+}

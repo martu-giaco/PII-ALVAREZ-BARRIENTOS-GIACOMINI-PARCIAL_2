@@ -1,103 +1,105 @@
 <?php
-require_once __DIR__ . '/../classes/Conexion.php';
 require_once __DIR__ . '/../classes/Producto.php';
+require_once __DIR__ . '/../classes/Conexion.php';
 
-// Inicializar carrito
-if (!isset($_SESSION['carrito'])) {
-    $_SESSION['carrito'] = [];
+// Recibir carrito actual (IDs y cantidades) y acción desde POST
+$carrito = $_POST['carrito'] ?? [];
+$accion = $_POST['accion'] ?? null;
+
+if (!is_array($carrito)) {
+    $carrito = [];
 }
 
-// Si llega POST con producto, agregar al carrito
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_id'])) {
-    $id = (int)$_POST['agregar_id'];
-    $producto = Producto::get_x_id($id);
-
-    if ($producto) {
-        if (!isset($_SESSION['carrito'][$id])) {
-            $_SESSION['carrito'][$id] = [
-                'producto' => $producto,
-                'cantidad' => 1
-            ];
-        } else {
-            $_SESSION['carrito'][$id]['cantidad']++;
-        }
+// Procesar acciones
+if ($accion === 'agregar' && isset($_POST['producto_id'])) {
+    $id = intval($_POST['producto_id']);
+    if (isset($carrito[$id])) {
+        $carrito[$id] = intval($carrito[$id]) + 1;
+    } else {
+        $carrito[$id] = 1;
     }
-
-    // Redirigir para evitar reenviar formulario
-    header("Location: carrito.php");
-    exit;
+} elseif ($accion === 'eliminar' && isset($_POST['producto_id'])) {
+    $id = intval($_POST['producto_id']);
+    unset($carrito[$id]);
+} elseif ($accion === 'vaciar') {
+    $carrito = [];
 }
 
-// Si se hizo clic en 'proceder al pago'
-$compraRealizada = isset($_GET['compra']) && $_GET['compra'] === 'ok';
-
-// Vaciar el carrito si se realizó la compra
-if ($compraRealizada) {
-    $_SESSION['carrito'] = [];
+// Cargar productos del carrito
+$productos_en_carrito = [];
+foreach ($carrito as $id => $cantidad) {
+    $producto = Producto::cargarPorId($id);
+    if ($producto) {
+        $productos_en_carrito[] = ['producto' => $producto, 'cantidad' => $cantidad];
+    }
 }
 ?>
 
 
-<div class="container">
-    <h1 class="mb-4"><i class="fa-solid fa-cart-shopping me-2"></i>Carrito de Compras</h1>
 
-    <?php if (empty($_SESSION['carrito'])): ?>
-        <div class="alert alert-info">El carrito está vacío.</div>
+<div class="container my-5">
+    <h2 class="mb-4">Tu Carrito</h2>
+
+    <?php if (empty($productos_en_carrito)): ?>
+        <p>No hay productos en el carrito.</p>
+        <a href="index.php?sec=productos" class="btn btn-dark">Volver a productos</a>
     <?php else: ?>
-        <table class="table table-bordered">
-            <thead class="table-light">
-                <tr>
-                    <th>Producto</th>
-                    <th>Precio unitario</th>
-                    <th>Cantidad</th>
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $total = 0;
-                foreach ($_SESSION['carrito'] as $item):
-                    $producto = $item['producto'];
-                    $cantidad = $item['cantidad'];
-                    $subtotal = $producto->getPrecio() * $cantidad;
-                    $total += $subtotal;
-                ?>
-                    <tr>
-                        <td><?= htmlspecialchars($producto->getNombre()); ?></td>
-                        <td>$<?= number_format($producto->getPrecio(), 2, ',', '.'); ?></td>
-                        <td><?= $cantidad ?></td>
-                        <td>$<?= number_format($subtotal, 2, ',', '.'); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-                <tr>
-                    <td colspan="3" class="text-end fw-bold">Total</td>
-                    <td class="fw-bold">$<?= number_format($total, 2, ',', '.'); ?></td>
-                </tr>
-            </tbody>
-        </table>
+        <form method="post" action="carrito.php">
+            <?php foreach ($carrito as $id => $cantidad): ?>
+                <input type="hidden" name="carrito[<?= intval($id) ?>]" value="<?= intval($cantidad) ?>">
+            <?php endforeach; ?>
 
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCompra">
-            <i class="fa-solid fa-credit-card me-1"></i> Proceder al pago
-        </button>
+            <table class="table table-bordered text-white align-middle">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $total = 0;
+                    foreach ($productos_en_carrito as $item):
+                        $producto = $item['producto'];
+                        $cantidad = intval($item['cantidad']);
+                        $subtotal = $producto->getPrecio() * $cantidad;
+                        $total += $subtotal;
+                    ?>
+                    <tr>
+                        <td><?= $producto->getNombre() ?></td>
+                        <td>$<?= number_format($producto->getPrecio(), 2, ',', '.') ?></td>
+                        <td><?= $cantidad ?></td>
+                        <td>$<?= number_format($subtotal, 2, ',', '.') ?></td>
+                        <td>
+                            <button type="submit" 
+                                name="accion" 
+                                value="eliminar" 
+                                class="btn btn-danger btn-sm" 
+                                formaction="carrito.php"
+                                formmethod="post"
+                                onclick="this.form.producto_id.value='<?= $producto->getId() ?>'">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end fw-bold">Total</td>
+                        <td colspan="2" class="fw-bold">$<?= number_format($total, 2, ',', '.') ?></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <input type="hidden" name="producto_id" value="">
+            <button type="submit" name="accion" value="vaciar" class="btn btn-warning">Vaciar carrito</button>
+            <button type="submit" class="btn btn-success ms-3" formaction="#" formmethod="post">
+                Ir a pagar <i class="bi bi-credit-card"></i>
+            </button>
+        </form>
     <?php endif; ?>
 </div>
-
-<!-- MODAL -->
-<div class="modal fade" id="modalCompra" tabindex="-1" aria-labelledby="modalCompraLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalCompraLabel">¡Compra realizada!</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        Tu compra ha sido procesada con éxito. Gracias por elegirnos.
-      </div>
-      <div class="modal-footer">
-        <a href="carrito.php?compra=ok" class="btn btn-primary">Aceptar</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-

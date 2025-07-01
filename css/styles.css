@@ -6,24 +6,14 @@
 }
 
 html{
-    font-family: 'SF Pro Display', sans-serif !important;
+    font-family: "Source Sans 3", sans-serif;
     background-color: #ffffff !important;
     font-size: 0.8rem !important;
     color: #333336 !important;
 }
 
-body{
-    display: grid;
-    grid-template-rows: auto 1fr auto; /* Header - Main (flexible) - Footer */
-    min-height: 100vh;
-}
-
 h1.titulo{
     display:none;
-}
-
-.btn{
-    border-radius: 50px !important;
 }
 
 /*NAVBAR*/
@@ -53,7 +43,6 @@ div.container-inicio section.header{
     box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
-    background-repeat: no-repeat;
 }
 div.container-inicio section div#ipads-colores{
     background-image: url(../assets/imagenes/inicio/ipads-colores.jpg);
@@ -144,13 +133,7 @@ div.container-inicio section.categorias div div.card{
     margin-right: 1rem;
     text-align: center;
     border: none !important;
-    border-color: transparent !important;
 }
-
-#carouselCategorias{
-    height: 100%;
-}
-
 div.container-inicio section.categorias div div.card img{
     margin: 2rem 0;
 }
@@ -166,53 +149,6 @@ div.container-inicio section.categorias div div.card div.card-body a.btn:hover{
     text-decoration: underline !important;
 }
 
-/*categorias*/
-div.container-categoria  div div div.card-producto{
-    border: 0 transparent !important;
-    border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(71, 71, 71, 0.15) !important;
-}
-div.container-categoria  div div div a.btn{
-    background-color: #232325 !important;
-    color: white !important;
-    padding: 0.4rem 1rem;
-    border-radius: 2rem;
-    text-align: center;
-    width: 100% !important;
-    border-color: transparent !important;
-}
-div.container-categoria  div div div a.btn:hover{
-    background-color: #0071e3 !important;
-    border-color: transparent !important;
-}
-div.container-categoria section.categorias div div.card-producto{
-    margin-right: 1rem;
-    text-align: center;
-    border: none !important;
-}
-body > div > div.row.justify-content-center > div > div > img{
-    padding: 2rem 0;
-}
-
-#carouselCategorias > div > div > div > div{
-    margin-right: 1rem;
-    text-align: center;
-    border: none !important;
-    border-color: transparent !important;
-}
-
-div.container-categoria section.categorias div div.card-producto div.card-body a.btn{
-    color: #232325 !important;
-    background-color: transparent !important;
-    border: none !important;
-    text-decoration: none;
-    font-weight: 600;
-}
-div.container-categoria section.categorias div div.card-producto div.card-body a.btn:hover{
-    color: black !important;
-    text-decoration: underline !important;
-}
-
 /*CONTACTO*/
 div.container-contacto img{
     box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
@@ -223,7 +159,7 @@ div.container-contacto div form > div.d-flex.justify-content-between > div{
     width: 49%;
 }
 div.container-contacto div form input.btn{
-    width: 100% !important;
+    width: 100%;
     background-color: #202022 !important;
     border: none !important;
 }
@@ -244,10 +180,12 @@ div.container-contacto section.d-flex{
 }
 
 /*PRODUCTOS*/
-div.container-productos main div div div.card-producto{
+div.container-productos main div div div.card{
     border: 0 transparent !important;
-    border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(71, 71, 71, 0.15) !important;
+    border-radius: 2rem;
+    box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
+    -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
+    -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
 }
 div.container-productos main div div div a.btn{
     background-color: #232325 !important;
@@ -258,34 +196,7 @@ div.container-productos main div div div a.btn{
     width: 100%;
 }
 div.container-productos main div div div a.btn:hover{
-    background-color: #0071e3 !important;
-}
-div.container-productos section.categorias div div.card-producto{
-    margin-right: 1rem;
-    text-align: center;
-    border: none !important;
-}
-body > main > div > main > div.row.justify-content-center > div > div > img{
-    padding: 2rem 0;
-}
-
-#carouselCategorias > div > div > div > div{
-    margin-right: 1rem;
-    text-align: center;
-    border: none !important;
-    border-color: transparent !important;
-}
-
-div.container-productos section.categorias div div.card-producto div.card-body a.btn{
-    color: #232325 !important;
-    background-color: transparent !important;
-    border: none !important;
-    text-decoration: none;
-    font-weight: 600;
-}
-div.container-productos section.categorias div div.card-producto div.card-body a.btn:hover{
-    color: black !important;
-    text-decoration: underline !important;
+    background-color: #213448 !important;
 }
 
 /*ALUMNAS*/
@@ -293,37 +204,161 @@ div.container-alumnas > div#alumna:nth-child(2){
     border-left:1px solid #dfdfdf !important;
     border-right:1px solid #dfdfdf !important;
 }
-
 /*FOOTER*/
-footer{
-    padding: 3rem;
+footer {
+    padding: 2rem 1rem;
     background-color: #6e6e7307;
 }
-footer > div{
-    width: 80rem;
-    align-items: center;
+
+.footer-container {
+    max-width: 100%;
     margin: 0 auto;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
-footer div ul{
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.footer-menu ul {
+    list-style: none;
     padding-left: 0;
-    margin-right: 3rem;
+    margin: 0;
 }
-footer div ul ul.submenu{
-    padding-left: 1rem !important;
+
+.footer-menu a {
+    font-weight: 500;
+    text-decoration: none;
+    color: #000;
 }
-footer div ul ul.submenu li a{
-    color: #6e6e73 !important;
+
+.footer-menu .submenu {
+    padding-left: 1rem;
+    margin-top: 0.5rem;
 }
-footer div ul ul.submenu li a:hover{
-    color: #333336 !important;
+
+.footer-menu .submenu li a {
+    color: #6e6e73;
 }
-footer div ul li{
-    list-style: none
+
+.footer-menu .submenu li a:hover {
+    color: #333336;
 }
-footer div#footer-detalles{
-    color: #6e6e73b9 !important;
-    border-top: 0.1rem solid #6e6e7348;
+
+.footer-logo img {
+    max-width: 80px;
+    height: auto;
 }
-footer div#footer-detalles p{
+
+#footer-detalles {
+    color: #6e6e73b9;
+    border-top: 1px solid #6e6e7348;
+    margin-top: 2rem;
     padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+#footer-detalles p {
+    margin: 0;
+    white-space: nowrap;
+}
+
+/*BREAKPOINT*/
+
+/* Tablet */
+@media (min-width: 487px) and (max-width: 990px) {
+    .footer-links {
+        justify-content: center;
+        text-align: center;
+    }
+
+    #footer-detalles {
+        justify-content: center;
+    }
+
+    .footer-logo {
+        text-align: center;
+        width: 100%;
+    }
+
+    .container-productos .row > div {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .banner-desktop {
+        display: none !important;
+    }
+
+    .banner-tablet {
+        display: block !important;
+    }
+}
+
+/* móviles */
+@media (max-width: 487px){
+
+    .container-inicio section.d-flex {
+        flex-direction: column !important;
+        align-items: center;
+    }
+
+    .container-inicio section.d-flex > div {
+        width: 90% !important;
+        height: 25rem;
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    #ipads-colores h3,
+    #descuento-estudiantes h3 {
+        font-size: 1.5rem;
+        padding: 2rem 1rem 1rem;
+    }
+
+    #descuento-estudiantes p {
+        padding: 0 1rem;
+        font-size: 0.95rem;
+    }
+
+    #ipads-colores a,
+    #descuento-estudiantes a {
+        display: inline-block;
+        margin-top: 1rem;
+        font-size: 1rem;
+        padding: 0.5rem 1.2rem;
+    }
+
+    /* Sección MacBook promo */
+    section#macbook-promo {
+        padding: 2rem 1rem !important;
+        height: auto;
+    }
+
+    section#macbook-promo h3 {
+        font-size: 2rem;
+        padding: 0;
+    }
+
+    section#macbook-promo a {
+        margin-top: 1.5rem;
+        display: inline-block;
+    }
+
+    .banner-desktop {
+        display: none !important;
+    }
+
+    .banner-tablet {
+        display: block !important;
+    }
 }

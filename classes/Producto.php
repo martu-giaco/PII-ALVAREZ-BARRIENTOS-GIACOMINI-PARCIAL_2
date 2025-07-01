@@ -1,146 +1,163 @@
 <?php
-require_once __DIR__ . '/Conexion.php';
-
 class Producto
 {
-    private $id;
-    private $imagen;
+    private $id_producto;
+    private $id_marca;
+    private $marca;
     private $nombre;
-    private $descripcion;
+    private $presentacion;
     private $precio;
-    private $categorias = [];
+    private $foto;
 
-    public function __construct($id = null, $nombre = null, $descripcion = null, $precio = null, $categorias = [], $imagen = null)
+    public function getIdProducto()
     {
-        $this->id = $id;
-        $this->imagen = $imagen;
-        $this->nombre = $nombre;
-        $this->descripcion = $descripcion;
-        $this->precio = $precio;
-        $this->categorias = $categorias;
+        return $this->id_producto;
     }
 
-    // Getters
-    public function getId()
+    public function getIdMarca()
     {
-        return $this->id;
+        return $this->id_marca;
     }
 
-    public function getImagen()
+    public function getMarca()
     {
-        return $this->imagen;
+        return $this->marca;
     }
+
     public function getNombre()
     {
         return $this->nombre;
     }
-    public function getDescripcion()
+
+    public function getPresentacion()
     {
-        return $this->descripcion;
+        return $this->presentacion;
     }
+
     public function getPrecio()
     {
         return $this->precio;
     }
-    public function getCategorias()
+
+    public function getFoto()
     {
-        return $this->categorias;
+        return $this->foto;
     }
 
-    // Método para cargar productos con categorías
-    public static function cargarProductosConCategorias(): array
+    /**
+     * Devuelve una lista de todos los productos, generando la imagen automáticamente si no existe
+     */
+    public function todosProductos(): array
     {
         $conexion = (new Conexion())->getConexion();
 
-        $PDOStatement = $conexion->prepare("SELECT * FROM productos");
-        $PDOStatement->execute();
-        $productosData = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
+        $query = "SELECT p.id_producto, p.id_marca, m.marca, p.nombre, p.presentacion, p.precio, p.foto
+                  FROM productos AS p
+                  JOIN marcas AS m ON p.id_marca = m.id_marca";
+
+        $stmt = $conexion->prepare($query);
+        $stmt->execute();
 
         $productos = [];
 
-        foreach ($productosData as $fila) {
-            $PDOStatementCat = $conexion->prepare("
-                SELECT c.id, c.nombre 
-                FROM categorias c
-                JOIN producto_categoria pc ON c.id = pc.categoria_id
-                WHERE pc.producto_id = :producto_id
-            ");
-            $PDOStatementCat->execute(['producto_id' => $fila['id']]);
-            $categorias = $PDOStatementCat->fetchAll(PDO::FETCH_ASSOC);
+        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $producto = new Producto();
+            $producto->id_producto = $fila['id_producto'];
+            $producto->id_marca = $fila['id_marca'];
+            $producto->marca = $fila['marca'];
+            $producto->nombre = $fila['nombre'];
+            $producto->presentacion = $fila['presentacion'];
+            $producto->precio = (float)$fila['precio'];
 
-            $productos[] = new Producto(
-                $fila['id'],
-                $fila['nombre'],
-                $fila['descripcion'],
-                $fila['precio'],
-                $categorias
-            );
+            // Foto: si está vacía en la DB, se genera automáticamente
+            if (!empty($fila['foto'])) {
+                $producto->foto = $fila['foto'];
+            } else {
+                $nombreNormalizado = strtolower($fila['nombre']);
+                $nombreNormalizado = preg_replace('/[^a-z0-9]/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $nombreNormalizado));
+                $producto->foto = $nombreNormalizado . '.jpg';
+            }
+
+            $productos[] = $producto;
         }
 
         return $productos;
     }
 
-    public function getRutaImagen()
-    {
-        $formatos = ['png', 'jpg', 'jpeg', 'webp'];
-
-        if (empty($this->categorias)) {
-            return "assets/imagenes/prods/default.jpg";
-        }
-
-        // Tomo la primera categoría (debe ser array con 'nombre')
-        $categoriaNombre = $this->categorias[0]['nombre'] ?? null;
-        if (!$categoriaNombre) {
-            return "assets/imagenes/prods/default.jpg";
-        }
-
-        $categoria = strtolower(str_replace(' ', '-', $categoriaNombre));
-        $producto = strtolower(str_replace(' ', '-', $this->nombre));
-        $base = "{$categoria}_{$producto}";
-
-        $dir = __DIR__ . "/../assets/imagenes/prods/{$categoria}/";
-
-        foreach ($formatos as $ext) {
-            $archivo = "{$base}.{$ext}";
-            if (file_exists($dir . $archivo)) {
-                return "assets/imagenes/prods/{$categoria}/{$archivo}";
-            }
-        }
-
-        // Si no encontró ninguna imagen, devuelve la default
-        return "assets/imagenes/prods/default.jpg";
-    }
-
-    public static function cargarPorId(int $id): ?self
+    /**
+     * Inserta un nuevo producto
+     */
+    public static function insert(int $id_marca, string $nombre, string $presentacion, float $precio, string $foto)
     {
         $conexion = (new Conexion())->getConexion();
-        $query = "SELECT * FROM productos WHERE id = :id";
-        $PDOStatement = $conexion->prepare($query);
-        $PDOStatement->execute(['id' => $id]);
-        $productoData = $PDOStatement->fetch(PDO::FETCH_ASSOC);
 
-        if (!$productoData) {
-            return null;
-        }
+        $query = "INSERT INTO productos (id_marca, nombre, presentacion, precio, foto)
+                  VALUES (:id_marca, :nombre, :presentacion, :precio, :foto)";
 
-        $query = "SELECT c.id, c.nombre 
-                 FROM categorias c
-                 JOIN producto_categoria pc ON c.id = pc.categoria_id
-                 WHERE pc.producto_id = :producto_id";
-        $PDOStatement = $conexion->prepare($query);
-        $PDOStatement->execute(['producto_id' => $id]);
-        $categorias = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
-
-        return new self(
-            $productoData['id'],
-            $productoData['nombre'],
-            $productoData['descripcion'],
-            $productoData['precio'],
-            $categorias
-        );
+        $stmt = $conexion->prepare($query);
+        $stmt->execute([
+            'id_marca' => $id_marca,
+            'nombre' => $nombre,
+            'presentacion' => $presentacion,
+            'precio' => $precio,
+            'foto' => $foto
+        ]);
     }
 
+    /**
+     * Devuelve un producto por su ID
+     */
+    public static function get_x_id(int $id): ?Producto
+    {
+        $conexion = (new Conexion())->getConexion();
 
+        $query = "SELECT p.id_producto, p.id_marca, m.marca, p.nombre, p.presentacion, p.precio, p.foto
+                  FROM productos AS p
+                  JOIN marcas AS m ON p.id_marca = m.id_marca
+                  WHERE p.id_producto = :id";
 
+        $stmt = $conexion->prepare($query);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, self::class);
+        $stmt->execute(['id' => $id]);
 
+        $producto = $stmt->fetch();
+
+        return $producto ?: null;
+    }
+
+    /**
+     * Edita los datos del producto actual
+     */
+    public function edit($id_marca, $nombre, $presentacion, $precio, $foto)
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "UPDATE productos 
+                  SET id_marca = :id_marca, nombre = :nombre, presentacion = :presentacion, precio = :precio, foto = :foto 
+                  WHERE id_producto = :id";
+
+        $stmt = $conexion->prepare($query);
+        $stmt->execute([
+            'id_marca' => $id_marca,
+            'nombre' => $nombre,
+            'presentacion' => $presentacion,
+            'precio' => $precio,
+            'foto' => $foto,
+            'id' => $this->id_producto
+        ]);
+    }
+
+    /**
+     * Borra el producto actual de la base de datos
+     */
+    public function delete()
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "DELETE FROM productos WHERE id_producto = :id";
+
+        $stmt = $conexion->prepare($query);
+        $stmt->execute(['id' => $this->id_producto]);
+    }
 }
+?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2025 at 01:01 AM
+-- Generation Time: Jul 02, 2025 at 01:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,37 +24,33 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categorias`
+-- Table structure for table `usuarios`
 --
 
-CREATE TABLE `categorias` (
+CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL
+  `usuario` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `rol` enum('admin','cliente') NOT NULL DEFAULT 'cliente'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `categorias`
+-- Dumping data for table `usuarios`
 --
 
-INSERT INTO `categorias` (`id`, `nombre`) VALUES
-(1, 'iphone'),
-(2, 'ipad'),
-(3, 'mac'),
-(4, 'apple watch'),
-(5, 'airpods'),
-(6, 'accesorios'),
-(7, 'apple tv'),
-(8, 'homepod'),
-(9, 'perifericos');
+INSERT INTO `usuarios` (`id`, `usuario`, `password`, `nombre`, `rol`) VALUES
+(1, 'pepe', 'a1189830141bf52b5453fb95a2d51d2063b54724686f2b4e4d1749031adf707f', 'pepe', 'admin'),
+(2, 'invitado', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'elu suario', 'cliente');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `categorias`
+-- Indexes for table `usuarios`
 --
-ALTER TABLE `categorias`
+ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -62,10 +58,10 @@ ALTER TABLE `categorias`
 --
 
 --
--- AUTO_INCREMENT for table `categorias`
+-- AUTO_INCREMENT for table `usuarios`
 --
-ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

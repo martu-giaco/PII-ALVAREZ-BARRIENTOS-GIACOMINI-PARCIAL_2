@@ -1,3 +1,9 @@
+<?php
+
+require_once __DIR__ . '/../classes/Categoria.php';
+$categorias = Categoria::obtenerCategorias();
+?>
+
 <div class="container-inicio">
     <section class="header m-3">
         <h2 class="text-center p-5">Bienvenido a la tienda oficial de Apple Latino América</h2>
@@ -19,51 +25,47 @@
         <a href="#" class="mt-5 d-inline-block">Ver más</a>
     </section>
     <section class="categorias mt-5 pt-5 mb-5">
-        <h2 class="text-center">Encontrá lo que estás buscando</h2>
+        <h3 class="mb-4 text-center">Explorar categorías</h3>
 
-        <?php
-        // Asegurarse que $categorias esté definido y sea un array
-        if (!isset($categorias) || !is_array($categorias)) {
-            $categorias = [];
-        }
-
-        $chunks = array_chunk($categorias, 4); // 5 tarjetas por slide
-        ?>
-
-        <div id="carouselCategorias" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000"
-            data-bs-wrap="true">
-            <div class="carousel-inner">
-                <?php foreach ($chunks as $index => $chunk): ?>
-                    <div class="carousel-item <?= $index === 0 ? 'active' : ''; ?>">
+        <?php if (!empty($categorias)): ?>
+            <div id="carouselCategorias" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000"
+                data-bs-wrap="true">
+                <div class="carousel-inner">
+                    <!-- Un solo carousel-item con todas las categorías -->
+                    <div class="carousel-item active">
                         <div class="d-flex justify-content-center gap-4 flex-wrap">
-                            <?php foreach ($chunk as $cat): ?>
-                                <div class="card" style="width: 15rem;">
-                                    <img src="assets/imagenes/categorias-fotitos/<?= str_replace(' ', '-', strtolower($cat['nombre'])) ?>-categoria.png"
-                                        class="card-img-top mx-auto d-block" alt="<?= htmlspecialchars($cat['nombre']); ?>"
-                                        style="object-fit: cover;">
+                            <?php foreach ($categorias as $cat): ?>
+                                <div class="card shadow-sm" style="width: 15rem;">
+                                    <img src="assets/imagenes/categorias-fotitos/<?= htmlspecialchars(str_replace(' ', '-', strtolower($cat->getNombre()))) ?>-categoria.png"
+                                        class="card-img-top mx-auto d-block" alt="<?= htmlspecialchars($cat->getNombre()); ?>"
+                                        style="height: 100px; object-fit: cover;">
                                     <div class="card-body d-flex justify-content-center">
-                                        <a href="index.php?sec=categoria&nombre=<?= urlencode($cat['nombre']); ?>"
+                                        <a href="index.php?sec=categoria&nombre=<?= urlencode($cat->getNombre()); ?>"
                                             class="stretched-link text-decoration-none text-dark fw-semibold">
-                                            <?= htmlspecialchars($cat['nombre']); ?>
+                                            <?= htmlspecialchars($cat->getNombre()); ?>
                                         </a>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
-                <?php endforeach; ?>
-            </div>
+                </div>
 
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselCategorias"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselCategorias"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
-            </button>
-        </div>
+                <!-- Botones de control (aunque con un solo slide no hace mucho) -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselCategorias"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselCategorias"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        <?php else: ?>
+            <p class="text-center">No hay categorías para mostrar.</p>
+        <?php endif; ?>
+
     </section>
 </div>

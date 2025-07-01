@@ -20,12 +20,11 @@ class Producto
         $this->categorias = $categorias;
     }
 
-    // Getters
+    // Métodos para obtener los datos (Getters)
     public function getId()
     {
         return $this->id;
     }
-
     public function getImagen()
     {
         return $this->imagen;
@@ -47,57 +46,113 @@ class Producto
         return $this->categorias;
     }
 
-    // Método para cargar productos con categorías
+    /**
+     * 🔄 MÉTODO ESTÁTICO: cargarProductosConCategorias
+     * Carga todos los productos de la base de datos y les asigna sus categorías relacionadas.
+     */
     public static function cargarProductosConCategorias(): array
     {
+        // Conexión a la base de datos
         $conexion = (new Conexion())->getConexion();
 
-        $PDOStatement = $conexion->prepare("SELECT * FROM productos");
+        // Traer todos los productos
+        $query = "SELECT * FROM productos";
+        $PDOStatement = $conexion->prepare($query);
         $PDOStatement->execute();
         $productosData = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
 
         $productos = [];
 
+        // Por cada producto, buscamos sus categorías relacionadas
         foreach ($productosData as $fila) {
-            $PDOStatementCat = $conexion->prepare("
+            $queryCat = "
                 SELECT c.id, c.nombre 
                 FROM categorias c
                 JOIN producto_categoria pc ON c.id = pc.categoria_id
                 WHERE pc.producto_id = :producto_id
-            ");
+            ";
+            $PDOStatementCat = $conexion->prepare($queryCat);
             $PDOStatementCat->execute(['producto_id' => $fila['id']]);
             $categorias = $PDOStatementCat->fetchAll(PDO::FETCH_ASSOC);
 
+            // Creamos un objeto Producto con los datos y categorías
             $productos[] = new Producto(
                 $fila['id'],
                 $fila['nombre'],
                 $fila['descripcion'],
                 $fila['precio'],
-                $categorias
+                $categorias,
+                $fila['imagen']
             );
         }
 
         return $productos;
     }
 
+    /**
+     * MÉTODO ESTÁTICO: cargarPorId
+     * Busca un solo producto por su ID y carga sus categorías.
+     */public static function get_x_id(int $id): ?Producto
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        // Obtener producto con ese ID
+        $query = "SELECT * FROM productos WHERE id = :id";
+        $stmt = $conexion->prepare($query);
+        $stmt->execute(['id' => $id]);
+        $productoData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$productoData) {
+            return null; // No existe producto con ese ID
+        }
+
+        // Obtener categorías asociadas
+        $queryCategorias = "
+        SELECT c.id, c.nombre 
+        FROM categorias c
+        JOIN producto_categoria pc ON c.id = pc.categoria_id
+        WHERE pc.producto_id = :producto_id
+    ";
+        $stmtCategorias = $conexion->prepare($queryCategorias);
+        $stmtCategorias->execute(['producto_id' => $id]);
+        $categorias = $stmtCategorias->fetchAll(PDO::FETCH_ASSOC);
+
+        // Crear y devolver instancia de Producto
+        return new Producto(
+            $productoData['id'],
+            $productoData['nombre'],
+            $productoData['descripcion'],
+            $productoData['precio'],
+            $categorias,
+            $productoData['imagen']
+        );
+    }
+
+
+    /**
+     * 🖼 MÉTODO: getRutaImagen
+     * Genera la ruta a la imagen del producto según la categoría.
+     */
     public function getRutaImagen()
     {
         $formatos = ['png', 'jpg', 'jpeg', 'webp'];
 
+        // Si no tiene categorías, mostrar imagen por defecto
         if (empty($this->categorias)) {
             return "assets/imagenes/prods/default.jpg";
         }
 
-        // Tomo la primera categoría (debe ser array con 'nombre')
+        // Usamos el nombre de la primera categoría
         $categoriaNombre = $this->categorias[0]['nombre'] ?? null;
+
         if (!$categoriaNombre) {
             return "assets/imagenes/prods/default.jpg";
         }
 
+        // Armamos el nombre de archivo
         $categoria = strtolower(str_replace(' ', '-', $categoriaNombre));
         $producto = strtolower(str_replace(' ', '-', $this->nombre));
         $base = "{$categoria}_{$producto}";
-
         $dir = __DIR__ . "/../assets/imagenes/prods/{$categoria}/";
 
         foreach ($formatos as $ext) {
@@ -107,40 +162,7 @@ class Producto
             }
         }
 
-        // Si no encontró ninguna imagen, devuelve la default
+        // Si no encuentra ninguna imagen válida
         return "assets/imagenes/prods/default.jpg";
     }
-
-    public static function cargarPorId(int $id): ?self
-    {
-        $conexion = (new Conexion())->getConexion();
-        $query = "SELECT * FROM productos WHERE id = :id";
-        $PDOStatement = $conexion->prepare($query);
-        $PDOStatement->execute(['id' => $id]);
-        $productoData = $PDOStatement->fetch(PDO::FETCH_ASSOC);
-
-        if (!$productoData) {
-            return null;
-        }
-
-        $query = "SELECT c.id, c.nombre 
-                 FROM categorias c
-                 JOIN producto_categoria pc ON c.id = pc.categoria_id
-                 WHERE pc.producto_id = :producto_id";
-        $PDOStatement = $conexion->prepare($query);
-        $PDOStatement->execute(['producto_id' => $id]);
-        $categorias = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
-
-        return new self(
-            $productoData['id'],
-            $productoData['nombre'],
-            $productoData['descripcion'],
-            $productoData['precio'],
-            $categorias
-        );
-    }
-
-
-
-
 }

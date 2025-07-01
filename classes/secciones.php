@@ -6,63 +6,62 @@ class Secciones
     private $title;
     private $inMenu;
 
-    public function getVinculo(): string
+    public function getVinculo(): string { return $this->vinculo; }
+    public function getTexto(): string { return $this->texto; }
+    public function getTitle(): string { return $this->title; }
+    public function getInMenu(): bool { return $this->inMenu; }
+
+    // Función privada para leer el JSON y devolver un array
+    private static function cargarJSON(): array
     {
-        return $this->vinculo;
-    }
-    public function getTexto(): string
-    {
-        return $this->texto;
-    }
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-    public function getInMenu(): bool
-    {
-        return $this->inMenu;
+        $json = file_get_contents('data/secciones.json');
+        $datos = json_decode($json, true);
+        return is_array($datos) ? $datos : [];
     }
 
+    // Devuelve objetos Secciones con todos los datos
     public static function secciones_del_sitio(): array
     {
-        $secciones = [];
-        $JSON = file_get_contents('data/secciones.json');
-        $JSONData = json_decode($JSON);
+        $lista = [];
+        $datos = self::cargarJSON();
 
-        foreach ($JSONData as $value) {
-            $sec = new self();
-            $sec->vinculo = $value->vinculo;
-            $sec->texto = $value->texto;
-            $sec->title = $value->title;
-            $sec->inMenu = $value->inMenu;
-            $secciones[] = $sec;
+        foreach ($datos as $sec) {
+            $obj = new self();
+            $obj->vinculo = $sec["vinculo"];
+            $obj->texto = $sec["texto"];
+            $obj->title = $sec["title"];
+            $obj->inMenu = $sec["inMenu"];
+            $lista[] = $obj;
         }
-        return $secciones;
+
+        return $lista;
     }
 
+    // Devuelve array con los nombres de todas las secciones (vínculos válidos)
     public static function secciones_validas(): array
     {
-        $secciones_validas = [];
-        $JSON = file_get_contents('data/secciones.json');
-        $JSONData = json_decode($JSON, true);
+        $validas = [];
+        $datos = self::cargarJSON();
 
-        foreach ($JSONData as $value) {
-            $secciones_validas[] = $value["vinculo"];
+        foreach ($datos as $sec) {
+            $validas[] = $sec["vinculo"];
         }
-        return $secciones_validas;
+
+        return $validas;
     }
 
+    // Devuelve array con los vínculos que van en el menú
     public static function secciones_menu(): array
     {
-        $secciones_menu = [];
-        $JSON = file_get_contents('data/secciones.json');
-        $JSONData = json_decode($JSON, true);
+        $menu = [];
+        $datos = self::cargarJSON();
 
-        foreach ($JSONData as $value) {
-            if ($value["inMenu"]) {
-                $secciones_menu[] = $value["vinculo"];
+        foreach ($datos as $sec) {
+            if ($sec["inMenu"]) {
+                $menu[] = $sec["vinculo"];
             }
         }
-        return $secciones_menu;
+
+        return $menu;
     }
 }

@@ -1,42 +1,74 @@
 <?php
 require_once __DIR__ . '/../classes/Producto.php';
+require_once __DIR__ . '/../classes/Categoria.php';
 
-// Obtener nombre de categoría por GET (minúsculas para comparación)
+// Obtener el nombre de la categoría desde el parámetro GET
 $categoria_nombre = $_GET['nombre'] ?? null;
 
 if (!$categoria_nombre) {
+    // Si no se especifica categoría, mostrar mensaje y detener ejecución
     echo "<div class='container my-5'><h2>Categoría no especificada.</h2></div>";
     return;
 }
 
-// Cargo todos los productos con sus categorías desde la DB
-$productos = Producto::cargarProductosConCategorias();
+// Obtener todas las categorías disponibles
+$categorias = Categoria::obtenerCategorias();
 
-// Buscar el ID de la categoría por nombre (ignorando mayúsculas/minúsculas)
+// Buscar el ID de la categoría que coincida (sin importar mayúsculas/minúsculas)
 $categoria_id = null;
-foreach ($productos as $producto) {
-    foreach ($producto->getCategorias() as $cat) {
-        if (strtolower($cat['nombre']) === strtolower($categoria_nombre)) {
-            $categoria_id = $cat['id'];
-            break 2; // salir de ambos foreach
-        }
+foreach ($categorias as $cat) {
+    if (strtolower($cat->getNombre()) === strtolower($categoria_nombre)) {
+        $categoria_id = $cat->getId();
+        break;
     }
 }
 
 if (!$categoria_id) {
+    // Si no se encuentra la categoría, mostrar mensaje y detener ejecución
     echo "<div class='container my-5'><h2>Categoría no encontrada.</h2></div>";
     return;
 }
 
-// Filtrar productos que pertenezcan a la categoría buscada
+// Conexión a la base de datos
+$conexion = (new Conexion())->getConexion();
+
+// Consulta para obtener productos que pertenecen a la categoría encontrada
+$query = "
+    SELECT p.* 
+    FROM productos p
+    JOIN producto_categoria pc ON p.id = pc.producto_id
+    WHERE pc.categoria_id = :categoria_id
+";
+$PDOStatement = $conexion->prepare($query);
+$PDOStatement->execute(['categoria_id' => $categoria_id]);
+$productosData = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
+
+// Array para almacenar objetos Producto con sus categorías asociadas
 $productos_filtrados = [];
-foreach ($productos as $producto) {
-    foreach ($producto->getCategorias() as $cat) {
-        if ($cat['id'] === $categoria_id) {
-            $productos_filtrados[] = $producto;
-            break;
-        }
-    }
+
+// Por cada producto, obtenemos sus categorías y creamos el objeto Producto
+$queryCategorias = "
+    SELECT c.id, c.nombre
+    FROM categorias c
+    JOIN producto_categoria pc ON c.id = pc.categoria_id
+    WHERE pc.producto_id = :producto_id
+";
+$PDOStatementCategorias = $conexion->prepare($queryCategorias);
+
+foreach ($productosData as $fila) {
+    // Ejecutar consulta para obtener categorías del producto actual
+    $PDOStatementCategorias->execute(['producto_id' => $fila['id']]);
+    $categoriasProducto = $PDOStatementCategorias->fetchAll(PDO::FETCH_ASSOC);
+
+    // Crear objeto Producto con datos y categorías
+    $productos_filtrados[] = new Producto(
+        $fila['id'],
+        $fila['nombre'],
+        $fila['descripcion'],
+        $fila['precio'],
+        $categoriasProducto,
+        $fila['imagen']
+    );
 }
 ?>
 
@@ -49,15 +81,14 @@ foreach ($productos as $producto) {
                 <?php foreach ($productos_filtrados as $producto): ?>
                     <div class="col-md-4 mb-4">
                         <div class="card card-producto h-100 shadow-sm">
-                            <img src="<?= $producto->getRutaImagen() ?>" alt="<?= htmlspecialchars($producto->getNombre()) ?>"
+                            <img src="<?= htmlspecialchars($producto->getRutaImagen()) ?>"
+                                alt="<?= htmlspecialchars($producto->getNombre()) ?>" 
                                 class="card-img-top" style="object-fit: contain;" />
                             <div class="card-body d-flex flex-column justify-content-end">
                                 <h5 class="card-title"><?= htmlspecialchars($producto->getNombre()); ?></h5>
-
                                 <p class="card-text text-primary fw-semibold">
                                     $<?= number_format($producto->getPrecio(), 2, ',', '.'); ?>
                                 </p>
-
                                 <a href="index.php?sec=detalleProducto&id=<?= $producto->getId(); ?>"
                                     class="btn btn-dark py-3 my-2">
                                     Ver Detalles

@@ -8,7 +8,7 @@ if (!$id) {
 }
 
 // Cargar producto con método estático (con PDO) para evitar usar JSON
-$producto = Producto::cargarPorId(intval($id));
+$producto = Producto::get_x_id(intval($id));
 if (!$producto) {
     echo "<div class='container my-5'><h2>Producto no disponible.</h2></div>";
     exit;

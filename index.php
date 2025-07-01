@@ -1,6 +1,5 @@
 <?php
-// Iniciar sesión al comienzo del script (obligatorio para usar $_SESSION)
-session_start();
+
 
 // Bootstrap CSS y JS CDN
 $cssBootstrap = '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">';
@@ -33,27 +32,6 @@ foreach ($secciones as $s) {
         $title_seccion = $s->getTitle();
         break;
     }
-}
-
-// **Definimos $categorias SOLO para ciertas vistas que lo necesitan**
-if (in_array($vista, ['inicio', 'categoria', 'productos'])) {
-    // Si tenés base de datos conectada, acá iría la consulta para traerlas
-    // Por simplicidad, usamos un array fijo:
-
-    $categorias = [
-        ['id' => 1, 'nombre' => 'iphone'],
-        ['id' => 2, 'nombre' => 'ipad'],
-        ['id' => 3, 'nombre' => 'mac'],
-        ['id' => 4, 'nombre' => 'apple watch'],
-        ['id' => 5, 'nombre' => 'airpods'],
-        ['id' => 6, 'nombre' => 'accesorios'],
-        ['id' => 7, 'nombre' => 'apple tv'],
-        ['id' => 8, 'nombre' => 'homepod'],
-        ['id' => 9, 'nombre' => 'perifericos'],
-    ];
-} else {
-    // Para otras vistas que no usen $categorias, lo definimos vacío para evitar errores
-    $categorias = [];
 }
 ?>
 

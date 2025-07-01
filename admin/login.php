@@ -1,6 +1,8 @@
 <?php
-    require_once("../classes/Conexion.php");
-    // require_once("/includes/functions.php");
+
+// Bootstrap CSS y JS CDN
+$cssBootstrap = '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">';
+$jsBootstrap = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>';
 
 // Carga clase para manejar secciones
 require_once "../classes/secciones.php";
@@ -34,18 +36,14 @@ foreach ($secciones as $s) {
 
 <!DOCTYPE html>
 <html lang="es">
-    <?php require_once "./../modulos/head.php"; ?>
+    <?php require_once "modulos/head.php"; ?>
 <body>
-    <?php require_once "./../modulos/navbar.php"; ?>
+    <?php require_once "modulos/navbar.php"; ?>
 
     <main class="container py-4">
-        <h1>Panel de admin</h1>
-        <?php require_once "./../vistas/$vista.php"; ?>
+        <?php require_once "vistas/$vista.php"; ?>
     </main>
 
-    <?php require_once "./../modulos/footer.php"; ?>
+    <?php require_once "modulos/footer.php"; ?>
 </body>
 </html>
-
-
-

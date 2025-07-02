@@ -35,8 +35,6 @@ foreach ($carrito as $id => $cantidad) {
 }
 ?>
 
-
-
 <div class="container my-5">
     <h2 class="mb-4">Tu Carrito</h2>
 

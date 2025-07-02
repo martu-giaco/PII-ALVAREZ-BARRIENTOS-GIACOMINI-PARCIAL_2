@@ -54,7 +54,6 @@ div.container-inicio section div#ipads-colores{
     height: 40rem;
     background-position: bottom;
     border-radius: 1rem;
-    width: 48%;
     box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
@@ -82,7 +81,6 @@ div.container-inicio section div#descuento-estudiantes{
     height: 40rem;
     background-position: bottom;
     border-radius: 1rem;
-    width: 48%;
     box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
@@ -201,8 +199,13 @@ div.container-productos main div div div a.btn{
     text-align: center;
     width: 100%;
 }
+
 div.container-productos main div div div a.btn:hover{
-    background-color: #213448 !important;
+    background-color: #373737 !important;
+}
+
+.text-primary{
+    color: #202022 !important;
 }
 
 /*ALUMNAS*/
@@ -235,6 +238,12 @@ footer {
     list-style: none;
     padding-left: 0;
     margin: 0;
+}
+
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    list-style-type: none;
 }
 
 .footer-menu a {
@@ -282,6 +291,24 @@ footer {
 
 /* Tablet */
 @media (min-width: 487px) and (max-width: 990px) {
+    div.container-inicio section#macbook-promo,
+    div.container-inicio section div#ipads-colores,
+    div.container-inicio section div#descuento-estudiantes {
+        height: 40rem;
+        background-position: center;
+    }
+
+    div.container-inicio section#macbook-promo h3,
+    div.container-inicio section div#ipads-colores h3,
+    div.container-inicio section div#descuento-estudiantes h3 {
+        font-size: 2rem;
+    }
+
+    div.container-inicio section.header {
+        height: 25rem;
+        background-position: center;
+    }
+
     .footer-links {
         justify-content: center;
         text-align: center;
@@ -312,52 +339,23 @@ footer {
 
 /* móviles */
 @media (max-width: 487px){
-
-    .container-inicio section.d-flex {
-        flex-direction: column !important;
-        align-items: center;
-    }
-
-    .container-inicio section.d-flex > div {
-        width: 90% !important;
-        height: 25rem;
-        padding: 1.5rem;
-        text-align: center;
-    }
-
-    #ipads-colores h3,
-    #descuento-estudiantes h3 {
-        font-size: 1.5rem;
-        padding: 2rem 1rem 1rem;
-    }
-
-    #descuento-estudiantes p {
-        padding: 0 1rem;
-        font-size: 0.95rem;
-    }
-
-    #ipads-colores a,
-    #descuento-estudiantes a {
-        display: inline-block;
-        margin-top: 1rem;
-        font-size: 1rem;
-        padding: 0.5rem 1.2rem;
-    }
-
-    /* Sección MacBook promo */
-    section#macbook-promo {
-        padding: 2rem 1rem !important;
+    div.container-inicio section#macbook-promo,
+    div.container-inicio section div#ipads-colores,
+    div.container-inicio section div#descuento-estudiantes {
         height: auto;
+        padding: 2rem 1rem;
+        background-position: center;
     }
 
-    section#macbook-promo h3 {
-        font-size: 2rem;
-        padding: 0;
+    div.container-inicio section#macbook-promo h3,
+    div.container-inicio section div#ipads-colores h3,
+    div.container-inicio section div#descuento-estudiantes h3 {
+        font-size: 1.5rem;
     }
 
-    section#macbook-promo a {
-        margin-top: 1.5rem;
-        display: inline-block;
+    div.container-inicio section.header {
+        height: 20rem;
+        background-position: center;
     }
 
     .banner-desktop {

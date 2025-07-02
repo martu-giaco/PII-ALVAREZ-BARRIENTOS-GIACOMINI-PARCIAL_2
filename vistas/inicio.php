@@ -8,15 +8,17 @@ $categorias = Categoria::obtenerCategorias();
     <section class="header m-3">
         <h2 class="text-center p-5">Bienvenido a la tienda oficial de Apple Latino América</h2>
     </section>
-    <section class="d-flex text-center justify-content-around">
-        <div id="ipads-colores" class="m-3">
-            <h3>Un color para cada personalidad</h3>
-            <a href="#">Descubrílos</a>
-        </div>
-        <div id="descuento-estudiantes" class="m-3">
-            <h3>Disfrutá de hasta un 30% de descuento</h3>
-            <p>Comprobando que sos estudiante universitario</p>
-            <a href="#">Soy estudiante!</a>
+    <section class="text-center container">
+        <div class="row g-4">
+            <div id="ipads-colores" class="col-12 col-md-6">
+                <h3>Un color para cada personalidad</h3>
+                <a href="#">Descubrílos</a>
+            </div>
+            <div id="descuento-estudiantes" class="col-12 col-md-6">
+                <h3>Disfrutá de hasta un 30% de descuento</h3>
+                <p>Comprobando que sos estudiante universitario</p>
+                <a href="https://www.apple.com/cl-edu/store">Soy estudiante!</a>
+            </div>
         </div>
     </section>
     <section class="text-center m-3 mb-5 p-5" id="macbook-promo">

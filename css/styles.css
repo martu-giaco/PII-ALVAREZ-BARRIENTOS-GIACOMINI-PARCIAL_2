@@ -47,6 +47,7 @@ div.container-inicio section.header{
     box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
+    background-repeat: no-repeat;
 }
 div.container-inicio section div#ipads-colores{
     background-image: url(../assets/imagenes/inicio/ipads-colores.jpg);
@@ -168,7 +169,7 @@ div.container-contacto div form input.btn{
     border: none !important;
 }
 div.container-contacto div form input.btn:hover{
-    background-color: rgb(24, 24, 24) !important;
+    background-color: #007AFF !important;
     color: white !important;
 }
 div.container-contacto > div{
@@ -185,6 +186,9 @@ div.container-contacto section.d-flex{
 
 /*PRODUCTOS*/
 div.container-productos main div div div.card{
+    border: none !important;
+}
+div.container-productos main div div div.card-producto{
     border: 0 transparent !important;
     border-radius: 2rem;
     box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
@@ -201,7 +205,9 @@ div.container-productos main div div div a.btn{
 }
 
 div.container-productos main div div div a.btn:hover{
-    background-color: #373737 !important;
+    background-color: #007AFF !important;
+    color: white !important;
+    border-color: #007AFF !important;
 }
 
 .text-primary{
@@ -213,6 +219,14 @@ div.container-alumnas > div#alumna:nth-child(2){
     border-left:1px solid #dfdfdf !important;
     border-right:1px solid #dfdfdf !important;
 }
+
+/*CARRITO*/
+div.container-carrito a.btn:hover{
+    background-color: #007AFF !important;
+    border-color: #007AFF !important;
+    color: white !important;
+}
+
 /*FOOTER*/
 footer {
     padding: 2rem 1rem;
@@ -342,7 +356,6 @@ dl, ol, ul {
     div.container-inicio section#macbook-promo,
     div.container-inicio section div#ipads-colores,
     div.container-inicio section div#descuento-estudiantes {
-        height: auto;
         padding: 2rem 1rem;
         background-position: center;
     }

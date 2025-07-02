@@ -37,10 +37,10 @@ $categorias = Categoria::obtenerCategorias();
                     <div class="carousel-item active">
                         <div class="d-flex justify-content-center gap-4 flex-wrap">
                             <?php foreach ($categorias as $cat): ?>
-                                <div class="card shadow-sm" style="width: 15rem;">
+                                <div class="card" style="width: 15rem;">
                                     <img src="assets/imagenes/categorias-fotitos/<?= htmlspecialchars(str_replace(' ', '-', strtolower($cat->getNombre()))) ?>-categoria.png"
                                         class="card-img-top mx-auto d-block" alt="<?= htmlspecialchars($cat->getNombre()); ?>"
-                                        style="height: 100px; object-fit: cover;">
+                                        style=" object-fit: cover;">
                                     <div class="card-body d-flex justify-content-center">
                                         <a href="index.php?sec=categoria&nombre=<?= urlencode($cat->getNombre()); ?>"
                                             class="stretched-link text-decoration-none text-dark fw-semibold">

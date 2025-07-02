@@ -35,12 +35,12 @@ foreach ($carrito as $id => $cantidad) {
 }
 ?>
 
-<div class="container my-5">
+<div class="container container-carrito my-5">
     <h2 class="mb-4">Tu Carrito</h2>
 
     <?php if (empty($productos_en_carrito)): ?>
         <p>No hay productos en el carrito.</p>
-        <a href="index.php?sec=productos" class="btn btn-dark">Volver a productos</a>
+        <a href="index.php?sec=productos" class="btn btn-dark text-white">Volver a productos</a>
     <?php else: ?>
         <form method="post" action="carrito.php">
             <?php foreach ($carrito as $id => $cantidad): ?>

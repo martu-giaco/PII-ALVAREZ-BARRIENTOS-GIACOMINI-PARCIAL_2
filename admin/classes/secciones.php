@@ -1,5 +1,5 @@
 <?php
-class Secciones
+class SeccionesAdmin
 {
     private $vinculo;
     private $texto;
@@ -14,7 +14,7 @@ class Secciones
     // Función privada para leer el JSON y devolver un array
     private static function cargarJSON(): array
     {
-        $json = file_get_contents('../data/secciones.json');
+        $json = file_get_contents('data/secciones.json');
         $datos = json_decode($json, true);
         return is_array($datos) ? $datos : [];
     }

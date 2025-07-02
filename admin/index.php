@@ -9,10 +9,10 @@ $jsBootstrap = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/j
 require_once "classes/secciones.php";
 
 // Secciones válidas (todas las vistas disponibles)
-$secciones_validas = Secciones::secciones_validas();
+$secciones_validas = SeccionesAdmin::secciones_validas();
 
 // Secciones que aparecen en el menú
-$secciones_menu = Secciones::secciones_menu();
+$secciones_menu = SeccionesAdmin::secciones_menu();
 
 // Ver qué sección se está pidiendo en la URL (por ejemplo: ?sec=productos)
 $seccion = $_GET['sec'] ?? 'inicio';
@@ -25,7 +25,7 @@ if (!in_array($seccion, $secciones_validas)) {
 }
 
 // Obtener el título de la sección actual desde el JSON
-$secciones = Secciones::secciones_del_sitio();
+$secciones = SeccionesAdmin::secciones_del_sitio();
 $title_seccion = "";
 foreach ($secciones as $s) {
     if ($s->getVinculo() === $vista) {

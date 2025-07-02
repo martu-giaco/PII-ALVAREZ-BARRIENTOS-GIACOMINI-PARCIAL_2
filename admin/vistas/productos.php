@@ -2,59 +2,69 @@
 
 require_once("../functions/autoload.php");
 
-Autenticacion::verify();
-
+Autenticacion::verify(true);
 
 $producto = new Producto;
 
 $lista = $producto->todosProductos();
 ?>
+
 <h2>Administración de Productos</h2>
 <?= Alerta::get_alertas(); ?>
+
 <table class="table table-striped">
 <thead>
 <tr>
     <th>ID</th>
-    <th>Categoria</th>
+    <th>Categoría</th>
     <th>Nombre</th>
-    <th>Presentación</th>
+    <th>Descripción</th>
     <th>Precio</th>
-    <th>Foto</th>
+    <th>Imagen</th>
     <th>Likes</th>
     <th>Opciones</th>
 </tr>
 </thead>
 <tbody>
 
-<?php
-foreach ($lista as $producto) {
-    ?>
+<?php foreach ($lista as $producto) : ?>
     <tr>
-        <td><?= $producto->getIdProducto();?></td>
-        <td><?= $producto->getCategoria();?></td>
-        <td><?= $producto->getNombre();?></td>
-        <td><?= $producto->getPresentacion();?></td>
-        <td><?= $producto->getPrecio();?></td>
-        <td><img src="../img/productos/<?= $producto->getFoto();?>" alt="Imagen producto" width="100"></td>
-        <td><?php
-            if(count($producto->getLikeNombreUsuario())>0){
-                echo "<ul>";
-                foreach ($producto->getLikeNombreUsuario() as $key => $U) {
-                    echo "<li>" . $U->getNombre() . "</li>";
-                }
-                echo "</ul>";
-            }
-        
-        ?></td>
-        <td>
-        <a href="?sec=editar_producto&id=<?= $producto->getIdProducto();?>" class="btn btn-warning">Editar</a>
-        <a href="?sec=borrar_producto&id=<?= $producto->getIdProducto();?>" class="btn btn-danger">Borrar</a>
-    </td>
-    </tr> 
-    <?php   
-}
+        <td><?= htmlspecialchars($producto['id']); ?></td>
 
-?>
+        <!-- Aquí asumimos que $producto['categoria'] es el nombre de la categoría -->
+        <td><?= htmlspecialchars($producto['categoria'] ?? 'Sin categoría'); ?></td>
+
+        <td><?= htmlspecialchars($producto['nombre']); ?></td>
+
+        <!-- Cambié Presentación por Descripción, porque en tu tabla no tienes presentación -->
+        <td><?= htmlspecialchars($producto['descripcion']); ?></td>
+
+        <td>$<?= number_format($producto['precio'], 2, ',', '.'); ?></td>
+
+        <!-- Imagen: asegúrate que exista la clave 'imagen' en $producto -->
+        <td>
+            <?php if (!empty($producto['imagen'])) : ?>
+                <img src="../img/productos/<?= htmlspecialchars($producto['imagen']); ?>" alt="Imagen producto" width="100">
+            <?php else: ?>
+                <span>No disponible</span>
+            <?php endif; ?>
+        </td>
+
+        <td>
+            <?php
+            // Si tu clase Producto no tiene método getLikeNombreUsuario(), esta parte debes ajustar.
+            // Aquí pongo ejemplo vacío:
+            echo "N/A"; 
+            ?>
+        </td>
+
+        <td>
+            <a href="?sec=editar_producto&id=<?= urlencode($producto['id']); ?>" class="btn btn-warning">Editar</a>
+            <a href="?sec=borrar_producto&id=<?= urlencode($producto['id']); ?>" class="btn btn-danger">Borrar</a>
+        </td>
+    </tr>
+<?php endforeach; ?>
+
 </tbody>
 </table>
 

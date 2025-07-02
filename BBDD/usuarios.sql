@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2025 at 01:02 AM
+-- Generation Time: Jul 03, 2025 at 12:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -11,11 +11,10 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+ /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+ /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+ /*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `apple-p2`
@@ -28,20 +27,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
   `usuario` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `rol` enum('admin','cliente') NOT NULL DEFAULT 'cliente'
+  `email` varchar(100) NOT NULL,
+  `clave` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `usuario`, `password`, `nombre`, `rol`) VALUES
-(1, 'pepe', 'a1189830141bf52b5453fb95a2d51d2063b54724686f2b4e4d1749031adf707f', 'pepe', 'admin'),
-(2, 'invitado', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'elu suario', 'cliente');
+INSERT INTO `usuarios` (`id_usuario`, `usuario`, `email`, `clave`) VALUES
+(1, 'pepe', 'pepe@pepe.com', '$2y$10$5g.kCy4GQJr8bwK8ZQ5lCeQ/JubAfJrsJb5cA8bsRQ95j1aLP4RJ2'),
+(2, 'elu suario', 'elu@suario.com', '$2y$10$f36f5DxvDfwYL06SOtAqJO5nHLxfqFl8KW/LuLjKpkvDTCG8/om1a');
 
 --
 -- Indexes for dumped tables
@@ -51,7 +49,7 @@ INSERT INTO `usuarios` (`id`, `usuario`, `password`, `nombre`, `rol`) VALUES
 -- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_usuario`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -61,9 +59,9 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+ /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+ /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

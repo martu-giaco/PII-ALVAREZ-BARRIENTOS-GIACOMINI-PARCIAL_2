@@ -1,14 +1,13 @@
-<?php 
-// require_once("../classes/Categoria.php");
+<?php
 require_once("../functions/autoload.php");
-Autenticacion::verify();
 
+// Verifica que el usuario esté logueado y sea admin
+Autenticacion::verify(true);
 
-$categorias = new Categoria;
-
-
+$categorias = new Categoria();
 $lista = $categorias->obtenerCategorias();
 ?>
+
 <h2>Administración de Categorías</h2>
 <table class="table table-striped">
 <thead>
@@ -19,22 +18,19 @@ $lista = $categorias->obtenerCategorias();
 </tr>
 </thead>
 <tbody>
-
 <?php
 foreach ($lista as $categoria) {
     ?>
     <tr>
-        <td><?= $categoria->getIdCategoria();?></td>
-        <td><?= $categoria->getNombreCategoria();?></td>
+        <td><?= htmlspecialchars($categoria->getIdCategoria()); ?></td>
+        <td><?= htmlspecialchars($categoria->getNombreCategoria()); ?></td>
         <td>
-        <a href="?sec=editar_categoria&id=<?= $categoria->getIdCategoria();?>" class="btn btn-warning">Editar</a>
-        <a href="?sec=borrar_categoria&id=<?= $categoria->getIdCategoria();?>" class="btn btn-danger">Borrar</a>
-    </td>
+            <a href="?sec=editar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-warning">Editar</a>
+            <a href="?sec=borrar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-danger">Borrar</a>
+        </td>
     </tr> 
     <?php   
 }
-
-
 ?>
 </tbody>
 </table>

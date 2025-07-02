@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2025 at 10:23 PM
+-- Generation Time: Jul 02, 2025 at 10:21 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `apple-p2`
 --
-CREATE DATABASE IF NOT EXISTS `apple-p2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `apple-p2`;
 
 -- --------------------------------------------------------
 
@@ -86,7 +84,8 @@ INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio`, `imagen`) VALU
 (16, 'Apple Pencil 2', 'Precisión para tus ideas.', 290000.00, ''),
 (17, 'Mac Studio', 'Diseñado para profesionales creativos.', 4500000.00, ''),
 (18, 'Studio Display', 'Pantalla Retina profesional.', 3900000.00, ''),
-(19, 'iPhone 13', 'Equilibrio entre potencia y precio.', 1350000.00, '');
+(19, 'iPhone 13', 'Equilibrio entre potencia y precio.', 1350000.00, ''),
+(20, 'Smart Battery Case', 'Batería extra para iPhone.', 175000.00, '');
 
 -- --------------------------------------------------------
 
@@ -125,6 +124,65 @@ INSERT INTO `producto_categoria` (`producto_id`, `categoria_id`) VALUES
 (19, 1),
 (20, 6);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id_rol` int(11) NOT NULL,
+  `rol` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id_rol`, `rol`) VALUES
+(1, 'admin'),
+(2, 'cliente');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id_usuario` int(11) NOT NULL,
+  `usuario` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `clave` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `usuario`, `email`, `clave`) VALUES
+(1, 'pepe', 'pepe@pepe.com', '$2y$10$5g.kCy4GQJr8bwK8ZQ5lCeQ/JubAfJrsJb5cA8bsRQ95j1aLP4RJ2'),
+(2, 'elu suario', 'elu@suario.com', '123');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usuario_rol`
+--
+
+CREATE TABLE `usuario_rol` (
+  `id_usuario` int(11) NOT NULL,
+  `id_rol` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `usuario_rol`
+--
+
+INSERT INTO `usuario_rol` (`id_usuario`, `id_rol`) VALUES
+(1, 1),
+(2, 2);
+
 --
 -- Indexes for dumped tables
 --
@@ -149,6 +207,25 @@ ALTER TABLE `producto_categoria`
   ADD KEY `fk_categoria` (`categoria_id`);
 
 --
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id_rol`);
+
+--
+-- Indexes for table `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id_usuario`);
+
+--
+-- Indexes for table `usuario_rol`
+--
+ALTER TABLE `usuario_rol`
+  ADD PRIMARY KEY (`id_usuario`,`id_rol`),
+  ADD KEY `id_rol` (`id_rol`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -163,6 +240,36 @@ ALTER TABLE `categorias`
 --
 ALTER TABLE `productos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `producto_categoria`
+--
+ALTER TABLE `producto_categoria`
+  ADD CONSTRAINT `fk_categoria` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_producto` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `usuario_rol`
+--
+ALTER TABLE `usuario_rol`
+  ADD CONSTRAINT `usuario_rol_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `usuario_rol_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

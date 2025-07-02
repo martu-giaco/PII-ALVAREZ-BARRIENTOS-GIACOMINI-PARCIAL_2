@@ -1,64 +1,64 @@
 <?php
 class Autenticacion
 {
-    public static function log_in(string $usuario, string $password): mixed
-    // public static function log_in(string $usuario, string $password)
+    public static function log_in(string $usuario, string $password): bool
     {
+        if (session_status() === PHP_SESSION_NONE) session_start();
         $datosUsuario = Usuario::usuario_x_username($usuario);
-
-        if($datosUsuario){
-            if(password_verify($password, $datosUsuario->getClave())){
-                // if($password == $datosUsuario->getClave()){
-                $datosLogin['usuario'] = $datosUsuario->getUsuario();
-                $datosLogin['nombre'] = $datosUsuario->getNombre();
-                $datosLogin['id_usuario'] = $datosUsuario->getIdUsuario();
-                $datosLogin['id_nivel'] = $datosUsuario->getIdNivel();
-                $datosLogin['nivel'] = $datosUsuario->getNivel();
-                $_SESSION['loggedIn'] = $datosLogin;
-                    echo "<pre>";
-                    print_r($datosLogin);
-                    echo "</pre>";
-                    echo "<pre>";
-                    print_r($_SESSION);
-                    echo "</pre>";
-                return $datosLogin['nivel'];
-            }else{
-                Alerta::add_alerta('danger', "La clave ingresada no es correcta.");
-                // echo "<p>Contraseña incorrecta</p>";
-                return FALSE;
+        if ($datosUsuario) {
+            $hash = $datosUsuario->getClave();
+            $valid = false;
+            if (password_get_info($hash)['algo'] !== 0) {
+                $valid = password_verify($password, $hash);
+            } else {
+                $valid = ($password === $hash);
             }
-        }else{
+            if ($valid) {
+                $_SESSION['loggedIn'] = [
+                    'usuario' => $datosUsuario->getUsuario(),
+                    'email' => $datosUsuario->getEmail(),
+                    'id_usuario' => $datosUsuario->getIdUsuario(),
+                    'rol' => $datosUsuario->getRol()
+                ];
+                return true;
+            } else {
+                Alerta::add_alerta('danger', "La clave ingresada no es correcta.");
+                return false;
+            }
+        } else {
             Alerta::add_alerta("warning", "El usuario ingresado no se encontró en nuestra base de datos.");
-            // echo "<p>Usuario incorrecto</p>";
-            return NULL;
+            return false;
         }
     }
 
     public static function log_out()
     {
-        if(isset($_SESSION['loggedIn'])){
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        if (isset($_SESSION['loggedIn'])) {
             unset($_SESSION['loggedIn']);
+            session_destroy();
         }
     }
 
-    public static function verify($admin = TRUE): bool
+    public static function verify($admin = true): bool
     {
-        if(isset($_SESSION['loggedIn'])){
-            if($admin){
-                // if($_SESSION['loggedIn']['id_nivel'] == 1){
-                if($_SESSION['loggedIn']['nivel'] == "admin"){
-                    return TRUE;
-                }else{
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        if (isset($_SESSION['loggedIn'])) {
+            if ($admin) {
+                if (isset($_SESSION['loggedIn']['rol']) && $_SESSION['loggedIn']['rol'] === "admin") {
+                    return true;
+                } else {
                     Alerta::add_alerta("warning", "No tiene permisos para visualizar la página.");
-                    header("location: index.php?sec=login");
+                    header("Location: index.php?sec=login");
+                    exit;
                 }
-            }else{
-                return TRUE;
+            } else {
+                return true;
             }
-        }else{
+        } else {
             Alerta::add_alerta("danger", "Debe iniciar sesión para continuar.");
-
-            header("location: index.php?sec=login");
+            header("Location: index.php?sec=login");
+            exit;
         }
     }
 }

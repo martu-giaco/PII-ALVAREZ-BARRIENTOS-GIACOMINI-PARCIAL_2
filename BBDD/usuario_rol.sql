@@ -24,61 +24,43 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `producto_categoria`
+-- Table structure for table `usuario_rol`
 --
 
-CREATE TABLE `producto_categoria` (
-  `producto_id` int(11) NOT NULL,
-  `categoria_id` int(11) NOT NULL
+CREATE TABLE `usuario_rol` (
+  `id_usuario` int(11) NOT NULL,
+  `id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `producto_categoria`
+-- Dumping data for table `usuario_rol`
 --
 
-INSERT INTO `producto_categoria` (`producto_id`, `categoria_id`) VALUES
+INSERT INTO `usuario_rol` (`id_usuario`, `id_rol`) VALUES
 (1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 1),
-(7, 3),
-(8, 3),
-(9, 3),
-(10, 2),
-(11, 7),
-(12, 8),
-(13, 6),
-(14, 9),
-(15, 6),
-(16, 6),
-(17, 3),
-(18, 7),
-(19, 1),
-(20, 6);
+(2, 2);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `producto_categoria`
+-- Indexes for table `usuario_rol`
 --
-ALTER TABLE `producto_categoria`
-  ADD PRIMARY KEY (`producto_id`,`categoria_id`),
-  ADD KEY `fk_categoria` (`categoria_id`);
+ALTER TABLE `usuario_rol`
+  ADD PRIMARY KEY (`id_usuario`,`id_rol`),
+  ADD KEY `id_rol` (`id_rol`);
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `producto_categoria`
+-- Constraints for table `usuario_rol`
 --
-ALTER TABLE `producto_categoria`
-  ADD CONSTRAINT `fk_categoria` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_producto` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+ALTER TABLE `usuario_rol`
+  ADD CONSTRAINT `usuario_rol_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `usuario_rol_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

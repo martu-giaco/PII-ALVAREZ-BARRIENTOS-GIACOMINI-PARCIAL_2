@@ -25,11 +25,11 @@ class Producto
     {
         return $this->id;
     }
-        public function getIdProducto()
+    public function getIdProducto()
     {
         return $this->id_producto;
     }
-    
+
     public function getIdCategoria()
     {
         return $this->id_categoria;
@@ -105,7 +105,8 @@ class Producto
     /**
      * MÉTODO ESTÁTICO: cargarPorId
      * Busca un solo producto por su ID y carga sus categorías.
-     */public static function get_x_id(int $id): ?Producto
+     */
+    public static function get_x_id(int $id): ?Producto
     {
         $conexion = (new Conexion())->getConexion();
 
@@ -180,31 +181,33 @@ class Producto
     }
 
 
-/**
+    /**
      * Obtiene todos los productos de la base de datos
      */
-    public function todosProductos():array
-    {
-        $conexion = (new Conexion())->getConexion();
+public function todosProductos(): array
+{
+    $conexion = (new Conexion())->getConexion();
 
+    $query = "
+        SELECT p.*, c.nombre AS categoria
+        FROM productos p
+        LEFT JOIN producto_categoria pc ON p.id = pc.producto_id
+        LEFT JOIN categorias c ON pc.categoria_id = c.id
+        GROUP BY p.id
+    ";
 
-        $query = "  SELECT p.*, p.categoria
-                    FROM productos AS p
-                    LEFT JOIN categorias AS p ON p.id_categoria = p.id_categoria
-                    LEFT JOIN usuarios AS u ON u.id_usuario = l.id_usuario 
-                    GROUP BY p.id_producto";
+    $PDOStatement = $conexion->prepare($query);
+    $PDOStatement->execute();
 
-        $PDOStatement = $conexion->prepare($query);
-        
-
-        $PDOStatement->setFetchMode(PDO::FETCH_ASSOC);
-        $PDOStatement->execute();
-
-        while($result = $PDOStatement->fetch()){
-            $catalogo[] = self::createProducto($result);
-        }
-
-        return $catalogo;
+    $catalogo = [];
+    while ($result = $PDOStatement->fetch(PDO::FETCH_ASSOC)) {
+        $catalogo[] = $result;
     }
+
+    return $catalogo;
+}
+
+
+
 
 }

@@ -24,61 +24,41 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `producto_categoria`
+-- Table structure for table `roles`
 --
 
-CREATE TABLE `producto_categoria` (
-  `producto_id` int(11) NOT NULL,
-  `categoria_id` int(11) NOT NULL
+CREATE TABLE `roles` (
+  `id_rol` int(11) NOT NULL,
+  `rol` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `producto_categoria`
+-- Dumping data for table `roles`
 --
 
-INSERT INTO `producto_categoria` (`producto_id`, `categoria_id`) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 1),
-(7, 3),
-(8, 3),
-(9, 3),
-(10, 2),
-(11, 7),
-(12, 8),
-(13, 6),
-(14, 9),
-(15, 6),
-(16, 6),
-(17, 3),
-(18, 7),
-(19, 1),
-(20, 6);
+INSERT INTO `roles` (`id_rol`, `rol`) VALUES
+(1, 'admin'),
+(2, 'cliente');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `producto_categoria`
+-- Indexes for table `roles`
 --
-ALTER TABLE `producto_categoria`
-  ADD PRIMARY KEY (`producto_id`,`categoria_id`),
-  ADD KEY `fk_categoria` (`categoria_id`);
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id_rol`);
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- Constraints for table `producto_categoria`
+-- AUTO_INCREMENT for table `roles`
 --
-ALTER TABLE `producto_categoria`
-  ADD CONSTRAINT `fk_categoria` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_producto` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+ALTER TABLE `roles`
+  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

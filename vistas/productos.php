@@ -55,11 +55,11 @@ $categorias = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
 
         <hr class="my-5">
 
-        <h3 class="mt-5 mb-5 text-center">Explorar categorías</h3>
+        <h3 class="mb-4 text-center">Explorar categorías</h3>
 
         <?php $chunks = array_chunk($categorias, 4); ?>
 
-        <div id="carouselCategorias" class="carousel slide mt-5 pt-5" data-bs-ride="carousel" data-bs-interval="5000"
+        <div id="carouselCategorias" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000"
             data-bs-wrap="true">
             <div class="carousel-inner">
                 <?php foreach ($chunks as $index => $chunk): ?>
@@ -69,7 +69,7 @@ $categorias = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="card" style="width: 12rem;">
                                     <img src="assets/imagenes/categorias-fotitos/<?= str_replace(' ', '-', strtolower($cat['nombre'])) ?>-categoria.png"
                                         class="card-img-top mx-auto d-block" alt="<?= $cat['nombre']; ?>"
-                                        style="object-fit: cover;">
+                                        style="height: 150px; object-fit: cover;">
                                     <div class="card-body d-flex justify-content-center">
                                         <a href="index.php?sec=categoria&nombre=<?= urlencode($cat['nombre']); ?>"
                                             class="stretched-link text-decoration-none text-dark fw-semibold">

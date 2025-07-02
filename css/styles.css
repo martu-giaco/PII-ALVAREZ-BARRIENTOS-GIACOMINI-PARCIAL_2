@@ -12,6 +12,12 @@ html{
     color: #333336 !important;
 }
 
+body{
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+}
+
 h1.titulo{
     display:none;
 }
@@ -47,7 +53,6 @@ div.container-inicio section.header{
     box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
-    background-repeat: no-repeat;
 }
 div.container-inicio section div#ipads-colores{
     background-image: url(../assets/imagenes/inicio/ipads-colores.jpg);
@@ -55,6 +60,7 @@ div.container-inicio section div#ipads-colores{
     height: 40rem;
     background-position: bottom;
     border-radius: 1rem;
+    width: 48%;
     box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
@@ -82,6 +88,7 @@ div.container-inicio section div#descuento-estudiantes{
     height: 40rem;
     background-position: bottom;
     border-radius: 1rem;
+    width: 48%;
     box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -webkit-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
     -moz-box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
@@ -169,7 +176,7 @@ div.container-contacto div form input.btn{
     border: none !important;
 }
 div.container-contacto div form input.btn:hover{
-    background-color: #007AFF !important;
+    background-color: rgb(24, 24, 24) !important;
     color: white !important;
 }
 div.container-contacto > div{
@@ -186,9 +193,6 @@ div.container-contacto section.d-flex{
 
 /*PRODUCTOS*/
 div.container-productos main div div div.card{
-    border: none !important;
-}
-div.container-productos main div div div.card-producto{
     border: 0 transparent !important;
     border-radius: 2rem;
     box-shadow: 1px 5px 21px -6px rgba(92,92,92,0.46);
@@ -203,15 +207,8 @@ div.container-productos main div div div a.btn{
     text-align: center;
     width: 100%;
 }
-
 div.container-productos main div div div a.btn:hover{
-    background-color: #007AFF !important;
-    color: white !important;
-    border-color: #007AFF !important;
-}
-
-.text-primary{
-    color: #202022 !important;
+    background-color: #213448 !important;
 }
 
 /*ALUMNAS*/
@@ -219,14 +216,6 @@ div.container-alumnas > div#alumna:nth-child(2){
     border-left:1px solid #dfdfdf !important;
     border-right:1px solid #dfdfdf !important;
 }
-
-/*CARRITO*/
-div.container-carrito a.btn:hover{
-    background-color: #007AFF !important;
-    border-color: #007AFF !important;
-    color: white !important;
-}
-
 /*FOOTER*/
 footer {
     padding: 2rem 1rem;
@@ -252,12 +241,6 @@ footer {
     list-style: none;
     padding-left: 0;
     margin: 0;
-}
-
-dl, ol, ul {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    list-style-type: none;
 }
 
 .footer-menu a {
@@ -305,24 +288,6 @@ dl, ol, ul {
 
 /* Tablet */
 @media (min-width: 487px) and (max-width: 990px) {
-    div.container-inicio section#macbook-promo,
-    div.container-inicio section div#ipads-colores,
-    div.container-inicio section div#descuento-estudiantes {
-        height: 40rem;
-        background-position: center;
-    }
-
-    div.container-inicio section#macbook-promo h3,
-    div.container-inicio section div#ipads-colores h3,
-    div.container-inicio section div#descuento-estudiantes h3 {
-        font-size: 2rem;
-    }
-
-    div.container-inicio section.header {
-        height: 25rem;
-        background-position: center;
-    }
-
     .footer-links {
         justify-content: center;
         text-align: center;
@@ -353,22 +318,52 @@ dl, ol, ul {
 
 /* móviles */
 @media (max-width: 487px){
-    div.container-inicio section#macbook-promo,
-    div.container-inicio section div#ipads-colores,
-    div.container-inicio section div#descuento-estudiantes {
-        padding: 2rem 1rem;
-        background-position: center;
+
+    .container-inicio section.d-flex {
+        flex-direction: column !important;
+        align-items: center;
     }
 
-    div.container-inicio section#macbook-promo h3,
-    div.container-inicio section div#ipads-colores h3,
-    div.container-inicio section div#descuento-estudiantes h3 {
+    .container-inicio section.d-flex > div {
+        width: 90% !important;
+        height: 25rem;
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    #ipads-colores h3,
+    #descuento-estudiantes h3 {
         font-size: 1.5rem;
+        padding: 2rem 1rem 1rem;
     }
 
-    div.container-inicio section.header {
-        height: 20rem;
-        background-position: center;
+    #descuento-estudiantes p {
+        padding: 0 1rem;
+        font-size: 0.95rem;
+    }
+
+    #ipads-colores a,
+    #descuento-estudiantes a {
+        display: inline-block;
+        margin-top: 1rem;
+        font-size: 1rem;
+        padding: 0.5rem 1.2rem;
+    }
+
+    /* Sección MacBook promo */
+    section#macbook-promo {
+        padding: 2rem 1rem !important;
+        height: auto;
+    }
+
+    section#macbook-promo h3 {
+        font-size: 2rem;
+        padding: 0;
+    }
+
+    section#macbook-promo a {
+        margin-top: 1.5rem;
+        display: inline-block;
     }
 
     .banner-desktop {

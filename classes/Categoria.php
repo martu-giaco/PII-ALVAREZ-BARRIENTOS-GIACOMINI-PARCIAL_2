@@ -27,10 +27,10 @@ class Categoria
         $conexion = (new Conexion())->getConexion();
 
         $query = "SELECT DISTINCT id, nombre FROM categorias ORDER BY nombre";
-        $stmt = $conexion->prepare($query);
-        $stmt->execute();
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute();
 
-        $categoriasData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $categoriasData = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
         $categorias = [];
 
         foreach ($categoriasData as $cat) {

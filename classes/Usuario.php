@@ -19,53 +19,67 @@ class Usuario
     }
 
     // === GETTERS ===
-    public function getId() { return $this->id; }
-    public function getUsuario() { return $this->usuario; }
-    public function getNombre() { return $this->nombre; }
-    public function getRol() { return $this->rol; }
+    public function getId()
+    {
+        return $this->id;
+    }
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+    public function getRol()
+    {
+        return $this->rol;
+    }
 
     /**
-     * 🔐 Autenticación del usuario (sin session, sin cookie)
-     * Devuelve un objeto Usuario si las credenciales son válidas, o null si fallan.
+     * 🔐 Autenticación del usuario
      */
-    public static function autenticar(string $usuario, string $password): ?self
+    public static function autenticar(string $usuario, string $password): bool
     {
         $conexion = (new Conexion())->getConexion();
 
         $query = "SELECT * FROM usuarios WHERE usuario = :usuario";
-        $stmt = $conexion->prepare($query);
-        $stmt->execute(['usuario' => $usuario]);
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute(['usuario' => $usuario]);
 
-        $datos = $stmt->fetch(PDO::FETCH_ASSOC);
+        $datos = $PDOStatement->fetch(PDO::FETCH_ASSOC);
 
-        if (!$datos) return null;
+        if (!$datos) {
+            return false;
+        }
 
         $passwordIngresada = hash("sha256", $password);
 
         if ($datos['password'] === $passwordIngresada) {
-            return new self(
-                $datos['id'],
-                $datos['usuario'],
-                $datos['password'],
-                $datos['nombre'],
-                $datos['rol']
-            );
+            $_SESSION['id_usuario'] = $datos['id'];
+            $_SESSION['nombre_usuario'] = $datos['nombre'];
+            $_SESSION['rol'] = $datos['rol'];
+            return true;
         }
 
-        return null;
+        return false;
     }
 
-    // === CRUD ===
-
+    /**
+     * 🔎 Obtener un usuario por ID
+     */
     public static function getPorId(int $id): ?self
     {
         $conexion = (new Conexion())->getConexion();
 
-        $stmt = $conexion->prepare("SELECT * FROM usuarios WHERE id = :id");
-        $stmt->execute(['id' => $id]);
+        $query = "SELECT * FROM usuarios WHERE id = :id";
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute(['id' => $id]);
 
-        $fila = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$fila) return null;
+        $fila = $PDOStatement->fetch(PDO::FETCH_ASSOC);
+
+        if (!$fila)
+            return null;
 
         return new self(
             $fila['id'],
@@ -76,16 +90,21 @@ class Usuario
         );
     }
 
+    /**
+     * 📋 Listar todos los usuarios
+     */
     public static function todos(): array
     {
         $conexion = (new Conexion())->getConexion();
 
-        $stmt = $conexion->prepare("SELECT * FROM usuarios");
-        $stmt->execute();
+        $query = "SELECT * FROM usuarios";
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute();
 
+        $datos = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
         $usuarios = [];
 
-        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        foreach ($datos as $fila) {
             $usuarios[] = new self(
                 $fila['id'],
                 $fila['usuario'],
@@ -98,16 +117,20 @@ class Usuario
         return $usuarios;
     }
 
+    /**
+     * ➕ Crear nuevo usuario
+     */
     public static function crear(string $usuario, string $password, string $nombre, string $rol = 'cliente'): bool
     {
         $conexion = (new Conexion())->getConexion();
 
         $hash = hash("sha256", $password);
 
-        $stmt = $conexion->prepare("INSERT INTO usuarios (usuario, password, nombre, rol)
-                                    VALUES (:usuario, :password, :nombre, :rol)");
+        $query = "INSERT INTO usuarios (usuario, password, nombre, rol) 
+                  VALUES (:usuario, :password, :nombre, :rol)";
+        $PDOStatement = $conexion->prepare($query);
 
-        return $stmt->execute([
+        return $PDOStatement->execute([
             'usuario' => $usuario,
             'password' => $hash,
             'nombre' => $nombre,
@@ -115,24 +138,60 @@ class Usuario
         ]);
     }
 
+    /**
+     * 🗑 Eliminar usuario por ID
+     */
     public static function eliminar(int $id): bool
     {
         $conexion = (new Conexion())->getConexion();
 
-        $stmt = $conexion->prepare("DELETE FROM usuarios WHERE id = :id");
-        return $stmt->execute(['id' => $id]);
+        $query = "DELETE FROM usuarios WHERE id = :id";
+        $PDOStatement = $conexion->prepare($query);
+
+        return $PDOStatement->execute(['id' => $id]);
     }
 
+    /**
+     * ✏️ Editar nombre y rol del usuario
+     */
     public static function editar(int $id, string $nombre, string $rol): bool
     {
         $conexion = (new Conexion())->getConexion();
 
-        $stmt = $conexion->prepare("UPDATE usuarios SET nombre = :nombre, rol = :rol WHERE id = :id");
+        $query = "UPDATE usuarios SET nombre = :nombre, rol = :rol WHERE id = :id";
+        $PDOStatement = $conexion->prepare($query);
 
-        return $stmt->execute([
+        return $PDOStatement->execute([
             'id' => $id,
             'nombre' => $nombre,
             'rol' => $rol
         ]);
     }
+
+    // === FUNCIONES AUXILIARES DE ROL ===
+
+    /**
+     * Verifica si hay un usuario logueado.
+     */
+    function estaAutorizado(): bool
+    {
+        return isset($_SESSION['id_usuario']);
+    }
+
+    /**
+     * Verifica si el usuario logueado es administrador.
+     */
+    function esAdmin(): bool
+    {
+        return isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin';
+    }
+
+    /**
+     * Verifica si el usuario es cliente.
+     */
+    function esCliente(): bool
+    {
+        return isset($_SESSION['rol']) && $_SESSION['rol'] === 'cliente';
+    }
+
 }

@@ -8,15 +8,17 @@ $categorias = Categoria::obtenerCategorias();
     <section class="header m-3">
         <h2 class="text-center p-5">Bienvenido a la tienda oficial de Apple Latino América</h2>
     </section>
-    <section class="d-flex text-center justify-content-around">
-        <div id="ipads-colores" class="m-3">
-            <h3>Un color para cada personalidad</h3>
-            <a href="#">Descubrílos</a>
-        </div>
-        <div id="descuento-estudiantes" class="m-3">
-            <h3>Disfrutá de hasta un 30% de descuento</h3>
-            <p>Comprobando que sos estudiante universitario</p>
-            <a href="#">Soy estudiante!</a>
+    <section class="text-center container">
+        <div class="row g-4">
+            <div id="ipads-colores" class="col-12 col-md-6">
+                <h3>Un color para cada personalidad</h3>
+                <a href="#">Descubrílos</a>
+            </div>
+            <div id="descuento-estudiantes" class="col-12 col-md-6">
+                <h3>Disfrutá de hasta un 30% de descuento</h3>
+                <p>Comprobando que sos estudiante universitario</p>
+                <a href="https://www.apple.com/cl-edu/store">Soy estudiante!</a>
+            </div>
         </div>
     </section>
     <section class="text-center m-3 mb-5 p-5" id="macbook-promo">
@@ -35,10 +37,10 @@ $categorias = Categoria::obtenerCategorias();
                     <div class="carousel-item active">
                         <div class="d-flex justify-content-center gap-4 flex-wrap">
                             <?php foreach ($categorias as $cat): ?>
-                                <div class="card shadow-sm" style="width: 15rem;">
+                                <div class="card" style="width: 15rem;">
                                     <img src="assets/imagenes/categorias-fotitos/<?= htmlspecialchars(str_replace(' ', '-', strtolower($cat->getNombre()))) ?>-categoria.png"
                                         class="card-img-top mx-auto d-block" alt="<?= htmlspecialchars($cat->getNombre()); ?>"
-                                        style="height: 100px; object-fit: cover;">
+                                        style=" object-fit: cover;">
                                     <div class="card-body d-flex justify-content-center">
                                         <a href="index.php?sec=categoria&nombre=<?= urlencode($cat->getNombre()); ?>"
                                             class="stretched-link text-decoration-none text-dark fw-semibold">

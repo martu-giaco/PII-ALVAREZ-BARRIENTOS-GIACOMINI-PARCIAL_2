@@ -1,74 +1,102 @@
 <?php
 require_once __DIR__ . '/../classes/Producto.php';
+require_once __DIR__ . '/../classes/Conexion.php';
 
-$accion = $_POST['accion'] ?? null;
-$producto_id = isset($_POST['producto_id']) ? (int)$_POST['producto_id'] : null;
+// Recibir carrito actual (IDs y cantidades) y acción desde POST
 $carrito = $_POST['carrito'] ?? [];
+$accion = $_POST['accion'] ?? null;
 
-if ($accion === 'agregar' && $producto_id) {
-    if (isset($carrito[$producto_id])) {
-        $carrito[$producto_id]++;
-    } else {
-        $carrito[$producto_id] = 1;
-    }
+if (!is_array($carrito)) {
+    $carrito = [];
 }
 
-function formatoPrecio($num) {
-    return number_format($num, 2, ',', '.');
+// Procesar acciones
+if ($accion === 'agregar' && isset($_POST['producto_id'])) {
+    $id = intval($_POST['producto_id']);
+    if (isset($carrito[$id])) {
+        $carrito[$id] = intval($carrito[$id]) + 1;
+    } else {
+        $carrito[$id] = 1;
+    }
+} elseif ($accion === 'eliminar' && isset($_POST['producto_id'])) {
+    $id = intval($_POST['producto_id']);
+    unset($carrito[$id]);
+} elseif ($accion === 'vaciar') {
+    $carrito = [];
+}
+
+// Cargar productos del carrito
+$productos_en_carrito = [];
+foreach ($carrito as $id => $cantidad) {
+    $producto = Producto::cargarPorId($id);
+    if ($producto) {
+        $productos_en_carrito[] = ['producto' => $producto, 'cantidad' => $cantidad];
+    }
 }
 ?>
 
-<div class="container py-5">
-    <h1 class="mb-4"><i class="fa-solid fa-cart-shopping mx-3"></i>Carrito</h1>
+<div class="container container-carrito my-5">
+    <h2 class="mb-4">Tu Carrito</h2>
 
-    <?php if (empty($carrito)): ?>
+    <?php if (empty($productos_en_carrito)): ?>
         <p>No hay productos en el carrito.</p>
+        <a href="index.php?sec=productos" class="btn btn-dark text-white">Volver a productos</a>
     <?php else: ?>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Categorías</th>
-                    <th>Precio por unidad</th>
-                    <th>Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $total = 0;
-                foreach ($carrito as $id_str => $cantidad_raw):
-                    $id = (int)$id_str;
-                    $cantidad = (int)$cantidad_raw;
-                    $producto = Producto::get_x_id($id);
-                    if (!$producto) continue;
-
-                    $subtotal = $producto->getPrecio() * $cantidad;
-                    $total += $subtotal;
-                ?>
-                    <tr>
-                        <td><?= htmlspecialchars($producto->getNombre()) ?></td>
-                        <td>
-                            <?php foreach ($producto->getCategorias() as $cat): ?>
-                                <span class="badge bg-secondary"><?= htmlspecialchars($cat['nombre']) ?></span>
-                            <?php endforeach; ?>
-                        </td>
-                        <td>$<?= formatoPrecio($producto->getPrecio()) ?></td>
-                        <td><?= $cantidad ?></td>
-                    </tr>
-                <?php endforeach; ?>
-                <tr class="fw-bold">
-                    <td colspan="4" class="text-end">Total:</td>
-                    <td>$<?= formatoPrecio($total) ?></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <form action="index.php?sec=compra-form" method="post" class="d-inline-block">
+        <form method="post" action="carrito.php">
             <?php foreach ($carrito as $id => $cantidad): ?>
-                <input type="hidden" name="carrito[<?= (int)$id ?>]" value="<?= (int)$cantidad ?>">
+                <input type="hidden" name="carrito[<?= intval($id) ?>]" value="<?= intval($cantidad) ?>">
             <?php endforeach; ?>
-            <button type="submit" class="btn btn-success py-3 px-5">
-                <i class="fa-solid fa-credit-card"></i> Ir a pagar
+
+            <table class="table table-bordered text-white align-middle">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $total = 0;
+                    foreach ($productos_en_carrito as $item):
+                        $producto = $item['producto'];
+                        $cantidad = intval($item['cantidad']);
+                        $subtotal = $producto->getPrecio() * $cantidad;
+                        $total += $subtotal;
+                    ?>
+                    <tr>
+                        <td><?= $producto->getNombre() ?></td>
+                        <td>$<?= number_format($producto->getPrecio(), 2, ',', '.') ?></td>
+                        <td><?= $cantidad ?></td>
+                        <td>$<?= number_format($subtotal, 2, ',', '.') ?></td>
+                        <td>
+                            <button type="submit" 
+                                name="accion" 
+                                value="eliminar" 
+                                class="btn btn-danger btn-sm" 
+                                formaction="carrito.php"
+                                formmethod="post"
+                                onclick="this.form.producto_id.value='<?= $producto->getId() ?>'">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end fw-bold">Total</td>
+                        <td colspan="2" class="fw-bold">$<?= number_format($total, 2, ',', '.') ?></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <input type="hidden" name="producto_id" value="">
+            <button type="submit" name="accion" value="vaciar" class="btn btn-warning">Vaciar carrito</button>
+            <button type="submit" class="btn btn-success ms-3" formaction="#" formmethod="post">
+                Ir a pagar <i class="bi bi-credit-card"></i>
             </button>
         </form>
     <?php endif; ?>

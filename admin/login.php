@@ -1,52 +1,49 @@
 <?php
-session_start();
-require_once __DIR__ . '/classes/Usuario.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario = $_POST['usuario'] ?? '';
-    $password = $_POST['password'] ?? '';
+// Bootstrap CSS y JS CDN
+$cssBootstrap = '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">';
+$jsBootstrap = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>';
 
-    $usuarioLogueado = Usuario::autenticar($usuario, $password);
+// Carga clase para manejar secciones
+require_once "../classes/secciones.php";
 
-    if ($usuarioLogueado) {
-        if ($usuarioLogueado->getRol() === 'admin') {
-            header('Location: panel.php');
-        } else {
-            header('Location: index.php');
-        }
-        exit;
-    } else {
-        $error = "Usuario o contraseña incorrectos.";
+// Secciones válidas (todas las vistas disponibles)
+$secciones_validas = Secciones::secciones_validas();
+
+// Secciones que aparecen en el menú
+$secciones_menu = Secciones::secciones_menu();
+
+// Ver qué sección se está pidiendo en la URL (por ejemplo: ?sec=productos)
+$seccion = $_GET['sec'] ?? 'inicio';
+
+// Si la sección NO es válida, cargar 404
+if (!in_array($seccion, $secciones_validas)) {
+    $vista = '404';
+} else {
+    $vista = $seccion;
+}
+
+// Obtener el título de la sección actual desde el JSON
+$secciones = Secciones::secciones_del_sitio();
+$title_seccion = "";
+foreach ($secciones as $s) {
+    if ($s->getVinculo() === $vista) {
+        $title_seccion = $s->getTitle();
+        break;
     }
 }
 ?>
-<div class="container d-flex justify-content-center">
-        <div class="login-container">
-            <h3 class="mb-4 text-center">Iniciar sesión</h3>
 
-            <?php if ($error): ?>
-                <div class="alert alert-danger text-center">
-                    <?= $error ?>
-                </div>
-            <?php endif; ?>
+<!DOCTYPE html>
+<html lang="es">
+    <?php require_once "modulos/head.php"; ?>
+<body>
+    <?php require_once "modulos/navbar.php"; ?>
 
-            <form method="POST">
-                <div class="mb-3">
-                    <label for="usuario" class="form-label">Usuario</label>
-                    <input type="text" class="form-control" id="usuario" name="usuario" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Ingresar</button>
-                </div>
-            </form>
+    <main class="container py-4">
+        <?php require_once "vistas/$vista.php"; ?>
+    </main>
 
-            <div class="mt-3 text-center">
-                <small>¿No tenés cuenta? Contactá al administrador.</small>
-            </div>
-        </div>
-    </div>
-<!-- Formulario HTML aquí con un <form method="post"> -->
+    <?php require_once "modulos/footer.php"; ?>
+</body>
+</html>

@@ -2,73 +2,61 @@
     {
         "vinculo": "inicio",
         "texto": "Inicio",
-        "title": "Inicio",
+        "title": "Inicio", 
         "inMenu": true
     },
     {
         "vinculo": "productos",
         "texto": "Productos",
-        "title": "Productos",
+        "title": "Productos", 
         "inMenu": true
     },
     {
         "vinculo": "detalleProducto",
         "texto": "Producto",
-        "title": "Detalle de producto",
+        "title": "Detalle de producto", 
         "inMenu": false
     },
     {
         "vinculo": "filtrosProductos",
         "texto": "Filtro",
-        "title": "Filtro",
+        "title": "Filtro", 
         "inMenu": false
     },
     {
         "vinculo": "contacto",
         "texto": "Contacto",
-        "title": "Contacto",
+        "title": "Contacto", 
         "inMenu": true
     },
     {
         "vinculo": "contactoEnviado",
         "texto": "Formulario Enviado",
-        "title": "Formulario enviado con éxito",
+        "title": "Formulario enviado con éxito", 
         "inMenu": false
     },
     {
         "vinculo": "alumnas",
         "texto": "Alumnas",
-        "title": "Datos de las Alumnas",
+        "title": "Datos de las Alumnas", 
         "inMenu": true
-    },
+    }, 
     {
         "vinculo": "carrito",
         "texto": "<i class='fa-solid fa-cart-shopping'></i> Carrito",
-        "title": "Carrito",
+        "title": "Carrito", 
         "inMenu": true
-    },
+    }, 
     {
         "vinculo": "404",
         "texto": "Error 404",
-        "title": "Página no encontrada",
+        "title": "Página no encontrada", 
         "inMenu": false
     },
     {
         "vinculo": "categoria",
         "texto": "Categoría",
         "title": "Productos por categoría",
-        "inMenu": false
-    },
-    {
-        "vinculo": "compra-form",
-        "texto": "Formulario de compra",
-        "title": "Finalizar compra",
-        "inMenu": false
-    },
-    {
-        "vinculo": "compra",
-        "texto": "Confirmación compra",
-        "title": "Resumen de compra",
         "inMenu": false
     }
 ]

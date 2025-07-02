@@ -25,6 +25,19 @@ class Producto
     {
         return $this->id;
     }
+        public function getIdProducto()
+    {
+        return $this->id_producto;
+    }
+    
+    public function getIdCategoria()
+    {
+        return $this->id_categoria;
+    }
+    public function getCategoria()
+    {
+        return $this->categoria->getCategoria();
+    }
     public function getImagen()
     {
         return $this->imagen;
@@ -165,4 +178,33 @@ class Producto
         // Si no encuentra ninguna imagen válida
         return "assets/imagenes/prods/default.jpg";
     }
+
+
+/**
+     * Obtiene todos los productos de la base de datos
+     */
+    public function todosProductos():array
+    {
+        $conexion = (new Conexion())->getConexion();
+
+
+        $query = "  SELECT p.*, p.categoria
+                    FROM productos AS p
+                    LEFT JOIN categorias AS p ON p.id_categoria = p.id_categoria
+                    LEFT JOIN usuarios AS u ON u.id_usuario = l.id_usuario 
+                    GROUP BY p.id_producto";
+
+        $PDOStatement = $conexion->prepare($query);
+        
+
+        $PDOStatement->setFetchMode(PDO::FETCH_ASSOC);
+        $PDOStatement->execute();
+
+        while($result = $PDOStatement->fetch()){
+            $catalogo[] = self::createProducto($result);
+        }
+
+        return $catalogo;
+    }
+
 }

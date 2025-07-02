@@ -12,12 +12,12 @@ class Categoria
         $this->nombre = $nombre;
     }
 
-    public function getId()
+    public function getIdCategoria()
     {
         return $this->id;
     }
 
-    public function getNombre()
+    public function getNombreCategoria()
     {
         return $this->nombre;
     }

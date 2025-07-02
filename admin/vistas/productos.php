@@ -1,7 +1,4 @@
 <?php 
-// require_once ("../classes/Producto.php");
-// require_once ("../classes/Categoria.php");
-// require_once ("../classes/Usuario.php");
 
 require_once("../functions/autoload.php");
 
@@ -9,9 +6,6 @@ Autenticacion::verify();
 
 
 $producto = new Producto;
-// echo "<pre>";
-// var_dump($producto->todosProductos());
-// echo "</pre>";
 
 $lista = $producto->todosProductos();
 ?>
@@ -50,9 +44,6 @@ foreach ($lista as $producto) {
                 }
                 echo "</ul>";
             }
-        // echo "<pre>";
-        // var_dump($producto->getLikeNombreUsuario());
-        // echo "</pre>";
         
         ?></td>
         <td>
@@ -63,8 +54,6 @@ foreach ($lista as $producto) {
     <?php   
 }
 
-// $m = Producto::get_x_id(1);
-// $m->edit("Marolio");
 ?>
 </tbody>
 </table>

@@ -1,5 +1,5 @@
 <?php
-class SeccionesAdmin
+class Secciones
 {
     private $vinculo;
     private $texto;

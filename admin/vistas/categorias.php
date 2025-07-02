@@ -7,7 +7,7 @@ Autenticacion::verify();
 $categorias = new Categoria;
 
 
-$lista = $categorias->todasCategorias();
+$lista = $categorias->obtenerCategorias();
 ?>
 <h2>Administración de Categorías</h2>
 <table class="table table-striped">
@@ -24,9 +24,9 @@ $lista = $categorias->todasCategorias();
 foreach ($lista as $categoria) {
     ?>
     <tr>
-      <td><?= $categoria->getIdCategoria();?></td>
-      <td><?= $categoria->getCategoria();?></td>
-      <td>
+        <td><?= $categoria->getIdCategoria();?></td>
+        <td><?= $categoria->getNombreCategoria();?></td>
+        <td>
         <a href="?sec=editar_categoria&id=<?= $categoria->getIdCategoria();?>" class="btn btn-warning">Editar</a>
         <a href="?sec=borrar_categoria&id=<?= $categoria->getIdCategoria();?>" class="btn btn-danger">Borrar</a>
     </td>

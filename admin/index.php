@@ -1,9 +1,12 @@
 <?php
-    require_once("../classes/Conexion.php");
-    // require_once("/includes/functions.php");
+
+
+// Bootstrap CSS y JS CDN
+$cssBootstrap = '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">';
+$jsBootstrap = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>';
 
 // Carga clase para manejar secciones
-require_once "../classes/secciones.php";
+require_once "classes/secciones.php";
 
 // Secciones válidas (todas las vistas disponibles)
 $secciones_validas = Secciones::secciones_validas();

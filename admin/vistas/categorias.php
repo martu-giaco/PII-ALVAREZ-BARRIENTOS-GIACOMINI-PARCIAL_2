@@ -1,8 +1,8 @@
 <?php
 require_once("../functions/autoload.php");
 
-// Verifica que el usuario esté logueado y sea admin
-Autenticacion::verify(true);
+// descomentar para hacer autenticacion
+// Autenticacion::verify(true);
 
 $categorias = new Categoria();
 $lista = $categorias->obtenerCategorias();
@@ -25,8 +25,8 @@ foreach ($lista as $categoria) {
         <td><?= htmlspecialchars($categoria->getIdCategoria()); ?></td>
         <td><?= htmlspecialchars($categoria->getNombreCategoria()); ?></td>
         <td>
-            <a href="?sec=editar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-warning">Editar</a>
-            <a href="?sec=borrar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-danger">Borrar</a>
+            <a href="?sec=editar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-edit"></i></a>
+            <a href="?sec=borrar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-danger text-white py-2 px-3"><i class="fas fa-trash-alt"></i></a>
         </td>
     </tr> 
     <?php   
@@ -35,4 +35,4 @@ foreach ($lista as $categoria) {
 </tbody>
 </table>
 
-<a href="?sec=crear_categoria" class="btn btn-primary">Crear Categoria</a>
+<a href="?sec=crear_categoria" class="btn btn-primary text-white py-2 px-3">Crear Categoria</a>

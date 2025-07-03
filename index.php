@@ -37,14 +37,19 @@ foreach ($secciones as $s) {
 
 <!DOCTYPE html>
 <html lang="es">
-    <?php require_once "modulos/head.php"; ?>
+<?php require_once "modulos/head.php"; ?>
+
 <body>
-    <?php require_once "modulos/navbar.php"; ?>
+    <div class="apple-p2">
+        <?php require_once "modulos/navbar.php"; ?>
 
-    <main class="container py-4">
-        <?php require_once "vistas/$vista.php"; ?>
-    </main>
+        <main class="container py-4">
+            <?php require_once "vistas/$vista.php"; ?>
+        </main>
 
-    <?php require_once "modulos/footer.php"; ?>
+        <?php require_once "modulos/footer.php"; ?>
+    </div>
+
 </body>
+
 </html>

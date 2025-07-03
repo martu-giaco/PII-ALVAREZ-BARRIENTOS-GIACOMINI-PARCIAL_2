@@ -23,7 +23,7 @@
             <img src="assets/imagenes/Apple_logo_black.svg" alt="logo apple">
         </picture>
         </div>
-        <div id="footer-detalles" class="d-flex justify-content-between">
+        <div id="footer-detalles" class="d-flex justify-content-between container">
             <p>©2025 Álvarez, Barrientos, Giacomini - Programación II: Parcial 2</p>
             <p>Argentina</p>
         </div>

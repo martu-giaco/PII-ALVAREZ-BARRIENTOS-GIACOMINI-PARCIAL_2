@@ -17,8 +17,8 @@ $categorias = Categoria::obtenerCategorias();
 // Buscar el ID de la categoría que coincida (sin importar mayúsculas/minúsculas)
 $categoria_id = null;
 foreach ($categorias as $cat) {
-    if (strtolower($cat->getNombre()) === strtolower($categoria_nombre)) {
-        $categoria_id = $cat->getId();
+    if (strtolower($cat->getNombreCategoria()) === strtolower($categoria_nombre)) {
+        $categoria_id = $cat->getIdCategoria();
         break;
     }
 }

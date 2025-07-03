@@ -4,7 +4,7 @@ class Autenticacion
     public static function log_in(string $usuario, string $password): bool
     {
         if (session_status() === PHP_SESSION_NONE) session_start();
-        $datosUsuario = Usuario::usuario_x_username($usuario);
+        $datosUsuario = Usuario::getId();
         if ($datosUsuario) {
             $hash = $datosUsuario->getClave();
             $valid = false;

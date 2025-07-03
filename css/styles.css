@@ -12,6 +12,16 @@ html{
     color: #333336 !important;
 }
 
+body{
+    height: 100%;
+}
+
+.apple-p2{
+    display: grid;
+    grid-template-rows: auto 1fr auto; 
+    min-height: 100vh; 
+}
+
 h1.titulo{
     display:none;
 }
@@ -353,6 +363,11 @@ dl, ol, ul {
 
 /* móviles */
 @media (max-width: 487px){
+    footer p{
+        font-size: 10px;
+        max-width: 100px;
+        overflow: hidden;
+    }
     div.container-inicio section#macbook-promo,
     div.container-inicio section div#ipads-colores,
     div.container-inicio section div#descuento-estudiantes {

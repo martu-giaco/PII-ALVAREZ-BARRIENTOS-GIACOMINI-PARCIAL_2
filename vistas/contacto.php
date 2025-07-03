@@ -11,10 +11,7 @@
 
 
             <div class="col-12 col-lg-6">
-                <form action="?sec='contacto'" method="get">
-                    <?php if (isset($_GET['sec']) && $_GET['sec'] === 'contacto') : ?>
-                        <input type="hidden" name="sec" value="enviado" />
-                    <?php endif; ?>
+                <form action="?sec=contactoEnviado" method="post">
 
                     <div class="row">
                         <div class="mb-3 col-12 col-md-6">

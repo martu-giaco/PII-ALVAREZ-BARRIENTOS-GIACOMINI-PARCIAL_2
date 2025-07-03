@@ -20,7 +20,7 @@
             </ul>
         </div>
         <picture>
-            <img src="assets/imagenes/Apple_logo_black.svg" alt="logo apple">
+            <img src="../assets/imagenes/Apple_logo_black.svg" alt="logo apple">
         </picture>
         </div>
         <div id="footer-detalles" class="d-flex justify-content-between">

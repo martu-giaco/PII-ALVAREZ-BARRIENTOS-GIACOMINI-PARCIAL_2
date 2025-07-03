@@ -1,12 +1,10 @@
 <?php 
-
 require_once("../functions/autoload.php");
 
-Autenticacion::verify(true);
+// descomentar para hacer autenticacion
+// Autenticacion::verify(true);
 
-$producto = new Producto;
-
-$lista = $producto->todosProductos();
+$productos = (new Producto())->todosProductos();
 ?>
 
 <h2>Administración de Productos</h2>
@@ -21,46 +19,34 @@ $lista = $producto->todosProductos();
     <th>Descripción</th>
     <th>Precio</th>
     <th>Imagen</th>
-    <th>Likes</th>
-    <th>Opciones</th>
 </tr>
 </thead>
 <tbody>
 
-<?php foreach ($lista as $producto) : ?>
+<?php foreach ($productos as $p) : ?>
+    <?php
+        $prod = new Producto(
+            $p['id'],
+            $p['nombre'],
+            $p['descripcion'],
+            $p['precio'],
+            [['nombre' => $p['categoria']]],
+            $p['imagen']
+        );
+        $img = $prod->getRutaImagen();
+    ?>
     <tr>
-        <td><?= htmlspecialchars($producto['id']); ?></td>
-
-        <!-- Aquí asumimos que $producto['categoria'] es el nombre de la categoría -->
-        <td><?= htmlspecialchars($producto['categoria'] ?? 'Sin categoría'); ?></td>
-
-        <td><?= htmlspecialchars($producto['nombre']); ?></td>
-
-        <!-- Cambié Presentación por Descripción, porque en tu tabla no tienes presentación -->
-        <td><?= htmlspecialchars($producto['descripcion']); ?></td>
-
-        <td>$<?= number_format($producto['precio'], 2, ',', '.'); ?></td>
-
-        <!-- Imagen: asegúrate que exista la clave 'imagen' en $producto -->
+        <td><?= htmlspecialchars($prod->getId()); ?></td>
+        <td><?= htmlspecialchars($p['categoria'] ?? 'Sin categoría'); ?></td>
+        <td><?= htmlspecialchars($prod->getNombre()); ?></td>
+        <td><?= htmlspecialchars($prod->getDescripcion()); ?></td>
+        <td>$<?= number_format($prod->getPrecio(), 2, ',', '.'); ?></td>
         <td>
-            <?php if (!empty($producto['imagen'])) : ?>
-                <img src="../img/productos/<?= htmlspecialchars($producto['imagen']); ?>" alt="Imagen producto" width="100">
-            <?php else: ?>
-                <span>No disponible</span>
-            <?php endif; ?>
+            <img src="<?= htmlspecialchars($img); ?>" alt="Imagen" width="50" style="object-fit: contain;">
         </td>
-
         <td>
-            <?php
-            // Si tu clase Producto no tiene método getLikeNombreUsuario(), esta parte debes ajustar.
-            // Aquí pongo ejemplo vacío:
-            echo "N/A"; 
-            ?>
-        </td>
-
-        <td>
-            <a href="?sec=editar_producto&id=<?= urlencode($producto['id']); ?>" class="btn btn-warning">Editar</a>
-            <a href="?sec=borrar_producto&id=<?= urlencode($producto['id']); ?>" class="btn btn-danger">Borrar</a>
+            <a href="?sec=editar_producto&id=<?= urlencode($prod->getId()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-edit"></i></a>
+            <a href="?sec=borrar_producto&id=<?= urlencode($prod->getId()); ?>" class="btn btn-danger text-white py-2 px-3"><i class="fas fa-trash-alt"></i></a>
         </td>
     </tr>
 <?php endforeach; ?>
@@ -68,4 +54,4 @@ $lista = $producto->todosProductos();
 </tbody>
 </table>
 
-<a href="?sec=crear_producto" class="btn btn-primary">Crear Producto</a>
+<a href="?sec=crear_producto" class="btn btn-primary text-white py-2 px-3">Crear Producto</a>

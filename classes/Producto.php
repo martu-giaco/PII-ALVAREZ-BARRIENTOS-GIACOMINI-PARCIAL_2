@@ -27,16 +27,16 @@ class Producto
     }
     public function getIdProducto()
     {
-        return $this->id_producto;
+        return $this->id;
     }
 
     public function getIdCategoria()
     {
-        return $this->id_categoria;
+        return $this->id;
     }
     public function getCategoria()
     {
-        return $this->categoria->getCategoria();
+        return $this->categorias;
     }
     public function getImagen()
     {
@@ -148,47 +148,43 @@ class Producto
      * Genera la ruta a la imagen del producto según la categoría.
      */
     public function getRutaImagen()
-    {
-        $formatos = ['png', 'jpg', 'jpeg', 'webp'];
+{
+    $formatos = ['png', 'jpg', 'jpeg', 'webp'];
 
-        // Si no tiene categorías, mostrar imagen por defecto
-        if (empty($this->categorias)) {
-            return "assets/imagenes/prods/default.jpg";
-        }
-
-        // Usamos el nombre de la primera categoría
-        $categoriaNombre = $this->categorias[0]['nombre'] ?? null;
-
-        if (!$categoriaNombre) {
-            return "assets/imagenes/prods/default.jpg";
-        }
-
-        // Armamos el nombre de archivo
-        $categoria = strtolower(str_replace(' ', '-', $categoriaNombre));
-        $producto = strtolower(str_replace(' ', '-', $this->nombre));
-        $base = "{$categoria}_{$producto}";
-        $dir = __DIR__ . "/../assets/imagenes/prods/{$categoria}/";
-
-        foreach ($formatos as $ext) {
-            $archivo = "{$base}.{$ext}";
-            if (file_exists($dir . $archivo)) {
-                return "assets/imagenes/prods/{$categoria}/{$archivo}";
-            }
-        }
-
-        // Si no encuentra ninguna imagen válida
-        return "assets/imagenes/prods/default.jpg";
+    if (empty($this->categorias)) {
+        return "/apple-p2/assets/imagenes/prods/default.jpg";
     }
+
+    $categoriaNombre = $this->categorias[0]['nombre'] ?? null;
+
+    if (!$categoriaNombre) {
+        return "/apple-p2/assets/imagenes/prods/default.jpg";
+    }
+
+    $categoria = strtolower(str_replace(' ', '-', $categoriaNombre));
+    $producto = strtolower(str_replace(' ', '-', $this->nombre));
+    $base = "{$categoria}_{$producto}";
+    $dir = __DIR__ . "/../assets/imagenes/prods/{$categoria}/";
+
+    foreach ($formatos as $ext) {
+        $archivo = "{$base}.{$ext}";
+        if (file_exists($dir . $archivo)) {
+            return "/apple-p2/assets/imagenes/prods/{$categoria}/{$archivo}";
+        }
+    }
+
+    return "/apple-p2/assets/imagenes/prods/default.jpg";
+}
 
 
     /**
      * Obtiene todos los productos de la base de datos
      */
-public function todosProductos(): array
-{
-    $conexion = (new Conexion())->getConexion();
+    public function todosProductos(): array
+    {
+        $conexion = (new Conexion())->getConexion();
 
-    $query = "
+        $query = "
         SELECT p.*, c.nombre AS categoria
         FROM productos p
         LEFT JOIN producto_categoria pc ON p.id = pc.producto_id
@@ -196,16 +192,16 @@ public function todosProductos(): array
         GROUP BY p.id
     ";
 
-    $PDOStatement = $conexion->prepare($query);
-    $PDOStatement->execute();
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute();
 
-    $catalogo = [];
-    while ($result = $PDOStatement->fetch(PDO::FETCH_ASSOC)) {
-        $catalogo[] = $result;
+        $catalogo = [];
+        while ($result = $PDOStatement->fetch(PDO::FETCH_ASSOC)) {
+            $catalogo[] = $result;
+        }
+
+        return $catalogo;
     }
-
-    return $catalogo;
-}
 
 
 

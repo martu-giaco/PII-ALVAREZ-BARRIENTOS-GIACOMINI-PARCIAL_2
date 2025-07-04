@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 04, 2025 at 08:29 AM
+-- Generation Time: Jul 04, 2025 at 08:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -163,8 +163,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `usuario`, `email`, `clave`) VALUES
-(1, 'pepe', 'pepe@pepe.com', '$2y$10$5g.kCy4GQJr8bwK8ZQ5lCeQ/JubAfJrsJb5cA8bsRQ95j1aLP4RJ2'),
-(2, 'elu suario', 'elu@suario.com', '123');
+(1, 'pepe', 'pepe@pepe.com', '$2y$10$5m73Z9VKBizBEcMuCH2KfeduiVWNHlbUfcFaP6/ZMJQi79rhJcuLS'),
+(2, 'elu suario', 'elu@suario.com', '$2y$10$ArZk8dLj.FQxv4PI3AM00uZumLbxNZShE1QXfVnbCmMpw/P.oZnKC');
 
 -- --------------------------------------------------------
 

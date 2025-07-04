@@ -203,7 +203,8 @@ class Producto
         return $catalogo;
     }
 
-
-
+    public function estaActivo() {
+        return $this->activo == 1;
+    }
 
 }

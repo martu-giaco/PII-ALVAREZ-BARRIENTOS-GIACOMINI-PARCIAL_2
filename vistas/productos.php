@@ -23,7 +23,7 @@ $categorias = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
                 <?php foreach ($productos as $producto): ?>
                     <div class="col-md-4 mb-4">
                         <div class="card card-producto h-100 shadow-sm">
-                            <img src="<?= $producto->getRutaImagen() ?>" alt="<?= $producto->getNombre() ?>"
+                            <img src="<?= $producto->getImagen() ?>" alt="<?= $producto->getNombre() ?>"
                                 class="card-img-top" style="object-fit: contain;" />
                             <div class="card-body d-flex flex-column justify-content-end">
                                 <h5 class="card-title"><?= $producto->getNombre(); ?></h5>

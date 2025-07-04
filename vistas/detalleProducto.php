@@ -26,7 +26,7 @@ if (!is_array($carrito_actual)) {
 
     <div class="card shadow-sm rounded-4 d-flex flex-column flex-md-row overflow-hidden" style="min-height: 450px; border: none !important;">
         <div class="col-md-6 d-flex align-items-center justify-content-center border-end" style="min-height: 450px; padding: 0;">
-            <img src="<?= $producto->getRutaImagen(); ?>" alt="<?= $producto->getNombre(); ?>" class="img-fluid w-100 h-100" style="object-fit: contain;">
+            <img src="<?= $producto->getImagen(); ?>" alt="<?= $producto->getNombre(); ?>" class="img-fluid w-100 h-100" style="object-fit: contain;">
         </div>
 
         <div class="card-body col-md-6 d-flex flex-column justify-content-center p-4">

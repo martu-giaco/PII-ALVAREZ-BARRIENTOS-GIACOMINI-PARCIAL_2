@@ -81,7 +81,7 @@ foreach ($productosData as $fila) {
                 <?php foreach ($productos_filtrados as $producto): ?>
                     <div class="col-md-4 mb-4">
                         <div class="card card-producto h-100 shadow-sm">
-                            <img src="<?= htmlspecialchars($producto->getRutaImagen()) ?>"
+                            <img src="<?= htmlspecialchars($producto->getImagen()) ?>"
                                 alt="<?= htmlspecialchars($producto->getNombre()) ?>" 
                                 class="card-img-top" style="object-fit: contain;" />
                             <div class="card-body d-flex flex-column justify-content-end">

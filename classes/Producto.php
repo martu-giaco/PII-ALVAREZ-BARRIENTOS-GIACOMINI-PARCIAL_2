@@ -143,38 +143,38 @@ class Producto
     }
 
 
-    /**
-     * 🖼 MÉTODO: getRutaImagen
-     * Genera la ruta a la imagen del producto según la categoría.
-     */
-    public function getRutaImagen()
-    {
-        $formatos = ['png', 'jpg', 'jpeg', 'webp'];
+    // /**
+    //  * 🖼 MÉTODO: getImagen
+    //  * Genera la ruta a la imagen del producto según la categoría.
+    //  */
+    // public function getImagen()
+    // {
+    //     $formatos = ['png', 'jpg', 'jpeg', 'webp'];
 
-        if (empty($this->categorias)) {
-            return "/apple-p2/assets/imagenes/prods/default.jpg";
-        }
+    //     if (empty($this->categorias)) {
+    //         return "assets/imagenes/prods/default.jpg";
+    //     }
 
-        $categoriaNombre = $this->categorias[0]['nombre'] ?? null;
+    //     $categoriaNombre = $this->categorias[0]['nombre'] ?? null;
 
-        if (!$categoriaNombre) {
-            return "/apple-p2/assets/imagenes/prods/default.jpg";
-        }
+    //     if (!$categoriaNombre) {
+    //         return "assets/imagenes/prods/default.jpg";
+    //     }
 
-        $categoria = strtolower(str_replace(' ', '-', $categoriaNombre));
-        $producto = strtolower(str_replace(' ', '-', $this->nombre));
-        $base = "{$categoria}_{$producto}";
-        $dir = __DIR__ . "/../assets/imagenes/prods/{$categoria}/";
+    //     $categoria = strtolower(str_replace(' ', '-', $categoriaNombre));
+    //     $producto = strtolower(str_replace(' ', '-', $this->nombre));
+    //     $base = "{$categoria}_{$producto}";
+    //     $dir = __DIR__ . "assets/imagenes/prods/";
 
-        foreach ($formatos as $ext) {
-            $archivo = "{$base}.{$ext}";
-            if (file_exists($dir . $archivo)) {
-                return "/apple-p2/assets/imagenes/prods/{$categoria}/{$archivo}";
-            }
-        }
+    //     foreach ($formatos as $ext) {
+    //         $archivo = "{$base}.{$ext}";
+    //         if (file_exists($dir . $archivo)) {
+    //             return "assets/imagenes/prods/{$categoria}/{$archivo}";
+    //         }
+    //     }
 
-        return "/apple-p2/assets/imagenes/prods/default.jpg";
-    }
+    //     return "assets/imagenes/prods/default.jpg";
+    // }
 
 
     /**

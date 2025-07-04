@@ -21,7 +21,7 @@ if (!$producto) {
         <h5 class="card-title"><?= htmlspecialchars($producto->getNombre()); ?></h5>
         <p class="card-text"><?= htmlspecialchars($producto->getDescripcion()); ?></p>
         <p><strong>Precio:</strong> $<?= number_format($producto->getPrecio(), 2, ',', '.'); ?></p>
-        <img src="<?= $producto->getRutaImagen(); ?>" alt="Imagen del producto" width="150" style="object-fit: contain;">
+        <img src="../<?= $producto->getImagen(); ?>" alt="Imagen del producto" width="150" style="object-fit: contain;">
     </div>
 </div>
 

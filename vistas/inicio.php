@@ -29,4 +29,5 @@ $categorias = Categoria::obtenerCategorias();
         <a href="#" class="mt-5 d-inline-block">Ver más</a>
     </section>
     
+    
 </div>

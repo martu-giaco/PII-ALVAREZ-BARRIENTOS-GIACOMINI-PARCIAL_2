@@ -3,11 +3,11 @@ require_once __DIR__ . '/Conexion.php';
 
 class Usuario
 {
-    private int $id_usuario;
-    private string $usuario;
-    private string $email;
-    private string $clave;
-    private string $rol;
+    private $id_usuario;
+    private $usuario;
+    private $email;
+    private $clave;
+    private $rol;
 
     public function __construct(array $data)
     {
@@ -57,4 +57,6 @@ class Usuario
 
         return $data ? new Usuario($data) : null;
     }
+
+    
 }

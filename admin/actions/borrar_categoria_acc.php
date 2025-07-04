@@ -1,25 +1,25 @@
 <?php
 require_once("../../functions/autoload.php");
 
+$id = $_GET['id'] ?? false;
 
+if (!$id) {
+    die("ID de categoría no válido.");
+}
 
-$id = $_GET['id'] ?? FALSE;
-echo "<pre>";
-print_r($id);
-echo "</pre>";
-
-try{
+try {
     $categoria = Categoria::get_x_id($id);
 
-    echo "<pre>";
-    print_r($categoria);
-    echo "</pre>";
+    if (!$categoria) {
+        die("Categoría no encontrada.");
+    }
 
-    $categoria->delete();
-}catch (Exception $e){
-    die("No se pudo borrar la categoria.");
+    // Marcamos la categoría como inactiva (en lugar de eliminar)
+    $categoria->marcarComoInactiva();
+
+} catch (Exception $e) {
+    die("No se pudo borrar la categoría: " . $e->getMessage());
 }
 
 header('Location: ../index.php?sec=categorias');
-
-?>
+exit;

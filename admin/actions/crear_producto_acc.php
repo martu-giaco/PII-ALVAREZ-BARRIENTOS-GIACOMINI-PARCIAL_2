@@ -1,33 +1,33 @@
 <?php
 require_once("../../functions/autoload.php");
 
-// Guardamos los datos del formulario en una variable
 $postData = $_POST;
-$datosArchivo = $_FILES['foto']; // Asegurate que el input type="file" tenga name="foto"
+$datosArchivo = $_FILES['foto'] ?? null;
 
 try {
-    // Procesamos la imagen (si se subió)
-    if (!empty($datosArchivo['tmp_name'])) {
-        $imagen = Imagen::subirImagen("../../img/productos", $datosArchivo);
-    } else {
-        $imagen = null; // o podrías poner una imagen por defecto
+    // Validaciones básicas
+    if (empty($postData['id_categoria']) || empty($postData['nombre']) || empty($postData['presentacion']) || empty($postData['precio'])) {
+        throw new Exception("Faltan datos obligatorios.");
     }
 
-    // Insertamos el nuevo producto usando el método insert de la clase Producto
-    Producto::insert(
-        $postData['id_categoria'],
-        $postData['nombre'],
-        $postData['presentacion'], // o descripción
-        $postData['precio'],
+    // Subir imagen, si no hay archivo o hubo error, usar imagen por defecto
+    if ($datosArchivo && $datosArchivo['error'] === UPLOAD_ERR_OK) {
+        $imagen = Imagen::subirImagen("../../img/productos", $datosArchivo);
+    } else {
+        $imagen = 'default.jpg'; // o '' según lo que uses por defecto
+    }
+
+    $idProducto = Producto::insert(
+        (int)$postData['id_categoria'], 
+        trim($postData['nombre']),
+        trim($postData['presentacion']),
+        (float)$postData['precio'],
         $imagen
     );
 
-    Alerta::add_alerta("success", "Producto creado correctamente.");
-} catch (Exception $e) {
-    Alerta::add_alerta("danger", "Hubo un error al crear el producto.");
-    Alerta::add_alerta("secondary", $e->getMessage());
-}
+    echo $idProducto;
 
-// Redireccionamos al listado de productos
-header("Location: ../index.php?sec=productos");
-exit;
+    header('Location: ../index.php?sec=productos');
+} catch (Exception $e) {
+    die("No se pudo cargar el producto. Error: " . $e->getMessage());
+}

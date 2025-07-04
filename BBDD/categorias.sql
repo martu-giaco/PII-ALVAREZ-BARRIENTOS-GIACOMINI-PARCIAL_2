@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2025 at 10:21 PM
+-- Generation Time: Jul 04, 2025 at 08:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,23 +29,24 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `categorias` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL
+  `nombre` varchar(100) NOT NULL,
+  `activo` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `categorias`
 --
 
-INSERT INTO `categorias` (`id`, `nombre`) VALUES
-(1, 'iphone'),
-(2, 'ipad'),
-(3, 'mac'),
-(4, 'apple watch'),
-(5, 'airpods'),
-(6, 'accesorios'),
-(7, 'apple tv'),
-(8, 'homepod'),
-(9, 'perifericos');
+INSERT INTO `categorias` (`id`, `nombre`, `activo`) VALUES
+(1, 'iphone', 1),
+(2, 'ipad', 1),
+(3, 'mac', 1),
+(4, 'apple watch', 1),
+(5, 'airpods', 1),
+(6, 'accesorios', 1),
+(7, 'apple tv', 1),
+(8, 'homepod', 1),
+(9, 'perifericos', 1);
 
 --
 -- Indexes for dumped tables
@@ -65,7 +66,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT for table `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

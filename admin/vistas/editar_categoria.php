@@ -13,8 +13,8 @@ $categoria = Categoria::get_x_id($id);
     <input type="hidden" name="id_categoria" class="form-control" id="id_categoria" value="<?= $categoria->getIdCategoria(); ?>" >
     <div class="mb-3">
         <label for="categoria" class="form-label">Nombre de categoría</label>
-        <input type="text" class="form-control" id="categoria" name="categoria" value="<?= $categoria->getCategoria(); ?>">
+        <input type="text" class="form-control" id="categoria" name="categoria" value="<?= $categoria->getNombreCategoria(); ?>">
     </div>
-    <input type="submit"  class="btn btn-warning" value="Editar">
-    <a href="?sec=categorias" class="btn btn-danger">Cancelar</a>
+    <input type="submit"  class="btn btn-dark py-3 px-5" value="Editar">
+    <a href="?sec=categorias" class="btn btn-danger text-white py-3 px-5">Cancelar</a>
 </form>

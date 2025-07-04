@@ -1,22 +1,13 @@
 <?php
 class Alerta
 {
-    private static function ensureSessionStarted()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-    }
-
     /**
-     * Registra una alerta en el sistema, guardándola en la sesión.
+     * Agrega una alerta a la sesión.
      * @param string $tipo primary | secondary | success | danger | warning | info | light | dark
-     * @param string $mensaje Mensaje que quiere que aparezca
+     * @param string $mensaje
      */
     public static function add_alerta(string $tipo, string $mensaje)
     {
-        self::ensureSessionStarted();
-
         if (!isset($_SESSION['alertas'])) {
             $_SESSION['alertas'] = [];
         }
@@ -28,16 +19,17 @@ class Alerta
     }
 
     /**
-     * Vacía la lista de alertas
+     * Vacía todas las alertas de la sesión.
      */
     public static function clear_alertas()
     {
-        self::ensureSessionStarted();
         $_SESSION['alertas'] = [];
     }
 
     /**
-     * Imprime una alerta individual (Bootstrap 5)
+     * Imprime una alerta individual con Bootstrap 5.
+     * @param array $alerta
+     * @return string HTML generado
      */
     public static function print_alerta($alerta): string
     {
@@ -49,19 +41,18 @@ class Alerta
     }
 
     /**
-     * Obtiene todas las alertas almacenadas en sesión en formato HTML concatenado
+     * Devuelve todas las alertas actuales y las elimina de la sesión.
+     * @return string|null
      */
-    public static function get_alertas()
+    public static function get_alertas(): ?string
     {
-        self::ensureSessionStarted();
-
         if (!empty($_SESSION['alertas'])) {
-            $alertasActuales = "";
+            $htmlAlertas = '';
             foreach ($_SESSION['alertas'] as $alerta) {
-                $alertasActuales .= self::print_alerta($alerta);
+                $htmlAlertas .= self::print_alerta($alerta);
             }
-            self::clear_alertas();
-            return $alertasActuales;
+            self::clear_alertas(); // Borra alertas luego de mostrarlas
+            return $htmlAlertas;
         }
         return null;
     }

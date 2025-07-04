@@ -60,7 +60,7 @@ class Producto
     }
 
     /**
-     * 🔄 MÉTODO ESTÁTICO: cargarProductosConCategorias
+     * MÉTODO ESTÁTICO: cargarProductosConCategorias
      * Carga todos los productos de la base de datos y les asigna sus categorías relacionadas.
      */
     public static function cargarProductosConCategorias(): array
@@ -112,9 +112,9 @@ class Producto
 
         // Obtener producto con ese ID
         $query = "SELECT * FROM productos WHERE id = :id";
-        $stmt = $conexion->prepare($query);
-        $stmt->execute(['id' => $id]);
-        $productoData = $stmt->fetch(PDO::FETCH_ASSOC);
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute(['id' => $id]);
+        $productoData = $PDOStatement->fetch(PDO::FETCH_ASSOC);
 
         if (!$productoData) {
             return null; // No existe producto con ese ID
@@ -127,9 +127,9 @@ class Producto
         JOIN producto_categoria pc ON c.id = pc.categoria_id
         WHERE pc.producto_id = :producto_id
     ";
-        $stmtCategorias = $conexion->prepare($queryCategorias);
-        $stmtCategorias->execute(['producto_id' => $id]);
-        $categorias = $stmtCategorias->fetchAll(PDO::FETCH_ASSOC);
+        $PDOStatementCategorias = $conexion->prepare($queryCategorias);
+        $PDOStatementCategorias->execute(['producto_id' => $id]);
+        $categorias = $PDOStatementCategorias->fetchAll(PDO::FETCH_ASSOC);
 
         // Crear y devolver instancia de Producto
         return new Producto(
@@ -148,33 +148,33 @@ class Producto
      * Genera la ruta a la imagen del producto según la categoría.
      */
     public function getRutaImagen()
-{
-    $formatos = ['png', 'jpg', 'jpeg', 'webp'];
+    {
+        $formatos = ['png', 'jpg', 'jpeg', 'webp'];
 
-    if (empty($this->categorias)) {
-        return "/apple-p2/assets/imagenes/prods/default.jpg";
-    }
-
-    $categoriaNombre = $this->categorias[0]['nombre'] ?? null;
-
-    if (!$categoriaNombre) {
-        return "/apple-p2/assets/imagenes/prods/default.jpg";
-    }
-
-    $categoria = strtolower(str_replace(' ', '-', $categoriaNombre));
-    $producto = strtolower(str_replace(' ', '-', $this->nombre));
-    $base = "{$categoria}_{$producto}";
-    $dir = __DIR__ . "/../assets/imagenes/prods/{$categoria}/";
-
-    foreach ($formatos as $ext) {
-        $archivo = "{$base}.{$ext}";
-        if (file_exists($dir . $archivo)) {
-            return "/apple-p2/assets/imagenes/prods/{$categoria}/{$archivo}";
+        if (empty($this->categorias)) {
+            return "/apple-p2/assets/imagenes/prods/default.jpg";
         }
-    }
 
-    return "/apple-p2/assets/imagenes/prods/default.jpg";
-}
+        $categoriaNombre = $this->categorias[0]['nombre'] ?? null;
+
+        if (!$categoriaNombre) {
+            return "/apple-p2/assets/imagenes/prods/default.jpg";
+        }
+
+        $categoria = strtolower(str_replace(' ', '-', $categoriaNombre));
+        $producto = strtolower(str_replace(' ', '-', $this->nombre));
+        $base = "{$categoria}_{$producto}";
+        $dir = __DIR__ . "/../assets/imagenes/prods/{$categoria}/";
+
+        foreach ($formatos as $ext) {
+            $archivo = "{$base}.{$ext}";
+            if (file_exists($dir . $archivo)) {
+                return "/apple-p2/assets/imagenes/prods/{$categoria}/{$archivo}";
+            }
+        }
+
+        return "/apple-p2/assets/imagenes/prods/default.jpg";
+    }
 
 
     /**
@@ -185,12 +185,13 @@ class Producto
         $conexion = (new Conexion())->getConexion();
 
         $query = "
-        SELECT p.*, c.nombre AS categoria
-        FROM productos p
-        LEFT JOIN producto_categoria pc ON p.id = pc.producto_id
-        LEFT JOIN categorias c ON pc.categoria_id = c.id
-        GROUP BY p.id
-    ";
+    SELECT p.*, c.nombre AS categoria
+    FROM productos p
+    LEFT JOIN producto_categoria pc ON p.id = pc.producto_id
+    LEFT JOIN categorias c ON pc.categoria_id = c.id
+    -- Sin filtro por activo para mostrar todo
+    GROUP BY p.id
+";
 
         $PDOStatement = $conexion->prepare($query);
         $PDOStatement->execute();
@@ -203,8 +204,113 @@ class Producto
         return $catalogo;
     }
 
-    public function estaActivo() {
-        return $this->activo == 1;
+    public function edit(int $idCategoria, string $nombre, string $descripcion, float $precio, string $imagen): void
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        // 1. Actualizar los datos principales del producto
+        $query = "UPDATE productos SET 
+                nombre = :nombre, 
+                descripcion = :descripcion, 
+                precio = :precio, 
+                imagen = :imagen 
+              WHERE id = :id";
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute([
+            'nombre' => $nombre,
+            'descripcion' => $descripcion,
+            'precio' => $precio,
+            'imagen' => $imagen,
+            'id' => $this->id
+        ]);
+
+        // 2. Actualizar la relación con la categoría
+        // Primero borramos las categorías actuales
+        $PDOStatementDelete = $conexion->prepare("DELETE FROM producto_categoria WHERE producto_id = :id");
+        $PDOStatementDelete->execute(['id' => $this->id]);
+
+        // Luego insertamos la nueva categoría
+        $PDOStatementInsert = $conexion->prepare("INSERT INTO producto_categoria (producto_id, categoria_id) VALUES (:producto_id, :categoria_id)");
+        $PDOStatementInsert->execute([
+            'producto_id' => $this->id,
+            'categoria_id' => $idCategoria
+        ]);
+
+        // 3. Actualizar los atributos en el objeto
+        $this->nombre = $nombre;
+        $this->descripcion = $descripcion;
+        $this->precio = $precio;
+        $this->imagen = $imagen;
+        $this->categorias = [['id' => $idCategoria]]; // Simplificado
     }
+
+    public static function insert(int $idCategoria, string $nombre, string $descripcion, float $precio, string $imagen): int
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        // Insertar en productos
+        $query = "INSERT INTO productos (nombre, descripcion, precio, imagen) 
+              VALUES (:nombre, :descripcion, :precio, :imagen)";
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute([
+            'nombre' => $nombre,
+            'descripcion' => $descripcion,
+            'precio' => $precio,
+            'imagen' => $imagen
+        ]);
+
+        $idProducto = $conexion->lastInsertId();
+
+        // Insertar en tabla pivote producto_categoria
+        $query = "INSERT INTO producto_categoria (producto_id, categoria_id) 
+                 VALUES (:producto_id, :categoria_id)";
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute([
+            'producto_id' => $idProducto,
+            'categoria_id' => $idCategoria
+        ]);
+
+        return $idProducto;
+    }
+
+
+    // marca el producto como inactivo
+    public function marcarComoInactivo(): bool
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "UPDATE productos SET activo = 0 WHERE id = :id";
+        $PDOStatement = $conexion->prepare($query);
+
+        return $PDOStatement->execute(['id' => $this->id]);
+    }
+
+    public function activar(): bool
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "UPDATE productos SET activo = 1 WHERE id = :id";
+        $PDOStatement = $conexion->prepare($query);
+
+        return $PDOStatement->execute(['id' => $this->id]);
+    }
+public function todosProductosConInactivos(): array
+{
+    $conexion = (new Conexion())->getConexion();
+
+    $query = "
+    SELECT p.*, c.nombre AS categoria
+    FROM productos p
+    LEFT JOIN producto_categoria pc ON p.id = pc.producto_id
+    LEFT JOIN categorias c ON pc.categoria_id = c.id
+    GROUP BY p.id
+    ";
+
+    $PDOStatement = $conexion->prepare($query);
+    $PDOStatement->execute();
+
+    return $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 }

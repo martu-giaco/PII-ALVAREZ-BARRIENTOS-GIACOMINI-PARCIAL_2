@@ -62,27 +62,44 @@ $categorias = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
         <div id="carouselCategorias" class="carousel slide mt-5 pt-5" data-bs-ride="carousel" data-bs-interval="5000"
             data-bs-wrap="true">
             <div class="carousel-inner">
-                <?php foreach ($chunks as $index => $chunk): ?>
-                    <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                        <div class="d-flex justify-content-center gap-4 flex-wrap">
-                            <?php foreach ($chunk as $cat): ?>
-                                <div class="card" style="width: 12rem;">
-                                    <img src="assets/imagenes/categorias-fotitos/<?= str_replace(' ', '-', strtolower($cat['nombre'])) ?>-categoria.png"
-                                        class="card-img-top mx-auto d-block" alt="<?= $cat['nombre']; ?>"
-                                        style="object-fit: cover;">
-                                    <div class="card-body d-flex justify-content-center">
-                                        <a href="index.php?sec=categoria&nombre=<?= urlencode($cat['nombre']); ?>"
-                                            class="stretched-link text-decoration-none text-dark fw-semibold">
-                                            <?= $cat['nombre']; ?>
-                                        </a>
-                                    </div>
+
+                <?php
+                $totalCategorias = count($categorias);
+                $itemsPorSlide = 4;
+                $contador = 0;
+                foreach ($categorias as $index => $cat):
+                    // Comenzar un nuevo slide
+                    if ($contador % $itemsPorSlide === 0): ?>
+                        <div class="carousel-item <?= $contador === 0 ? 'active' : '' ?>">
+                            <div class="d-flex justify-content-center gap-4 flex-wrap">
+                            <?php endif; ?>
+
+                            <!-- Tarjeta de categoría -->
+                            <div class="card" style="width: 12rem;">
+                                <img src="assets/imagenes/categorias-fotitos/<?= str_replace(' ', '-', strtolower($cat['nombre'])) ?>-categoria.png"
+                                    class="card-img-top mx-auto d-block" alt="<?= $cat['nombre']; ?>"
+                                    style="object-fit: cover;">
+                                <div class="card-body d-flex justify-content-center">
+                                    <a href="index.php?sec=categoria&nombre=<?= urlencode($cat['nombre']); ?>"
+                                        class="stretched-link text-decoration-none text-dark fw-semibold">
+                                        <?= $cat['nombre']; ?>
+                                    </a>
                                 </div>
-                            <?php endforeach; ?>
+                            </div>
+
+                            <?php
+                            $contador++;
+
+                            // Cerrar el slide actual
+                            if ($contador % $itemsPorSlide === 0 || $contador === $totalCategorias): ?>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endif;
+                endforeach; ?>
+
             </div>
 
+            <!-- Controles del carrusel -->
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselCategorias"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -94,5 +111,6 @@ $categorias = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
                 <span class="visually-hidden">Siguiente</span>
             </button>
         </div>
+
     </main>
 </div>

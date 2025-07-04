@@ -1,27 +1,20 @@
 <?php
 require_once("../../functions/autoload.php");
 
-
 $postData = $_POST;
-$categoria = Categoria::get_x_id($postData["id_categoria"]);
 
-echo "<pre>";
-print_r($postData);
-echo "</pre>";
+if (empty(trim($postData['categoria']))) {
+    die("El nombre de la categoría es obligatorio.");
+}
 
-echo "<pre>";
-print_r($categoria);
-echo "</pre>";
-
-
-try{
-    $categoria->edit(
-        $postData['categoria']
+try {
+    Categoria::edit(
+        (int) $postData['id_categoria'], 
+        trim($postData['categoria'])
     );
-}catch (Exception $e){
-    die("No se pudo editar la categoria.");
+} catch (Exception $e) {
+    die("No se pudo editar la categoría: " . $e->getMessage());
 }
 
 header('Location: ../index.php?sec=categorias');
-
-?>
+exit;

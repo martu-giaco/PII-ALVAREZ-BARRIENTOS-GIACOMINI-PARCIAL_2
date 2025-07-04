@@ -4,7 +4,8 @@ require_once("../functions/autoload.php");
 // descomentar para hacer autenticacion
 // Autenticacion::verify(true);
 
-$productos = (new Producto())->todosProductos();
+$productos = (new Producto())->todosProductosConInactivos(); // Por ejemplo, crea este método
+
 ?>
 
 <h2>Administración de Productos</h2>
@@ -19,6 +20,8 @@ $productos = (new Producto())->todosProductos();
     <th>Descripción</th>
     <th>Precio</th>
     <th>Imagen</th>
+    <th>Estado</th>
+    <th>Opciones</th>
 </tr>
 </thead>
 <tbody>
@@ -30,10 +33,11 @@ $productos = (new Producto())->todosProductos();
             $p['nombre'],
             $p['descripcion'],
             $p['precio'],
-            [['nombre' => $p['categoria']]],
+            [['nombre' => $p['categoria']]], // para getRutaImagen
             $p['imagen']
         );
         $img = $prod->getRutaImagen();
+        $activo = $p['activo'] ?? 1;
     ?>
     <tr>
         <td><?= htmlspecialchars($prod->getId()); ?></td>
@@ -45,8 +49,15 @@ $productos = (new Producto())->todosProductos();
             <img src="<?= htmlspecialchars($img); ?>" alt="Imagen" width="50" style="object-fit: contain;">
         </td>
         <td>
-            <a href="?sec=editar_producto&id=<?= urlencode($prod->getId()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-edit"></i></a>
-            <a href="?sec=borrar_producto&id=<?= urlencode($prod->getId()); ?>" class="btn btn-danger text-white py-2 px-3"><i class="fas fa-trash-alt"></i></a>
+            <?= $activo ? '<span class="badge bg-success">Activo</span>' : '<span class="badge bg-secondary">Inactivo</span>'; ?>
+        </td>
+        <td>
+            <?php if ($activo): ?>
+                <a href="?sec=editar_producto&id=<?= urlencode($prod->getId()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-edit"></i></a>
+                <a href="?sec=borrar_producto&id=<?= urlencode($prod->getId()); ?>" class="btn btn-danger text-white py-2 px-3"><i class="fas fa-trash-alt"></i></a>
+            <?php else: ?>
+                <a href="actions/reactivar_producto_acc.php?id=<?= urlencode($prod->getId()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-redo-alt"></i> Reactivar</a>
+            <?php endif; ?>
         </td>
     </tr>
 <?php endforeach; ?>
@@ -54,4 +65,4 @@ $productos = (new Producto())->todosProductos();
 </tbody>
 </table>
 
-<a href="?sec=crear_producto" class="btn btn-primary text-white py-2 px-3">Crear Producto</a>
+<a href="?sec=crear_producto" class="btn btn-primary text-white py-3 px-5">Crear producto nuevo</a>

@@ -1,18 +1,35 @@
-<?php require_once(__DIR__ . '../../../functions/autoload.php'); ?>
+<?php
+// Incluir autoload para cargar clases automáticamente
+require_once(__DIR__ . '../../../functions/autoload.php');
+
+
+// echo password_hash("123", PASSWORD_DEFAULT);
+
+
+?>
+
 <section class="container">
-    <form action="actions/login.php" method="post" enctype="multipart/form-data">
+    <form action="../actions/login.php" method="post" enctype="multipart/form-data">
         <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
+
+        <!-- Mostrar alertas si existen -->
         <div>
-            <?php echo Alerta::get_alertas();  ?>
+            <?php echo Alerta::get_alertas(); ?>
         </div>
+
+        <!-- Campo para el nombre de usuario o email -->
         <div class="form-floating m-3">
-            <input type="text" class="form-control" id="floatingInput" placeholder="Usuario" name="usuario">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Usuario" name="usuario" required>
             <label for="floatingInput">Nombre de usuario</label>
         </div>
+
+        <!-- Campo para la clave -->
         <div class="form-floating m-3">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Clave" name="clave">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Clave" name="clave" required>
             <label for="floatingPassword">Clave</label>
         </div>
+
+        <!-- Botón de login -->
         <input type="submit" value="Login" class="btn btn-primary w-100 py-2 m-3">
     </form>
 </section>

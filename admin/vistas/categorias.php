@@ -4,29 +4,41 @@ require_once("../functions/autoload.php");
 // descomentar para hacer autenticacion
 // Autenticacion::verify(true);
 
-$categorias = new Categoria();
-$lista = $categorias->obtenerCategorias();
+
+$categorias = (new Categoria())->obtenerCategoriasConInactivas(); // Método que debes agregar
+
 ?>
 
 <h2>Administración de Categorías</h2>
+<?= Alerta::get_alertas(); ?>
+
 <table class="table table-striped">
 <thead>
 <tr>
     <th>ID</th>
     <th>Nombre</th>
+    <th>Estado</th>
     <th>Opciones</th>
 </tr>
 </thead>
 <tbody>
 <?php
-foreach ($lista as $categoria) {
+foreach ($categorias as $categoria) {
+    $activo = $categoria->activo ?? 1;
     ?>
     <tr>
         <td><?= htmlspecialchars($categoria->getIdCategoria()); ?></td>
         <td><?= htmlspecialchars($categoria->getNombreCategoria()); ?></td>
         <td>
-            <a href="?sec=editar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-edit"></i></a>
-            <a href="?sec=borrar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-danger text-white py-2 px-3"><i class="fas fa-trash-alt"></i></a>
+            <?= $activo ? '<span class="badge bg-success">Activo</span>' : '<span class="badge bg-secondary">Inactivo</span>'; ?>
+        </td>
+        <td>
+            <?php if ($activo): ?>
+                <a href="?sec=editar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-edit"></i></a>
+                <a href="?sec=borrar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-danger text-white py-2 px-3"><i class="fas fa-trash-alt"></i></a>
+            <?php else: ?>
+                <a href="actions/reactivar_categoria_acc.php?id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-redo-alt"></i> Reactivar</a>
+            <?php endif; ?>
         </td>
     </tr> 
     <?php   
@@ -35,4 +47,4 @@ foreach ($lista as $categoria) {
 </tbody>
 </table>
 
-<a href="?sec=crear_categoria" class="btn btn-primary text-white py-2 px-3">Crear Categoria</a>
+<a href="?sec=crear_categoria" class="btn btn-primary text-white py-3 px-5">Crear categoria nueva</a>

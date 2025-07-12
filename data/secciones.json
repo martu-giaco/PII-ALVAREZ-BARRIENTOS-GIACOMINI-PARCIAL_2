@@ -59,4 +59,18 @@
         "title": "Productos por categoría",
         "inMenu": false
     }
+    ,
+    {
+        "vinculo": "login",
+        "texto": "Log In",
+        "title": "Iniciar sesión",
+        "inMenu": true
+    }
+    ,
+    {
+        "vinculo": "logout",
+        "texto": "Log Out",
+        "title": "Cerrar sesión",
+        "inMenu": true
+    }
 ]

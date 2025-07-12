@@ -34,7 +34,7 @@ if (!$producto) {
 
     <div class="mb-3">
         <label class="form-label">Foto actual</label><br>
-        <img src="../img/productos/<?= htmlspecialchars($producto->getImagen()); ?>" alt="Imagen actual" width="100">
+        <img src="../assets/imagenes/prods/<?= htmlspecialchars($producto->getImagen()); ?>" alt="Imagen actual" width="100">
         <input type="hidden" name="imagen_og" value="<?= htmlspecialchars($producto->getImagen()); ?>">
     </div>
 

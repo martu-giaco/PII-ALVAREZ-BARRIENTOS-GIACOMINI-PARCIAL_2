@@ -5,11 +5,13 @@ class Categoria
 {
     private $id;
     private $nombre;
+    private $imagenCat;
 
-    public function __construct($id = null, $nombre = null)
+    public function __construct($id = null, $nombre = null, $imagenCat = null)
     {
         $this->id = $id;
         $this->nombre = $nombre;
+        $this->imagen_categoria = $imagenCat;
     }
 
     public function getIdCategoria()
@@ -20,6 +22,11 @@ class Categoria
     public function getNombreCategoria()
     {
         return $this->nombre;
+    }
+
+    public function getImagenCategoria()
+    {
+        return $this->imagen_categoria;
     }
 
     public static function obtenerCategorias(): array

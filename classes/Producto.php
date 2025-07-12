@@ -143,40 +143,6 @@ class Producto
     }
 
 
-    // /**
-    //  * 🖼 MÉTODO: getImagen
-    //  * Genera la ruta a la imagen del producto según la categoría.
-    //  */
-    // public function getImagen()
-    // {
-    //     $formatos = ['png', 'jpg', 'jpeg', 'webp'];
-
-    //     if (empty($this->categorias)) {
-    //         return "assets/imagenes/prods/default.jpg";
-    //     }
-
-    //     $categoriaNombre = $this->categorias[0]['nombre'] ?? null;
-
-    //     if (!$categoriaNombre) {
-    //         return "assets/imagenes/prods/default.jpg";
-    //     }
-
-    //     $categoria = strtolower(str_replace(' ', '-', $categoriaNombre));
-    //     $producto = strtolower(str_replace(' ', '-', $this->nombre));
-    //     $base = "{$categoria}_{$producto}";
-    //     $dir = __DIR__ . "assets/imagenes/prods/";
-
-    //     foreach ($formatos as $ext) {
-    //         $archivo = "{$base}.{$ext}";
-    //         if (file_exists($dir . $archivo)) {
-    //             return "assets/imagenes/prods/{$categoria}/{$archivo}";
-    //         }
-    //     }
-
-    //     return "assets/imagenes/prods/default.jpg";
-    // }
-
-
     /**
      * Obtiene todos los productos de la base de datos
      */
@@ -214,7 +180,7 @@ class Producto
                 descripcion = :descripcion, 
                 precio = :precio, 
                 imagen = :imagen 
-              WHERE id = :id";
+                WHERE id = :id";
         $PDOStatement = $conexion->prepare($query);
         $PDOStatement->execute([
             'nombre' => $nombre,
@@ -250,7 +216,7 @@ class Producto
 
         // Insertar en productos
         $query = "INSERT INTO productos (nombre, descripcion, precio, imagen) 
-              VALUES (:nombre, :descripcion, :precio, :imagen)";
+                VALUES (:nombre, :descripcion, :precio, :imagen)";
         $PDOStatement = $conexion->prepare($query);
         $PDOStatement->execute([
             'nombre' => $nombre,
@@ -263,7 +229,7 @@ class Producto
 
         // Insertar en tabla pivote producto_categoria
         $query = "INSERT INTO producto_categoria (producto_id, categoria_id) 
-                 VALUES (:producto_id, :categoria_id)";
+                    VALUES (:producto_id, :categoria_id)";
         $PDOStatement = $conexion->prepare($query);
         $PDOStatement->execute([
             'producto_id' => $idProducto,

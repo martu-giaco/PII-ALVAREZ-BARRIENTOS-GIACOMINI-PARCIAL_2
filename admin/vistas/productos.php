@@ -46,7 +46,7 @@ $productos = (new Producto())->todosProductosConInactivos(); // Por ejemplo, cre
         <td><?= htmlspecialchars($prod->getDescripcion()); ?></td>
         <td>$<?= number_format($prod->getPrecio(), 2, ',', '.'); ?></td>
         <td>
-            <img src="../<?= htmlspecialchars($img); ?>" alt="Imagen" width="50" style="object-fit: contain;">
+            <img src="../assets/imagenes/prods/<?= htmlspecialchars($img); ?>" alt="Imagen" width="50" style="object-fit: contain;">
         </td>
         <td>
             <?= $activo ? '<span class="badge bg-success">Activo</span>' : '<span class="badge bg-secondary">Inactivo</span>'; ?>

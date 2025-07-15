@@ -1,5 +1,9 @@
 <?php
+// compra-form.php
+require_once __DIR__ . '/../functions/autoload.php';
+// Recibir carrito enviado por POST
 $carrito = $_POST['carrito'] ?? [];
+
 ?>
 
 <div class="container py-5">
@@ -9,7 +13,7 @@ $carrito = $_POST['carrito'] ?? [];
         <p>No hay productos en el carrito para comprar.</p>
         <a href="index.php?sec=productos" class="btn btn-dark">Volver a productos</a>
     <?php else: ?>
-        <form action="index.php?sec=compra" method="post" class="row g-3">
+        <form action="index.php?sec=compra" method="POST" class="row g-3">
             <?php foreach ($carrito as $id => $cantidad): ?>
                 <input type="hidden" name="carrito[<?= intval($id) ?>]" value="<?= intval($cantidad) ?>">
             <?php endforeach; ?>
@@ -32,17 +36,16 @@ $carrito = $_POST['carrito'] ?? [];
             <div class="col-12">
                 <label class="form-label">Método de pago</label>
                 <select class="form-select" name="metodo_pago" required>
-                    <option value="" selected disabled>Selecciona un método</option>
                     <option value="tarjeta">Tarjeta de crédito/débito</option>
                     <option value="mercado_pago">Mercado Pago</option>
-                    <option value="efectivo">Efectivo contra entrega</option>
+                    <option value="efectivo">Efectivo</option>
                 </select>
             </div>
 
             <div class="col-12 d-flex gap-3">
-                <button type="submit" class="btn btn-success py-3 px-5 my-3">
-                <i class="fa-solid fa-credit-card"></i> Finalizar
-            </button>
+                <button type="submit" class="btn btn-success py-3 px-5 my-2">
+                    <i class="fa-solid fa-credit-card mx-2"></i>Finalizar compra
+                </button>
             </div>
         </form>
     <?php endif; ?>

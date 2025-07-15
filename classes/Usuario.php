@@ -7,7 +7,6 @@ class Usuario
     private $usuario;
     private $email;
     private $clave;
-    private $rol;
 
     public function __construct(array $data)
     {
@@ -15,40 +14,58 @@ class Usuario
         $this->usuario = $data['usuario'];
         $this->email = $data['email'];
         $this->clave = $data['clave'];
-        $this->rol = $data['rol'];
     }
 
     public function getIdUsuario()
-    { 
-        return $this->id_usuario; 
-    }
-    public function getUsuario()
-    { 
-        return $this->usuario; 
-    }
-    public function getEmail()
-    { 
-        return $this->email;
-    }
-    public function getClave()
-    { 
-        return $this->clave; 
-    }
-    public function getRol()
-    { 
-        return $this->rol; 
+    {
+        return $this->id_usuario;
     }
 
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getClave()
+    {
+        return $this->clave;
+    }
+
+    /**
+     * Devuelve "admin" o "usuario" según el ID de rol
+     */
+    public function getRol(): string
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "
+            SELECT r.rol
+            FROM usuario_rol ur
+            JOIN roles r ON ur.id_rol = r.id_rol
+            WHERE ur.id_usuario = :id_usuario
+            LIMIT 1
+        ";
+
+        $stmt = $conexion->prepare($query);
+        $stmt->execute(['id_usuario' => $this->id_usuario]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result ? $result['rol'] : 'usuario'; // por defecto retorna "usuario"
+    }
+
+    /**
+     * Devuelve el usuario según nombre de usuario o email
+     */
     public static function obtenerPorUsuarioEmail(string $usuario): ?Usuario
     {
         $conexion = (new Conexion())->getConexion();
 
-        $query = "SELECT u.*, r.rol 
-                FROM usuarios u
-                JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario
-                JOIN roles r ON ur.id_rol = r.id_rol
-                WHERE u.usuario = :usuario OR u.email = :usuario
-                LIMIT 1";
+        $query = "SELECT * FROM usuarios WHERE usuario = :usuario OR email = :usuario LIMIT 1";
 
         $PDOStatement = $conexion->prepare($query);
         $PDOStatement->execute(['usuario' => $usuario]);
@@ -57,6 +74,4 @@ class Usuario
 
         return $data ? new Usuario($data) : null;
     }
-
-    
 }

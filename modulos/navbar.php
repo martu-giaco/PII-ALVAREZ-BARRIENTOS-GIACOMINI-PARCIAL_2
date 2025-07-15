@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__ . '/../classes/secciones.php';
+
+if (session_status() === PHP_SESSION_NONE) session_start();
+
 $secciones = Secciones::secciones_del_sitio();
 ?>
 
@@ -12,26 +15,38 @@ $secciones = Secciones::secciones_del_sitio();
                 <img src="assets/imagenes/Apple_logo_black.svg" alt="apple-logo" style="height: 30px;">
             </a>
 
-            <!-- Botón hamburguesa para collapse -->
+            <!-- Botón hamburguesa para responsive -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Menú colapsable -->
+            <!-- Ítems del menú -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <?php foreach ($secciones as $value): ?>
-                        <?php if ($value->getInMenu()): ?>
+                    <?php foreach ($secciones as $sec): ?>
+                        <?php
+                            $vinculo = $sec->getVinculo();
+                            $mostrar = $sec->getInMenu();
+
+                            // Ocultar "Iniciar sesión" si ya hay sesión
+                            if ($vinculo === "login" && isset($_SESSION['loggedIn'])) continue;
+
+                            // Ocultar "Cerrar sesión" si no hay sesión
+                            if ($vinculo === "logout" && !isset($_SESSION['loggedIn'])) continue;
+                        ?>
+
+                        <?php if ($mostrar): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="?sec=<?= $value->getVinculo(); ?>">
-                                    <?= $value->getTexto(); ?>
+                                <a class="nav-link" href="?sec=<?= $vinculo ?>">
+                                    <?= $sec->getTexto() ?>
                                 </a>
                             </li>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>
             </div>
+
         </div>
     </nav>
 </header>

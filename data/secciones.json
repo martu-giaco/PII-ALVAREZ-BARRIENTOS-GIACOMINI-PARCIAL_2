@@ -43,7 +43,7 @@
     }, 
     {
         "vinculo": "carrito",
-        "texto": "<i class='fa-solid fa-cart-shopping'></i> Carrito",
+        "texto": "<i class='fa-solid fa-cart-shopping mx-2'></i> Carrito",
         "title": "Carrito", 
         "inMenu": true
     }, 
@@ -58,19 +58,30 @@
         "texto": "Categoría",
         "title": "Productos por categoría",
         "inMenu": false
-    }
-    ,
+    },
     {
         "vinculo": "login",
-        "texto": "Log In",
+        "texto": "<i class='fa-solid fa-user mx-2'></i>Iniciar sesión",
         "title": "Iniciar sesión",
         "inMenu": true
-    }
-    ,
+    },
     {
         "vinculo": "logout",
-        "texto": "Log Out",
+        "texto": "<i class='fas fa-sign-out-alt mx-2'></i>Cerrar sesión",
         "title": "Cerrar sesión",
         "inMenu": true
+    },
+
+    {
+        "vinculo": "compra",
+        "texto": "Compra",
+        "title": "Resumen de la Compra",
+        "inMenu": false
+    },
+    {
+        "vinculo": "compra-form",
+        "texto": "Formulario de Compra",
+        "title": "Formulario para Finalizar Compra",
+        "inMenu": false
     }
 ]

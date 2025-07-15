@@ -154,8 +154,7 @@ class Producto
     SELECT p.*, c.nombre AS categoria
     FROM productos p
     LEFT JOIN producto_categoria pc ON p.id = pc.producto_id
-    LEFT JOIN categorias c ON pc.categoria_id = c.id
-    -- Sin filtro por activo para mostrar todo
+    LEFT JOIN categorias c ON pc.categoria_id = c.id\
     GROUP BY p.id
 ";
 

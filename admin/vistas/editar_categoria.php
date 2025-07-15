@@ -2,6 +2,9 @@
 // require_once("../classes/Categoria.php");
 require_once("../functions/autoload.php");
 
+// descomentar para hacer autenticacion
+Autenticacion::verify(true);
+
 
 $id = $_GET['id'] ?? FALSE;
 $categoria = Categoria::get_x_id($id);

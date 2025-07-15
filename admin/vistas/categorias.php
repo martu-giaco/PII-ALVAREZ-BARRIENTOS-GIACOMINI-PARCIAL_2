@@ -2,14 +2,14 @@
 require_once("../functions/autoload.php");
 
 // descomentar para hacer autenticacion
-// Autenticacion::verify(true);
+Autenticacion::verify(true);
 
 
 $categorias = (new Categoria())->obtenerCategoriasConInactivas(); // Método que debes agregar
 
 ?>
 
-<h2>Administración de Categorías</h2>
+<h2 class="mb-3">Categorías</h2>
 <?= Alerta::get_alertas(); ?>
 
 <table class="table table-striped">

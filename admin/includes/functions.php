@@ -1,32 +1,46 @@
 <?php
+require_once("../functions/autoload.php");
+
 /**
- * Función que retorna un array con las secciones que pueden ser visitadas en el sitio
+ * Secciones válidas para seguridad
  */
-function secciones_validas(){
-    $secciones = ["inicio", "productos", "categorias", "usuarios", "niveles", "provincias",
-    "crear_categoria", "editar_categoria", "borrar_categoria", "borrar_categoria_acc", 
-    "crear_producto", "editar_producto", "borrar_producto", "borrar_producto_acc", 
-    "login", "logout" ];
-    return $secciones;
+function secciones_validas(): array
+{
+    return Secciones::secciones_validas();
 }
 
 /**
- * Función que retorna un array con las secciones que aparecen en el menu principal
+ * Secciones visibles en el menú del panel admin
  */
-function secciones_menu(){
-    $secciones = ["inicio", "productos", "categorias"];
-    $secciones = secciones_menu_log($secciones);
-    return $secciones;
-}
+function secciones_menu(): array
+{
+    $menu = [];
 
-function secciones_menu_log($sec){
-    if(isset($_SESSION['loggedIn'])){
-        $sec[] = "logout";
-        $sec[] = "Hola ".$_SESSION['loggedIn']['nombre'];
-    }else{
-        $sec[] = "login";
+    // Secciones permitidas en el menú admin
+    $permitidas = ["inicio", "productos", "categorias", "login", "logout"];
+
+    foreach (Secciones::secciones_del_sitio() as $seccion) {
+        $vinculo = $seccion->getVinculo();
+        $mostrar = $seccion->getInMenu();
+
+        if (!in_array($vinculo, $permitidas))
+            continue;
+
+        // Ocultar login si hay sesión activa
+        if ($vinculo === 'login' && isset($_SESSION['loggedIn']))
+            continue;
+
+        // Ocultar logout si NO hay sesión
+        if ($vinculo === 'logout' && !isset($_SESSION['loggedIn']))
+            continue;
+
+        if ($mostrar) {
+            $menu[$vinculo] = $seccion->getTexto();
+        }
+
     }
-    return $sec;
+
+    return $menu;
 }
 
 ?>

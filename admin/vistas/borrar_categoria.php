@@ -1,6 +1,8 @@
 <?php
 require_once("../functions/autoload.php");
 
+Autenticacion::verify(true); // verifica admin
+
 $id = $_GET['id'] ?? false;
 
 if (!$id) {

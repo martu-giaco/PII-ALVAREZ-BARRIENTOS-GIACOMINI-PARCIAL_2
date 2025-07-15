@@ -2,13 +2,13 @@
 require_once("../functions/autoload.php");
 
 // descomentar para hacer autenticacion
-// Autenticacion::verify(true);
+Autenticacion::verify(true);
 
 $productos = (new Producto())->todosProductosConInactivos(); // Por ejemplo, crea este método
 
 ?>
 
-<h2>Administración de Productos</h2>
+<h2 class="mb-3">Productos</h2>
 <?= Alerta::get_alertas(); ?>
 
 <table class="table table-striped">

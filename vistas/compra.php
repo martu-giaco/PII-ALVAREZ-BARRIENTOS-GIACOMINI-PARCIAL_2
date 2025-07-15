@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/../classes/Producto.php';
+// compra.php
+
+require_once __DIR__ . '/../functions/autoload.php';
 
 $carrito = $_POST['carrito'] ?? [];
 $nombre = $_POST['nombre'] ?? '';
@@ -13,6 +15,7 @@ $metodos = [
     'efectivo' => 'Efectivo contra entrega'
 ];
 
+// Calcular total
 $total = 0;
 foreach ($carrito as $id => $cantidad) {
     $producto = Producto::get_x_id(intval($id));

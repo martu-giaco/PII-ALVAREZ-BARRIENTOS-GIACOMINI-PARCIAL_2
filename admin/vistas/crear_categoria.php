@@ -1,4 +1,8 @@
 <?php
+require_once("../functions/autoload.php");
+
+// descomentar para hacer autenticacion
+Autenticacion::verify(true);
 ?>
 <h2>Agregar una nueva categoria</h2>
 <form action="actions/crear_categoria_acc.php" method="post" enctype="multipart/form-data" required>

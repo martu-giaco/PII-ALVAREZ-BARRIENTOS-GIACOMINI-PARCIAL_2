@@ -18,10 +18,7 @@ $comentario = $_POST['comentario'];
 ?>
 
 <div class="container-contacto container-fluid py-5">
-    <h1 class="text-center mb-4">Gracias por contactarnos!</h1>
-    <p class="text-center mb-3 fs-5">
-        Hemos recibido su consulta.
-    </p>
+    <h2 class="text-center mb-4">Gracias por contactarnos!</h2>
         <p><?= $nombre ?> <?= $apellido ?></p>
         <p><strong>Email:</strong> <?= $email ?></p>
         <p><strong>Comentario:</strong></p>

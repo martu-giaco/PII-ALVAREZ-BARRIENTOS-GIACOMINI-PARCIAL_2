@@ -1,54 +1,51 @@
 <?php
-session_start(); // Necesario para poder trabajar con $_SESSION
+session_start(); // Iniciamos la sesión para usar $_SESSION
 
-require_once("../../functions/autoload.php"); // Autoload para cargar clases como Usuario o Alerta
+require_once("../../functions/autoload.php"); // Incluye clases como Usuario, Alerta, etc.
 
-// Capturamos los datos del formulario
+// Captura de datos del formulario
 $usuarioInput = $_POST['usuario'] ?? '';
 $claveInput = $_POST['clave'] ?? '';
 
-// Validamos que se haya completado usuario y clave
+// Validación básica de campos
 if (!$usuarioInput || !$claveInput) {
     Alerta::add_alerta('danger', 'Debe ingresar usuario y clave.');
-    header("Location: ../vistas/login.php");
+    header("Location: vistas/login.php");
     exit;
 }
 
-// Obtenemos el usuario desde la base de datos (por nombre de usuario o email)
+// Traemos el usuario desde la base de datos
 $usuario = Usuario::obtenerPorUsuarioEmail($usuarioInput);
 
-// Si el usuario no existe, redirigimos con mensaje
 if (!$usuario) {
     Alerta::add_alerta('danger', 'El usuario no existe.');
     header("Location: ../vistas/login.php");
     exit;
 }
 
-// Obtenemos la clave que vino de la DB
+// Verificamos contraseña (hash o texto plano si estás en pruebas)
 $claveGuardada = $usuario->getClave();
 
-// Verificamos si coincide la clave (acepta hash o texto plano si es prueba)
 if (password_verify($claveInput, $claveGuardada) || $claveInput === $claveGuardada) {
 
-    // Guardamos en sesión los datos del usuario
+    // Guardamos sesión del login
     $_SESSION['loggedIn'] = [
         'id_usuario' => $usuario->getIdUsuario(),
         'usuario'    => $usuario->getUsuario(),
         'email'      => $usuario->getEmail(),
-        'rol'        => $usuario->getRol(), // "admin" o "cliente"
+        'rol'        => $usuario->getRol() // Puede ser 'admin' o 'cliente'
     ];
 
-    // Redirigimos según su rol
-    if ($usuario->getRol() === 'admin') {
-        header("Location: ../index.php?sec=inicio"); // admin
+    // Redirección según rol
+    if ($usuario->getUsuario() === 'pepe') {
+        header("Location: ../index.php?sec=inicio"); // Vista admin
     } else {
-        header("Location: ../../index.php"); // cliente
+        header("Location: ../../index.php"); // Vista cliente
     }
     exit;
+
 } else {
-    // Clave incorrecta
     Alerta::add_alerta('danger', 'La clave ingresada no es correcta.');
     header("Location: ../vistas/login.php");
     exit;
 }
-?>

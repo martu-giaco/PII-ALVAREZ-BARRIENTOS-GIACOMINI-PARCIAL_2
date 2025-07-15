@@ -1,6 +1,9 @@
 <?php
 require_once("../functions/autoload.php");
 
+// descomentar para hacer autenticacion
+Autenticacion::verify(true);
+
 $categorias = new Categoria();
 $lista = $categorias->obtenerCategorias();
 
@@ -34,7 +37,7 @@ if (!$producto) {
 
     <div class="mb-3">
         <label class="form-label">Foto actual</label><br>
-        <img src="../assets/imagenes/prods/<?= htmlspecialchars($producto->getImagen()); ?>" alt="Imagen actual" width="100">
+        <img src="../assets/imagenes/prods/<?= htmlspecialchars($producto->getImagen()); ?>" alt="Imagen actual" width="250">
         <input type="hidden" name="imagen_og" value="<?= htmlspecialchars($producto->getImagen()); ?>">
     </div>
 

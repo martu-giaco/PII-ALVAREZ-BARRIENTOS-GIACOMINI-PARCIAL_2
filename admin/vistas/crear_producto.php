@@ -1,5 +1,8 @@
 <?php
-require_once ("../classes/Categoria.php");
+require_once("../functions/autoload.php");
+
+// descomentar para hacer autenticacion
+Autenticacion::verify(true);
 $categorias = new Categoria();
 $lista = $categorias->obtenerCategorias();
 ?>

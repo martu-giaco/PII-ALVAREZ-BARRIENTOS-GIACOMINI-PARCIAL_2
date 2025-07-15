@@ -4,8 +4,8 @@ require_once('functions/autoload.php');
 ?>
 
 <section class="container">
-    <form action="../actions/login.php" method="post" enctype="multipart/form-data">
-        <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
+    <form action="admin/actions/login.php" method="post" enctype="multipart/form-data">
+        <h1 class="h3 mb-3 fw-normal">Iniciar sesión</h1>
 
         <!-- Mostrar alertas si existen -->
         <div>
@@ -25,6 +25,6 @@ require_once('functions/autoload.php');
         </div>
 
         <!-- Botón de login -->
-        <input type="submit" value="Login" class="btn btn-primary w-100 py-2 m-3">
+        <input type="submit" value="Login" class="btn btn-primary px-5 py-3 m-3">
     </form>
 </section>

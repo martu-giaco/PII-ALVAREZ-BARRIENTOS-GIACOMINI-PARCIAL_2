@@ -81,18 +81,27 @@ foreach ($productosData as $fila) {
                 <?php foreach ($productos_filtrados as $producto): ?>
                     <div class="col-md-4 mb-4">
                         <div class="card card-producto h-100 shadow-sm">
-                            <img src="<?= htmlspecialchars($producto->getImagen()) ?>"
-                                alt="<?= htmlspecialchars($producto->getNombre()) ?>" 
-                                class="card-img-top" style="object-fit: contain;" />
+                            <img src="assets/imagenes/prods/<?= htmlspecialchars($producto->getImagen()) ?>"
+                                alt="<?= htmlspecialchars($producto->getNombre()) ?>" class="card-img-top"
+                                style="object-fit: contain;" />
                             <div class="card-body d-flex flex-column justify-content-end">
                                 <h5 class="card-title"><?= htmlspecialchars($producto->getNombre()); ?></h5>
                                 <p class="card-text text-primary fw-semibold">
                                     $<?= number_format($producto->getPrecio(), 2, ',', '.'); ?>
                                 </p>
-                                <a href="index.php?sec=detalleProducto&id=<?= $producto->getId(); ?>"
-                                    class="btn btn-dark py-3 my-2">
-                                    Ver Detalles
-                                </a>
+                                <div class="d-flex justify-content-between">
+                                    <a href="index.php?sec=detalleProducto&id=<?= $producto->getId(); ?>" class="btn py-3 w-50">
+                                        Ver Detalles
+                                    </a>
+
+                                    <!-- Botón Agregar al carrito -->
+                                    <form method="POST" action="index.php?sec=carrito">
+                                        <input type="hidden" name="accion" value="agregar">
+                                        <input type="hidden" name="producto_id" value="<?= $producto->getId(); ?>">
+                                        <button type="submit" class="btn btn-success py-3 px-4"><i
+                                                class="fas fa-plus mx-3"></i><i class="fas fa-shopping-cart"></i></button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

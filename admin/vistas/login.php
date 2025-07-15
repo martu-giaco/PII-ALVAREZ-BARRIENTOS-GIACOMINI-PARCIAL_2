@@ -9,7 +9,7 @@ require_once(__DIR__ . '../../../functions/autoload.php');
 ?>
 
 <section class="container">
-    <form action="../actions/login.php" method="post" enctype="multipart/form-data">
+    <form action="actions/login.php" method="post" enctype="multipart/form-data">
         <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
 
         <!-- Mostrar alertas si existen -->
@@ -30,6 +30,6 @@ require_once(__DIR__ . '../../../functions/autoload.php');
         </div>
 
         <!-- Botón de login -->
-        <input type="submit" value="Login" class="btn btn-primary w-100 py-2 m-3">
+        <input type="submit" value="Login" class="btn btn-primary py-3 px-5 m-3">
     </form>
 </section>

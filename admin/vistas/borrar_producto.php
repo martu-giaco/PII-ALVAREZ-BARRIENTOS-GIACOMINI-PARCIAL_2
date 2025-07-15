@@ -1,6 +1,8 @@
 <?php
 require_once("../functions/autoload.php");
 
+Autenticacion::verify(true); // verifica admin
+
 $id = $_GET['id'] ?? false;
 
 if (!$id) {
@@ -21,7 +23,7 @@ if (!$producto) {
         <h5 class="card-title"><?= htmlspecialchars($producto->getNombre()); ?></h5>
         <p class="card-text"><?= htmlspecialchars($producto->getDescripcion()); ?></p>
         <p><strong>Precio:</strong> $<?= number_format($producto->getPrecio(), 2, ',', '.'); ?></p>
-        <img src="../<?= $producto->getImagen(); ?>" alt="Imagen del producto" width="150" style="object-fit: contain;">
+        <img src="../assets/imagenes/prods/<?= $producto->getImagen(); ?>" alt="Imagen del producto" width="300" style="object-fit: contain;">
     </div>
 </div>
 

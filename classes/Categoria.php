@@ -33,7 +33,7 @@ class Categoria
     {
         $conexion = (new Conexion())->getConexion();
 
-        $query = "SELECT id, nombre FROM categorias WHERE activo = 1 ORDER BY nombre";
+        $query = "SELECT id, nombre, imagen_categoria FROM categorias WHERE activo = 1 ORDER BY nombre";
         $PDOStatement = $conexion->prepare($query);
         $PDOStatement->execute();
 
@@ -41,7 +41,7 @@ class Categoria
         $categorias = [];
 
         foreach ($categoriasData as $cat) {
-            $categorias[] = new Categoria($cat['id'], $cat['nombre']);
+            $categorias[] = new Categoria($cat['id'], $cat['nombre'], $cat['imagen_categoria']);
         }
 
         return $categorias;
@@ -120,7 +120,7 @@ class Categoria
         $categorias = [];
 
         foreach ($categoriasData as $cat) {
-            $categoria = new Categoria($cat['id'], $cat['nombre']);
+            $categoria = new Categoria($cat['id'], $cat['nombre'], $cat['imagen_categoria']);
             $categoria->activo = $cat['activo'] ?? 1;  // agregar propiedad dinámica para estado
             $categorias[] = $categoria;
         }

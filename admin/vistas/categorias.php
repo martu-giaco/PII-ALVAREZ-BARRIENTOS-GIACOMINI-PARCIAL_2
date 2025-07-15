@@ -17,6 +17,7 @@ $categorias = (new Categoria())->obtenerCategoriasConInactivas(); // Método que
 <tr>
     <th>ID</th>
     <th>Nombre</th>
+    <th>Imagen</th>
     <th>Estado</th>
     <th>Opciones</th>
 </tr>
@@ -32,6 +33,7 @@ foreach ($categorias as $categoria) {
         <td>
             <?= $activo ? '<span class="badge bg-success">Activo</span>' : '<span class="badge bg-secondary">Inactivo</span>'; ?>
         </td>
+        <td><img src="../assets/imagenes/categorias-fotitos/<?= htmlspecialchars($categoria->getImagenCategoria()); ?>" alt="Imagen" width="50" style="object-fit: contain;"></td>
         <td>
             <?php if ($activo): ?>
                 <a href="?sec=editar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-edit"></i></a>

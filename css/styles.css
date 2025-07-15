@@ -394,3 +394,8 @@ dl, ol, ul {
         display: block !important;
     }
 }
+
+.btn-success{
+    background-color: #007AFF !important;
+    border-color: #007AFF !important;
+}

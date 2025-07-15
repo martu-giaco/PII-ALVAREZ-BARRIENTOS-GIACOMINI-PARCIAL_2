@@ -68,6 +68,7 @@ $categorias = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
                 <span class="visually-hidden">Siguiente</span>
             </button>
         </div>
+        <hr class="my-5">
         <div class="row justify-content-center">
             <h2 class="mb-4">Todos los productos</h2>
 

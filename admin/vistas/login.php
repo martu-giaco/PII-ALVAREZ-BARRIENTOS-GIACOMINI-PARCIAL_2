@@ -1,6 +1,7 @@
 <?php
 // Incluir autoload para cargar clases automáticamente
-require_once(__DIR__ . '../../../functions/autoload.php');
+require_once __DIR__ . '/../../functions/autoload.php';
+
 
 
 // echo password_hash("123", PASSWORD_DEFAULT);

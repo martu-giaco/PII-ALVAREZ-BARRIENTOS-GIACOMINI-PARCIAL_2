@@ -1,25 +1,18 @@
 <?php
 session_start(); // Iniciamos la sesión para usar $_SESSION
+require_once __DIR__ . '/../../functions/autoload.php';
 
-require_once("../../functions/autoload.php"); // Incluye clases como Usuario, Alerta, etc.
+// Incluye clases como Usuario, Alerta, etc.
 
 // Captura de datos del formulario
 $usuarioInput = $_POST['usuario'] ?? '';
 $claveInput = $_POST['clave'] ?? '';
 
-// Validación básica de campos
-if (!$usuarioInput || !$claveInput) {
-    Alerta::add_alerta('danger', 'Debe ingresar usuario y clave.');
-    header("Location: vistas/login.php");
-    exit;
-}
-
-// Traemos el usuario desde la base de datos
 $usuario = Usuario::obtenerPorUsuarioEmail($usuarioInput);
 
 if (!$usuario) {
     Alerta::add_alerta('danger', 'El usuario no existe.');
-    header("Location: ../vistas/login.php");
+    header("Location: ../index.php?sec=login");
     exit;
 }
 
@@ -45,7 +38,7 @@ if (password_verify($claveInput, $claveGuardada) || $claveInput === $claveGuarda
     exit;
 
 } else {
-    Alerta::add_alerta('danger', 'La clave ingresada no es correcta.');
-    header("Location: ../vistas/login.php");
+    Alerta::add_alerta('warning', 'La clave ingresada no es correcta.');
+    header("Location: ../index.php?sec=login");
     exit;
 }

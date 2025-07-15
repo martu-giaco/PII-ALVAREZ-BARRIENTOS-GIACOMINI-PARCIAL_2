@@ -1,7 +1,9 @@
 <?php
 // compra.php
 
-require_once __DIR__ . '/../functions/autoload.php';
+require_once(__DIR__ . '/../functions/autoload.php');
+
+
 
 $carrito = $_POST['carrito'] ?? [];
 $nombre = $_POST['nombre'] ?? '';

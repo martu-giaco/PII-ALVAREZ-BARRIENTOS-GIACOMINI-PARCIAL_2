@@ -1,5 +1,5 @@
 <?php
-require_once("../../functions/autoload.php");
+require_once __DIR__ . '/../../functions/autoload.php';
 
 try {
     $categoria = Categoria::get_x_id($_GET['id']);

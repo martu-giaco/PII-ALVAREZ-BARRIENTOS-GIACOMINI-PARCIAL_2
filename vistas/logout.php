@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/../functions/autoload.php';
+require_once(__DIR__ . '/../functions/autoload.php');
+
+
 
 // Redirige si no hay sesión activa
 if (!isset($_SESSION['loggedIn'])) {

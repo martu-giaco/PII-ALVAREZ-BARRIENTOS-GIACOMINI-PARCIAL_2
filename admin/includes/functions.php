@@ -1,5 +1,6 @@
 <?php
-require_once("../functions/autoload.php");
+require_once __DIR__ . '/../../functions/autoload.php';
+
 
 /**
  * Secciones válidas para seguridad

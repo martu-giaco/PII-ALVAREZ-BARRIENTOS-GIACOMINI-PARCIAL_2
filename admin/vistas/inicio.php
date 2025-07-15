@@ -1,5 +1,5 @@
 <?php
-require_once("../functions/autoload.php");
+require_once __DIR__ . '/../../functions/autoload.php';
 Autenticacion::verify(true);
 ?>
 <h1>Bienvenido al panel del admin de pepe</h1>

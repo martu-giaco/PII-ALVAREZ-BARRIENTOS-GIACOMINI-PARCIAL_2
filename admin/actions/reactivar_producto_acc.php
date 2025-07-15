@@ -1,5 +1,5 @@
 <?php
-require_once("../../functions/autoload.php");
+require_once __DIR__ . '/../../functions/autoload.php';
 
 try {
     //Obtiene el ID del producto desde la URL (GET) y carga el objeto Producto correspondiente

@@ -1,5 +1,5 @@
 <?php 
-require_once("../functions/autoload.php");
+require_once __DIR__ . '/../../functions/autoload.php';
 
 // descomentar para hacer autenticacion
 Autenticacion::verify(true);

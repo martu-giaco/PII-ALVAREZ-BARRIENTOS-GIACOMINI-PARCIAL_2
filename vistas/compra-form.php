@@ -1,6 +1,8 @@
 <?php
 // compra-form.php
-require_once __DIR__ . '/../functions/autoload.php';
+require_once(__DIR__ . '/../functions/autoload.php');
+
+
 // Recibir carrito enviado por POST
 $carrito = $_POST['carrito'] ?? [];
 

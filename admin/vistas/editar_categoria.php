@@ -27,7 +27,7 @@ if (!$categoria) {
 
         <div class="mb-3">
         <label class="form-label">Foto actual</label><br>
-        <img src="../assets/imagenes/categorias-fotitos/<?= htmlspecialchars($categoria->getImagenCategoria()); ?>" alt="Imagen Actual" width="50" style="object-fit: contain;">
+        <img src="../assets/imagenes/categorias-fotitos/<?= htmlspecialchars($categoria->getImagenCategoria()); ?>" alt="Imagen Actual" width="400" style="object-fit: contain;">
         <input type="hidden" name="imagen_og" value="<?= htmlspecialchars($categoria->getImagenCategoria()); ?>">
     </div>
 

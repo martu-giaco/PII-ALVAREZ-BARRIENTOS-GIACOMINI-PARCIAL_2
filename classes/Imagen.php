@@ -13,7 +13,7 @@ class Imagen
         return $nombreNuevo;
     }
 
-    public static function borrarImagen($ruta)
+    public static function desactivarImagen($ruta)
     {
         // No hace nada, solo simula que borró
         return true;

@@ -15,10 +15,10 @@ try {
     }
 
     // Marcamos como inactivo en vez de eliminar físicamente
-    $producto->marcarComoInactivo();
+    $producto->eliminarProducto();
 
 } catch (Exception $e) {
-    die("No se pudo borrar el producto: " . $e->getMessage());
+    die("No se pudo desactivar el producto: " . $e->getMessage());
 }
 
 header('Location: ../index.php?sec=productos');

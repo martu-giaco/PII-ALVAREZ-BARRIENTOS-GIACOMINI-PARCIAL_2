@@ -16,7 +16,7 @@ if (!$producto) {
 }
 ?>
 
-<h2>¿Estás seguro de que deseas eliminar este producto?</h2>
+<h2>¿Estás seguro de que deseas desactivar este producto?</h2>
 
 <div class="card my-4">
     <div class="card-body">
@@ -27,8 +27,8 @@ if (!$producto) {
     </div>
 </div>
 
-<form action="actions/borrar_producto_acc.php" method="get">
+<form action="actions/desactivar_producto_acc.php" method="get">
     <input type="hidden" name="id" value="<?= htmlspecialchars($producto->getId()); ?>">
-    <button type="submit" class="btn btn-danger py-3 px-5">Borrar</button>
+    <button type="submit" class="btn btn-warning py-3 px-5">desactivar</button>
     <a href="?sec=productos" class="btn btn-light py-3 px-5">Cancelar</a>
 </form>

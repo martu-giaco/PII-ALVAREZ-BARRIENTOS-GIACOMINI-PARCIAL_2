@@ -5,13 +5,13 @@ class Categoria
 {
     private $id;
     private $nombre;
-    private $imagenCat;
+    private $imagen_categoria;
 
-    public function __construct($id = null, $nombre = null, $imagenCat = null)
+    public function __construct($id = null, $nombre = null, $imagen_categoria = null)
     {
         $this->id = $id;
         $this->nombre = $nombre;
-        $this->imagen_categoria = $imagenCat;
+        $this->imagen_categoria = $imagen_categoria;
     }
 
     public function getIdCategoria()
@@ -51,7 +51,7 @@ class Categoria
     {
         $conexion = (new Conexion())->getConexion();
 
-        $query = "SELECT id, nombre FROM categorias WHERE id = :id LIMIT 1";
+        $query = "SELECT id, nombre, imagen_categoria FROM categorias WHERE id = :id LIMIT 1";
         $PDOStatement = $conexion->prepare($query);
         $PDOStatement->execute(['id' => $id]);
 
@@ -61,11 +61,11 @@ class Categoria
             return null; // No se encontró
         }
 
-        return new Categoria($cat['id'], $cat['nombre']);
+        return new Categoria($cat['id'], $cat['nombre'], $cat['imagen_categoria']);
     }
 
 
-    public static function edit(int $id, string $nombre): void
+    public static function edit(int $id, string $nombre, string $imagen_categoria): void
     {
         $conexion = (new Conexion())->getConexion();
 
@@ -73,22 +73,33 @@ class Categoria
         $PDOStatement = $conexion->prepare($query);
         $PDOStatement->execute([
             'id' => $id,
-            'nombre' => $nombre
+            'nombre' => $nombre,
+            'imagen_categoria' => $imagen_categoria,
         ]);
     }
 
 
-    public static function insert(string $nombre): void
+    public static function insert(string $nombre, string $imagen_categoria): void
     {
         $conexion = (new Conexion())->getConexion();
 
-        $query = "INSERT INTO categorias (nombre) VALUES (:nombre)";
+        $query = "INSERT INTO categorias (nombre, imagen_categoria) VALUES (:nombre, :imagen_categoria)";
         $PDOStatement = $conexion->prepare($query);
-        $PDOStatement->execute(['nombre' => $nombre]);
+        $PDOStatement->execute(['nombre' => $nombre, 'imagen_categoria' => $imagen_categoria]);
     }
 
 
-    public function marcarComoInactiva(): bool
+    public function eliminarCategoria(): bool
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "DELETE FROM categorias WHERE id = :id";
+        $PDOStatement = $conexion->prepare($query);
+
+        return $PDOStatement->execute(['id' => $this->id]);
+    }
+
+    public function marcarCategoriaComoInactiva(): bool
     {
         $conexion = (new Conexion())->getConexion();
 
@@ -111,7 +122,7 @@ class Categoria
     {
         $conexion = (new Conexion())->getConexion();
 
-        $query = "SELECT * FROM categorias ORDER BY nombre";
+        $query = "SELECT * FROM categorias ORDER BY id";
 
         $PDOStatement = $conexion->prepare($query);
         $PDOStatement->execute();

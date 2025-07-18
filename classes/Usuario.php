@@ -74,4 +74,80 @@ class Usuario
 
         return $data ? new Usuario($data) : null;
     }
+
+    public static function obtenerUsuariosConInactivos(): array
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "SELECT * FROM usuarios ORDER BY id_usuario";
+
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute();
+
+        $usuariosData = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
+        $usuarios = [];
+
+        foreach ($usuariosData as $user) {
+            $usuario = new Usuario($user);
+            $usuario->activo = $user['activo'] ?? 1;  // agregar propiedad dinámica para estado
+            $usuarios[] = $usuario;
+        }
+
+        return $usuarios;
+    }
+
+    
+    public static function get_x_id(int $id): ?Usuario
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "SELECT id_usuario, usuario, email, clave FROM usuarios WHERE id_usuario = :id LIMIT 1";
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute(['id' => $id]);
+
+        $user = $PDOStatement->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) {
+            return null; // No se encontró
+        }
+
+        return new Usuario($user['id_usuario'], $user['usuario'], $user['email'], $user['clave']);
+    }
+
+    //Inserta un nuevo usuario en la base de datos
+    public static function insert($usuario, $email, $clave, $rol) {
+        $db = (new Conexion())->getConexion();
+
+        $stmt = $db->prepare("INSERT INTO usuarios (usuario, email, clave, rol) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$usuario, $email, $clave, $rol]);
+    }
+
+    public function eliminarUsuario(): bool
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "DELETE FROM usuarios WHERE id_usuario = :id_usuario";
+        $PDOStatement = $conexion->prepare($query);
+
+        return $PDOStatement->execute(['id_usuario' => $this->id_usuario]);
+    }
+
+    public static function obtenerUsuarios(): array
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "SELECT id_usuario, usuario, email, clave FROM usuarios WHERE activo = 1 ORDER BY usuario";
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute();
+
+        $usuariosData = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
+        $usuarios = [];
+
+        foreach ($usuariosData as $user) {
+            $usuarios[] = new Usuario($user['id_usuario'], $user['usuario'], $user['email'], $user['clave']);
+        }
+
+        return $usuarios;
+    }
+
 }

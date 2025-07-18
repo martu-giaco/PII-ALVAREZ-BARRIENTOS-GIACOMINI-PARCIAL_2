@@ -24,8 +24,8 @@ if (!$categoria) {
     </div>
 </div>
 
-<form action="actions/borrar_categoria_acc.php" method="get">
+<form action="actions/eliminar_categoria_acc.php" method="get">
     <input type="hidden" name="id" value="<?= htmlspecialchars($categoria->getIdCategoria()); ?>">
-    <button type="submit" class="btn btn-danger py-3 px-5">Borrar</button>
+    <button type="submit" class="btn btn-danger py-3 px-5">eliminar</button>
     <a href="?sec=categorias" class="btn btn-light py-3 px-5">Cancelar</a>
 </form>

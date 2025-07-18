@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2025 at 11:42 PM
+-- Generation Time: Jul 18, 2025 at 10:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `apple-p2`
 --
-CREATE DATABASE IF NOT EXISTS `apple-p2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `apple-p2`;
 
 -- --------------------------------------------------------
 
@@ -170,16 +168,17 @@ CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
   `usuario` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `clave` varchar(255) NOT NULL
+  `clave` varchar(255) NOT NULL,
+  `activo` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `usuario`, `email`, `clave`) VALUES
-(1, 'pepe', 'pepe@pepe.com', '$2y$10$5m73Z9VKBizBEcMuCH2KfeduiVWNHlbUfcFaP6/ZMJQi79rhJcuLS'),
-(2, 'elu suario', 'elu@suario.com', '$2y$10$ArZk8dLj.FQxv4PI3AM00uZumLbxNZShE1QXfVnbCmMpw/P.oZnKC');
+INSERT INTO `usuarios` (`id_usuario`, `usuario`, `email`, `clave`, `activo`) VALUES
+(1, 'pepe', 'pepe@pepe.com', '$2y$10$5m73Z9VKBizBEcMuCH2KfeduiVWNHlbUfcFaP6/ZMJQi79rhJcuLS', 1),
+(2, 'elu suario', 'elu@suario.com', '$2y$10$ArZk8dLj.FQxv4PI3AM00uZumLbxNZShE1QXfVnbCmMpw/P.oZnKC', 1);
 
 -- --------------------------------------------------------
 

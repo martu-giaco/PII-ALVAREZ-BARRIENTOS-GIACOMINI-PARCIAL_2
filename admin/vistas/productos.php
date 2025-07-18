@@ -33,7 +33,7 @@ $productos = (new Producto())->todosProductosConInactivos(); // Por ejemplo, cre
             $p['nombre'],
             $p['descripcion'],
             $p['precio'],
-            [['nombre' => $p['categoria']]], // para getImagen
+            [['nombre' => $p['categoria']]],
             $p['imagen']
         );
         $img = $prod->getImagen();
@@ -53,8 +53,9 @@ $productos = (new Producto())->todosProductosConInactivos(); // Por ejemplo, cre
         </td>
         <td>
             <?php if ($activo): ?>
-                <a href="?sec=editar_producto&id=<?= urlencode($prod->getId()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-edit"></i></a>
-                <a href="?sec=borrar_producto&id=<?= urlencode($prod->getId()); ?>" class="btn btn-danger text-white py-2 px-3"><i class="fas fa-trash-alt"></i></a>
+                <a href="?sec=editar_producto&id=<?= urlencode($prod->getId()); ?>" class="btn btn-primary text-white py-2 px-3"><i class="fas fa-edit"></i> Editar</a>
+                <a href="?sec=desactivar_producto&id=<?= urlencode($prod->getId()); ?>" class="btn btn-warning text-white py-2 px-3"><i class="fa-solid fa-moon"></i> Desactivar</a>
+                <a href="?sec=eliminar_producto&id=<?= urlencode($prod->getId()); ?>" class="btn btn-danger text-white py-2 px-3"><i class="fas fa-trash-alt"></i> Eliminar</a>
             <?php else: ?>
                 <a href="actions/reactivar_producto_acc.php?id=<?= urlencode($prod->getId()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-redo-alt"></i> Reactivar</a>
             <?php endif; ?>
@@ -65,4 +66,4 @@ $productos = (new Producto())->todosProductosConInactivos(); // Por ejemplo, cre
 </tbody>
 </table>
 
-<a href="?sec=crear_producto" class="btn btn-primary text-white py-3 px-5">Crear producto nuevo</a>
+<a href="?sec=crear_producto" class="btn btn-primary text-white py-3 px-5">Crear nuevo producto</a>

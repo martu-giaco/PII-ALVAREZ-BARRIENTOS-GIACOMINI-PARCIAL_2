@@ -13,8 +13,8 @@ try {
 
     // Subida de imagen nueva si corresponde
     if (!empty($datosArchivo['tmp_name'])) {
-        // Borrar imagen anterior
-        Imagen::borrarImagen("../../img/productos/" . $producto->getImagen());
+        // desactivar imagen anterior
+        Imagen::desactivarImagen("../../img/productos/" . $producto->getImagen());
         // Subir nueva imagen
         $imagen = Imagen::subirImagen("../../img/productos", $datosArchivo);
     } else {

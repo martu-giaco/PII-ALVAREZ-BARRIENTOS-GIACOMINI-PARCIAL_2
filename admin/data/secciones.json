@@ -60,6 +60,12 @@
         "inMenu": true
     },
     {
+        "vinculo": "usuarios",
+        "texto": "Usuarios",
+        "title": "Gestión de Usuarios",
+        "inMenu": true
+    },
+    {
         "vinculo": "login",
         "texto": "<i class='fa-solid fa-user mx-2'></i>Iniciar sesión",
         "title": "Iniciar sesión",
@@ -96,8 +102,14 @@
         "inMenu": false
     },
     {
-        "vinculo": "borrar_producto",
-        "texto": "Borrar Producto",
+        "vinculo": "desactivar_producto",
+        "texto": "Desactivar Producto",
+        "title": "Desactivar un producto",
+        "inMenu": false
+    },
+    {
+        "vinculo": "eliminar_producto",
+        "texto": "Eliminar Producto",
         "title": "Eliminar un producto",
         "inMenu": false
     },
@@ -114,9 +126,45 @@
         "inMenu": false
     },
     {
-        "vinculo": "borrar_categoria",
-        "texto": "Borrar Categoría",
-        "title": "Eliminar una categoría",
+        "vinculo": "desactivar_categoria",
+        "texto": "Desactivar Categoría",
+        "title": "Desactivar una categoría",
+        "inMenu": false
+    },
+    {
+        "vinculo": "desactivar_usuario",
+        "texto": "Desactivar Usuario",
+        "title": "Desactivar un usuario",
+        "inMenu": false
+    },
+    {
+        "vinculo": "eliminar_usuario",
+        "texto": "Eliminar Usuario",
+        "title": "Eliminar un usuario",
+        "inMenu": false
+    },
+    {
+        "vinculo": "editar_usuario",
+        "texto": "Editar Usuario",
+        "title": "Editar un usuario",
+        "inMenu": false
+    },
+    {
+        "vinculo": "pedidos",
+        "texto": "Pedidos",
+        "title": "Visualización de Pedidos",
+        "inMenu": true
+    },
+    {
+        "vinculo": "crear_usuario",
+        "texto": "Crear Usuario",
+        "title": "Agregar un nuevo usuario",
+        "inMenu": false
+    },
+    {
+        "vinculo": "cancelar_pedido",
+        "texto": "Cancelar Pedido",
+        "title": "Cancelar un pedido",
         "inMenu": false
     }
 ]

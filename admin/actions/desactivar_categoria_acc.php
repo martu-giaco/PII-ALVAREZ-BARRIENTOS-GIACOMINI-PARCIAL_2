@@ -15,10 +15,10 @@ try {
     }
 
     // Marcamos la categoría como inactiva (en lugar de eliminar)
-    $categoria->marcarComoInactiva();
+    $categoria->marcarCategoriaComoInactiva();
 
 } catch (Exception $e) {
-    die("No se pudo borrar la categoría: " . $e->getMessage());
+    die("No se pudo desactivar la categoría: " . $e->getMessage());
 }
 
 header('Location: ../index.php?sec=categorias');

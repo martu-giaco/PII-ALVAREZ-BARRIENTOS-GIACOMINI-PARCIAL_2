@@ -36,8 +36,9 @@ foreach ($categorias as $categoria) {
         <td><img src="../assets/imagenes/categorias-fotitos/<?= htmlspecialchars($categoria->getImagenCategoria()); ?>" alt="Imagen" width="50" style="object-fit: contain;"></td>
         <td>
             <?php if ($activo): ?>
-                <a href="?sec=editar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-edit"></i></a>
-                <a href="?sec=borrar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-danger text-white py-2 px-3"><i class="fas fa-trash-alt"></i></a>
+                <a href="?sec=editar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-primary text-white py-2 px-3"><i class="fas fa-edit"></i> Editar</a>
+                <a href="?sec=desactivar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-warning text-white py-2 px-3"><i class="fa-solid fa-moon"></i> Desactivar</a>
+                <a href="?sec=eliminar_categoria&id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-danger text-white py-2 px-3"><i class="fas fa-trash-alt"></i> Eliminar</a>
             <?php else: ?>
                 <a href="actions/reactivar_categoria_acc.php?id=<?= urlencode($categoria->getIdCategoria()); ?>" class="btn btn-dark text-white py-2 px-3"><i class="fas fa-redo-alt"></i> Reactivar</a>
             <?php endif; ?>

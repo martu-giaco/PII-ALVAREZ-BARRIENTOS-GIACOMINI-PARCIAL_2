@@ -57,13 +57,6 @@ class Producto {
         $stmt->execute([$nombre, $descripcion, $precio, $imagen, $id_categoria, $this->id]);
     }
 
-    //Baja lógica: desactiva el producto (activo = 0)
-    public function darBaja() {
-        $db = (new Conexion())->getConexion();
-        $stmt = $db->prepare("UPDATE productos SET activo = 0 WHERE id = ?");
-        $stmt->execute([$this->id]);
-    }
-
     //Reactiva el producto (activo = 1)
     public function activar() {
         $db = (new Conexion())->getConexion();
@@ -77,5 +70,15 @@ class Producto {
 
         $stmt = $db->prepare("INSERT INTO productos (id_categoria, nombre, descripcion, precio, imagen, activo) VALUES (?, ?, ?, ?, ?, 1)");
         $stmt->execute([$id_categoria, $nombre, $descripcion, $precio, $imagen]);
+    }
+
+    public function eliminarProducto(): bool
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "DELETE FROM productos WHERE id = :id";
+        $PDOStatement = $conexion->prepare($query);
+
+        return $PDOStatement->execute(['id' => $this->id]);
     }
 }

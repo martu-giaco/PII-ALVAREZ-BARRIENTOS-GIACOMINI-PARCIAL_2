@@ -25,7 +25,7 @@
         </div>
         <div id="footer-detalles" class="d-flex justify-content-between">
             <p>©2025 Álvarez, Barrientos, Giacomini - Programación II: Parcial 2</p>
-            <p>Argentina</p>
+            <p>Buenos Aires, Argentina.</p>
         </div>
     </div>
 </footer>

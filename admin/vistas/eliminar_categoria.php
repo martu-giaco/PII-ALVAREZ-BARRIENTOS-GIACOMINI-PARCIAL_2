@@ -21,6 +21,7 @@ if (!$categoria) {
 <div class="card my-4">
     <div class="card-body">
         <h5 class="card-title"><?= htmlspecialchars($categoria->getNombreCategoria()); ?></h5>
+        <img src="../assets/imagenes/categorias-fotitos/<?= $categoria->getImagenCategoria(); ?>" alt="Imagen de la categoría" width="300" style="object-fit: contain;">
     </div>
 </div>
 

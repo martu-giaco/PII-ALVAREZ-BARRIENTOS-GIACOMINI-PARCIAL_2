@@ -1,9 +1,14 @@
 <?php
 require_once __DIR__ . '/../../functions/autoload.php';
 
-// Recibir datos del formulario
-$nombre = $_POST['categoria'] ?? '';
+$postData = $_POST;
 $imagenNombre = null;
+
+try {
+    // Validaciones básicas
+    if (empty($postData['categoria'])) {
+        throw new Exception("Faltan datos obligatorios.");
+    }
 
 // Procesar subida de imagen si existe
 if (!empty($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
@@ -37,10 +42,25 @@ if (!empty($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
 
 // Llamar al método que inserta la categoría (ajusta según firma real)
 if ($imagenNombre !== null) {
-    Categoria::insert($nombre, $imagenNombre);
+    Categoria::insert(
+        $postData['categoria'],
+        $imagen
+    );
 } else {
-    Categoria::insert($nombre, null);
+    Categoria::insert(
+        $postData['categoria']
+    );
+}
+
+    Alerta::add_alerta("success", "Se creó correctamente la categoría: " . $postData['categoria'] . " (ID: " . $postData['id'] . ")");
+
+} catch (Exception $e) {
+    die("No se pudo cargar la categoría: " . $e->getMessage());
 }
 
 header('Location: ../index.php?sec=categorias');
 exit;
+
+
+
+

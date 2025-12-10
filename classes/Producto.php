@@ -169,12 +169,12 @@ class Producto
         return $catalogo;
     }
 
-    public function edit(int $idCategoria, string $nombre, string $descripcion, float $precio, string $imagen): void
+    public function edit(int $idCategoria, string $nombre, string $descripcion, float $precio, ?string $imagen = null): void
     {
         $conexion = (new Conexion())->getConexion();
 
-        if($imagen === null || $imagen === '') {
-            //Actualizar los datos principales del producto
+        // Si se proporcionó una nueva imagen, actualizarla; si no, mantener la actual en la BD
+        if ($imagen !== null && $imagen !== '') {
             $query = "UPDATE productos SET nombre = :nombre, descripcion = :descripcion, precio = :precio, imagen = :imagen WHERE id = :id";
             $PDOStatement = $conexion->prepare($query);
             $PDOStatement->execute([
@@ -184,7 +184,7 @@ class Producto
                 'imagen' => $imagen,
                 'id' => $this->id
             ]);
-        }else{
+        } else {
             $query = "UPDATE productos SET nombre = :nombre, descripcion = :descripcion, precio = :precio WHERE id = :id";
             $PDOStatement = $conexion->prepare($query);
             $PDOStatement->execute([
@@ -211,11 +211,14 @@ class Producto
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->precio = $precio;
-        $this->imagen = $imagen;
+        if ($imagen !== null && $imagen !== '') {
+            // solo actualizar la propiedad imagen si se pasó una nueva
+            $this->imagen = $imagen;
+        }
         $this->categorias = [['id' => $idCategoria]]; // Simplificado
     }
 
-    public static function insert(int $idCategoria, string $nombre, string $descripcion, float $precio, string $imagen = null): int
+    public static function insert(int $idCategoria, string $nombre, string $descripcion, float $precio, ?string $imagen = null): int
     {
         $conexion = (new Conexion())->getConexion();
 

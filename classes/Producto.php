@@ -173,21 +173,27 @@ class Producto
     {
         $conexion = (new Conexion())->getConexion();
 
-        // 1. Actualizar los datos principales del producto
-        $query = "UPDATE productos SET 
-                nombre = :nombre, 
-                descripcion = :descripcion, 
-                precio = :precio, 
-                imagen = :imagen 
-                WHERE id = :id";
-        $PDOStatement = $conexion->prepare($query);
-        $PDOStatement->execute([
-            'nombre' => $nombre,
-            'descripcion' => $descripcion,
-            'precio' => $precio,
-            'imagen' => $imagen,
-            'id' => $this->id
-        ]);
+        if($imagen === null || $imagen === '') {
+            //Actualizar los datos principales del producto
+            $query = "UPDATE productos SET nombre = :nombre, descripcion = :descripcion, precio = :precio, imagen = :imagen WHERE id = :id";
+            $PDOStatement = $conexion->prepare($query);
+            $PDOStatement->execute([
+                'nombre' => $nombre,
+                'descripcion' => $descripcion,
+                'precio' => $precio,
+                'imagen' => $imagen,
+                'id' => $this->id
+            ]);
+        }else{
+            $query = "UPDATE productos SET nombre = :nombre, descripcion = :descripcion, precio = :precio WHERE id = :id";
+            $PDOStatement = $conexion->prepare($query);
+            $PDOStatement->execute([
+                'nombre' => $nombre,
+                'descripcion' => $descripcion,
+                'precio' => $precio,
+                'id' => $this->id
+            ]);
+        }
 
         // 2. Actualizar la relación con la categoría
         // Primero borramos las categorías actuales
@@ -209,7 +215,7 @@ class Producto
         $this->categorias = [['id' => $idCategoria]]; // Simplificado
     }
 
-    public static function insert(int $idCategoria, string $nombre, string $descripcion, float $precio, string $imagen): int
+    public static function insert(int $idCategoria, string $nombre, string $descripcion, float $precio, string $imagen = null): int
     {
         $conexion = (new Conexion())->getConexion();
 

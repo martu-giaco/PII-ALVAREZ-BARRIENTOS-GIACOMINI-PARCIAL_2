@@ -17,7 +17,7 @@ try {
     // Marcamos la categoría como inactiva (en lugar de eliminar)
     $categoria->marcarCategoriaComoInactiva();
 
-    Alerta::add_alerta("secondary", "Se desactivó correctamente la categoría: " . $postData['nombre'] . " (ID: " . $postData['id'] . ")");
+    Alerta::add_alerta("warning", "Se desactivó correctamente la categoría: " . $postData['nombre'] . " (ID: " . $postData['id'] . ")");
 
 } catch (Exception $e) {
     die("No se pudo desactivar la categoría: " . $e->getMessage());

@@ -65,21 +65,30 @@ class Categoria
     }
 
 
-    public static function edit(int $id, string $nombre, string $imagen_categoria): void
+    public static function edit(int $id, string $nombre, ?string $imagen_categoria = null): void
     {
         $conexion = (new Conexion())->getConexion();
 
-        $query = "UPDATE categorias SET nombre = :nombre WHERE id = :id";
-        $PDOStatement = $conexion->prepare($query);
-        $PDOStatement->execute([
-            'id' => $id,
-            'nombre' => $nombre,
-            'imagen_categoria' => $imagen_categoria,
-        ]);
+        if ($imagen_categoria !== null && $imagen_categoria !== '') {
+            $query = "UPDATE categorias SET nombre = :nombre, imagen_categoria = :imagen_categoria WHERE id = :id";
+            $PDOStatement = $conexion->prepare($query);
+            $PDOStatement->execute([
+                'id' => $id,
+                'nombre' => $nombre,
+                'imagen_categoria' => $imagen_categoria,
+            ]);
+        } else {
+            $query = "UPDATE categorias SET nombre = :nombre WHERE id = :id";
+            $PDOStatement = $conexion->prepare($query);
+            $PDOStatement->execute([
+                'id' => $id,
+                'nombre' => $nombre,
+            ]);
+        }
     }
 
 
-    public static function insert(string $nombre, string $imagen_categoria): void
+    public static function insert(string $nombre, ?string $imagen_categoria = null): void
     {
         $conexion = (new Conexion())->getConexion();
 

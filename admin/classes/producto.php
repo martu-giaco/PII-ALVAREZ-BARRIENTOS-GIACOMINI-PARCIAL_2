@@ -65,7 +65,7 @@ class Producto {
     }
 
     //Inserta un nuevo producto en la base de datos
-    public static function insert($id_categoria, $nombre, $descripcion, $precio, $imagen) {
+    public static function insert($id_categoria, $nombre, $descripcion, $precio, $imagen = null) {
         $db = (new Conexion())->getConexion();
 
         $stmt = $db->prepare("INSERT INTO productos (id_categoria, nombre, descripcion, precio, imagen, activo) VALUES (?, ?, ?, ?, ?, 1)");

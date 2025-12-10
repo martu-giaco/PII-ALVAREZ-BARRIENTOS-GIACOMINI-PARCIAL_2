@@ -132,6 +132,12 @@
         "inMenu": false
     },
     {
+        "vinculo": "eliminar_categoria",
+        "texto": "Eliminar Categoría",
+        "title": "Eliminar una categoría",
+        "inMenu": false
+    },
+    {
         "vinculo": "desactivar_usuario",
         "texto": "Desactivar Usuario",
         "title": "Desactivar un usuario",

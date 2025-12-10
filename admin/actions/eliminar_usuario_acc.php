@@ -17,6 +17,8 @@ try {
     // Marcamos como inactivo en vez de eliminar físicamente
     $usuario->eliminarUsuario();
 
+    Alerta::add_alerta("warning", "Se eliminó correctamente el usuario: " . $postData['usuario'] . " (ID: " . $postData['id_usuario'] . ")");
+
 } catch (Exception $e) {
     die("No se pudo eliminar el usuario: " . $e->getMessage());
 }

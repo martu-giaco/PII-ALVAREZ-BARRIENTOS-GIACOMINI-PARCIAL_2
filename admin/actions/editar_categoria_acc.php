@@ -12,6 +12,9 @@ try {
         (int) $postData['id_categoria'], 
         trim($postData['categoria'])
     );
+
+    Alerta::add_alerta("success", "Se editó correctamente la categoría: " . $postData['nombre'] . " (ID: " . $postData['id'] . ")");
+    
 } catch (Exception $e) {
     die("No se pudo editar la categoría: " . $e->getMessage());
 }

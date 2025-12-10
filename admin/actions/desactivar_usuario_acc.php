@@ -17,6 +17,8 @@ try {
     // Marcamos como inactivo en vez de eliminar físicamente
     $usuario->marcarComoInactivo();
 
+    Alerta::add_alerta("secondary", "Se desactivó correctamente el usuario: " . $postData['usuario'] . " (ID: " . $postData['id_usuario'] . ")");
+
 } catch (Exception $e) {
     die("No se pudo desactivar el usuario: " . $e->getMessage());
 }

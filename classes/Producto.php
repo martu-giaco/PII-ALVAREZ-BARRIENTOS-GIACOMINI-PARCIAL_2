@@ -259,23 +259,34 @@ class Producto
 
         return $PDOStatement->execute(['id' => $this->id]);
     }
-public function todosProductosConInactivos(): array
-{
-    $conexion = (new Conexion())->getConexion();
+    
+    public function todosProductosConInactivos(): array
+    {
+        $conexion = (new Conexion())->getConexion();
 
-    $query = "
-    SELECT p.*, c.nombre AS categoria
-    FROM productos p
-    LEFT JOIN producto_categoria pc ON p.id = pc.producto_id
-    LEFT JOIN categorias c ON pc.categoria_id = c.id
-    GROUP BY p.id
-    ";
+        $query = "
+        SELECT p.*, c.nombre AS categoria
+        FROM productos p
+        LEFT JOIN producto_categoria pc ON p.id = pc.producto_id
+        LEFT JOIN categorias c ON pc.categoria_id = c.id
+        GROUP BY p.id
+        ";
 
-    $PDOStatement = $conexion->prepare($query);
-    $PDOStatement->execute();
+        $PDOStatement = $conexion->prepare($query);
+        $PDOStatement->execute();
 
-    return $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
-}
+        return $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function eliminarProducto(): bool
+    {
+        $conexion = (new Conexion())->getConexion();
+
+        $query = "DELETE FROM productos WHERE id = :id";
+        $PDOStatement = $conexion->prepare($query);
+
+        return $PDOStatement->execute(['id' => $this->id]);
+    }
 
 
 }

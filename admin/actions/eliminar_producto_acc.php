@@ -17,6 +17,8 @@ try {
     // Marcamos como inactivo en vez de eliminar físicamente
     $producto->eliminarProducto();
 
+    Alerta::add_alerta("warning", "Se eliminó correctamente el producto: " . $postData['nombre'] . " (ID: " . $postData['id_producto'] . ")");
+
 } catch (Exception $e) {
     die("No se pudo desactivar el producto: " . $e->getMessage());
 }

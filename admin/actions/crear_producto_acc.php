@@ -28,6 +28,9 @@ try {
     echo $idProducto;
 
     header('Location: ../index.php?sec=productos');
+
+    Alerta::add_alerta("success", "Se creó correctamente el producto: " . $postData['nombre'] . " (ID: " . $postData['id_producto'] . ")");
+
 } catch (Exception $e) {
     die("No se pudo cargar el producto. Error: " . $e->getMessage());
 }

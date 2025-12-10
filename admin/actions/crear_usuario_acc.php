@@ -20,6 +20,9 @@ try {
     echo $id_usuario;
 
     header('Location: ../index.php?sec=usuarios');
+
+    Alerta::add_alerta("success", "Se creó correctamente el usuario: " . $postData['usuario'] . " (ID: " . $postData['id_usuario'] . ")");
+
 } catch (Exception $e) {
     die("No se pudo cargar el usuario. Error: " . $e->getMessage());
 }

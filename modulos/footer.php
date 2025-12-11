@@ -1,6 +1,6 @@
 <?= $jsBootstrap; ?>
 <footer>
-    <div>
+    <div class="container">
         <div class="d-flex justify-content-between align-items-end p-4">
         <div class="d-flex align-items-start">
             <ul>

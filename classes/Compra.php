@@ -180,7 +180,7 @@ public function cargarDetalles(): void
         WHERE cd.id_compra = :id_compra
     ");
 
-    $stmt->execute(['id' => $this->id_compra]);
+    $stmt->execute(['id_compra' => $this->id_compra]);
 
     // Guardamos en la propiedad detalles
     $this->detalles = $stmt->fetchAll(PDO::FETCH_ASSOC);

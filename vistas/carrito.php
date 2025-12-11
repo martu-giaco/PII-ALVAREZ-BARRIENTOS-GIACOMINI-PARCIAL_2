@@ -72,14 +72,25 @@ Carrito</h2>
                 <button type="submit" class="btn btn-danger text-white py-3 px-5">Vaciar carrito</button>
             </form>
 
-            <form action="index.php?sec=compra-form" method="POST" class="m-0">
-                <?php foreach ($productos_en_carrito as $item): ?>
-                    <input type="hidden" name="carrito[<?= $item['producto']->getId() ?>]" value="<?= $item['cantidad'] ?>">
-                <?php endforeach; ?>
-                <button type="submit" class="btn btn-success text-white py-3 px-5">
-                    <i class="fa-solid fa-credit-card mx-2"></i> Ir a pagar
-                </button>
-            </form>
+            <?php if (isset($_SESSION['loggedIn'])): ?>
+
+                <!-- Si está logueado botón normal -->
+                <form action="index.php?sec=compra-form" method="POST" class="m-0">
+                    <?php foreach ($productos_en_carrito as $item): ?>
+                        <input type="hidden" name="carrito[<?= $item['producto']->getId() ?>]" value="<?= $item['cantidad'] ?>">
+                    <?php endforeach; ?>
+                    <button type="submit" class="btn btn-success text-white py-3 px-5">
+                        <i class="fa-solid fa-credit-card mx-2"></i> Ir a pagar
+                    </button>
+                </form>
+
+            <?php else: ?>
+
+                <!-- Si no está logueados, mensaje -->
+                <div class="alert alert-warning">
+                    Debes <a href="index.php?sec=login">iniciar sesión</a> para poder realizar la compra.
+                </div>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 </div>

@@ -1,26 +1,45 @@
 <?php
 require_once __DIR__ . '/../../functions/autoload.php';
 
-$id = $_GET['id'] ?? false;
+Autenticacion::verify(true);
 
-if (!$id) {
-    die("ID de usuario no válido.");
-}
+$getData = $_GET;
 
 try {
-    $usuario = Usuario::get_x_id($id_usuario);
-
-    if (!$usuario) {
-        die("usuario no encontrado.");
+    if (empty($getData['id'])) {
+        throw new Exception("ID de usuario no válido.");
     }
 
-    // Marcamos como inactivo en vez de eliminar físicamente
-    $usuario->eliminarUsuario();
+    $id = (int) $getData['id'];
 
-    Alerta::add_alerta("danger", "Se eliminó correctamente el usuario: " . $postData['usuario'] . " (ID: " . $postData['id_usuario'] . ")");
+    $usuario = Usuario::get_x_id($id);
+    if (!$usuario) {
+        throw new Exception("Usuario no encontrado.");
+    }
 
+    // Conectar y ejecutar dentro de transacción para mantener consistencia
+    $db = (new Conexion())->getConexion();
+    $db->beginTransaction();
+
+    // 1) Borrar filas en tabla pivote usuario_rol
+    $stmt = $db->prepare("DELETE FROM usuario_rol WHERE id_usuario = :id_usuario");
+    $stmt->execute([':id_usuario' => $id]);
+
+    // 2) Borrar el usuario
+    $stmt2 = $db->prepare("DELETE FROM usuarios WHERE id_usuario = :id_usuario");
+    $stmt2->execute([':id_usuario' => $id]);
+
+    $db->commit();
+
+    Alerta::add_alerta('success', 'Usuario eliminado: ' . htmlspecialchars($usuario->getUsuario()) . ' (ID: ' . $usuario->getIdUsuario() . ').');
 } catch (Exception $e) {
-    die("No se pudo eliminar el usuario: " . $e->getMessage());
+    // Si ocurrió algo en la transacción, intentar rollback si existe conexión
+    if (isset($db) && $db->inTransaction()) {
+        $db->rollBack();
+    }
+
+    Alerta::add_alerta('danger', 'No fue posible eliminar el usuario.');
+    Alerta::add_alerta('secondary', $e->getMessage());
 }
 
 header('Location: ../index.php?sec=usuarios');

@@ -1,7 +1,14 @@
 <?php
 require_once __DIR__ . '/../../functions/autoload.php';
+session_start();
 
-Autenticacion::log_out();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_SESSION['loggedIn'])) {
+        unset($_SESSION['loggedIn']);
+    }
+    header("Location: ../../index.php?sec=login");
+    exit;
+}
 
-header("Location: ../../index.php?sec=login");
+header("Location: ../../index.php");
 exit;

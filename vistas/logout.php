@@ -1,13 +1,14 @@
 <?php
-require_once(__DIR__ . '/../functions/autoload.php');
+require_once __DIR__ . '/../functions/autoload.php';
+session_start();
 
-
-
-// Redirige si no hay sesión activa
-if (!isset($_SESSION['loggedIn'])) {
-    header("Location: ?sec=login");
-    exit;
+if (isset($_SESSION['loggedIn'])) {
+    unset($_SESSION['loggedIn']);
 }
+
+// Redirigir al login
+header("Location: ../index.php?sec=login");
+exit;
 ?>
 
 <section class="d-flex align-items-center justify-content-center h-100">

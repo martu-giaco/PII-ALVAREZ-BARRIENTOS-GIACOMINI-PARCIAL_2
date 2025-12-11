@@ -1,17 +1,39 @@
-<?php
+<?php 
 require_once __DIR__ . '/../../functions/autoload.php';
 
 // descomentar para hacer autenticacion
 Autenticacion::verify(true);
 
-$usuario = new Usuario();
-$lista = $usuario->obtenerUsuarios();
+// Mantener compatibilidad: obtener lista si se requiere en otros fragmentos
+$lista = Usuario::obtenerUsuarios();
 
 $id = $_GET['id'] ?? FALSE;
 $usuario = Usuario::get_x_id($id);
 
 if (!$usuario) {
     die("Usuario no encontrado.");
+}
+
+// Obtener roles desde la tabla `roles`
+$roles = [];
+try {
+    $db = (new Conexion())->getConexion();
+    $roles = $db->query("SELECT id_rol, rol FROM roles ORDER BY id_rol")->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    $roles = [];
+}
+
+// Obtener id_rol actual del usuario (si existe)
+$rolActualId = null;
+try {
+    $stmt = (new Conexion())->getConexion()->prepare("SELECT id_rol FROM usuario_rol WHERE id_usuario = :id_usuario LIMIT 1");
+    $stmt->execute(['id_usuario' => $usuario->getIdUsuario()]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($row) {
+        $rolActualId = $row['id_rol'];
+    }
+} catch (Exception $e) {
+    $rolActualId = null;
 }
 ?>
 
@@ -33,20 +55,25 @@ if (!$usuario) {
         <input type="password" class="form-control" id="clave" name="clave" value="<?= $usuario->getClave(); ?>">
     </div>
 
-<!--     ACÁ IRÍA UN SELECT PARA LOS ROLES, no estoy muy segura como están conectados pq viste q están en una tabla aparte, tengo miedo de tocar y romper algo del login así q después hagamoslo juntas quizas? esto está copypasteado del select de categoria de editar_producto
     <div class="mb-3">
-        <label for="id_categoria" class="form-label">Roles</label>
-        <select class="form-select" name="id_categoria">
-            <option disabled>Seleccione un rol para este usuario</option>
-            < ?php foreach ($lista as $categoria): ?>
-                <option value="< ?= $categoria->getIdCategoria(); ?>"
-                    < ?= ($usuario->getRol()[0]['id'] ?? null) == $categoria->getIdCategoria() ? 'selected' : '' ?>>
-                    < ?= htmlspecialchars($categoria->getNombreCategoria()); ?>
-                </option>
-            < ?php endforeach; ?>
-        </select>
-    </div> -->
-    
+        <label for="rol" class="form-label">Rol</label>
+
+        <?php if (!empty($roles)): ?>
+            <select id="rol" name="rol" class="form-select">
+                <option value="">Seleccione un rol para este usuario</option>
+                <?php foreach ($roles as $r): ?>
+                    <option value="<?= htmlspecialchars($r['id_rol']); ?>"
+                        <?= ($rolActualId !== null && (int)$rolActualId === (int)$r['id_rol']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($r['rol']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        <?php else: ?>
+            <select id="rol" name="rol" class="form-select">
+                <option value="">No hay roles definidos en la base de datos</option>
+            </select>
+        <?php endif; ?>
+    </div>
 
     <input type="submit"  class="btn btn-dark py-3 px-5" value="Editar">
     <a href="?sec=usuarios" class="btn btn-danger text-white py-3 px-5">Cancelar</a>

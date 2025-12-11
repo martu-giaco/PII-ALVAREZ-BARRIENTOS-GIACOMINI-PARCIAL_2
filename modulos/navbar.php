@@ -24,6 +24,21 @@ $secciones = Secciones::secciones_del_sitio();
             <!-- Ítems del menú -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+
+                    <!-- Mostrar email y rol si hay sesión -->
+                    <?php if (isset($_SESSION['loggedIn'])): ?>
+                        <li class="nav-item d-flex align-items-center me-3">
+                            <span class="me-2">
+                                <?= htmlspecialchars($_SESSION['loggedIn']['usuario']) ?>
+                            </span>
+                            <span class="badge 
+                                <?= mb_strtolower($_SESSION['loggedIn']['rol']) === 'admin' ? 'bg-danger' : 'bg-primary' ?> 
+                                text-white">
+                                <?= htmlspecialchars($_SESSION['loggedIn']['rol']) ?>
+                            </span>
+                        </li>
+                    <?php endif; ?>
+
                     <?php foreach ($secciones as $sec): ?>
                         <?php
                             $vinculo = $sec->getVinculo();

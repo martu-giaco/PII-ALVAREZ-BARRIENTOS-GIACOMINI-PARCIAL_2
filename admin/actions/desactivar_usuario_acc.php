@@ -1,27 +1,33 @@
 <?php
 require_once __DIR__ . '/../../functions/autoload.php';
 
-$id_usuario = $_GET['id'] ?? false;
-
-if (!$id_usuario) {
-    die("ID de usuario no válido.");
-}
+$getData = $_GET;
 
 try {
-    $usuario = Usuario::get_x_id($id_usuario);
-
-    if (!$usuario) {
-        die("Usuario no encontrado.");
+    // Validación básica
+    if (empty($getData['id'])) {
+        throw new Exception("ID de usuario no válido.");
     }
 
-    // Marcamos como inactivo en vez de eliminar físicamente
-    $usuario->marcarComoInactivo();
+    $id = (int) $getData['id'];
 
-    Alerta::add_alerta("warning", "Se desactivó correctamente el usuario: " . $postData['usuario'] . " (ID: " . $postData['id_usuario'] . ")");
+    // Cargar usuario por id
+    $usuario = Usuario::get_x_id($id);
+    if (!$usuario) {
+        throw new Exception("Usuario no encontrado.");
+    }
+
+    // Marcar como inactivo
+    $usuario->desactivar();
+
+    // Alerta de éxito
+    Alerta::add_alerta("warning", "Se desactivó correctamente el usuario: " . $usuario->getUsuario() . " (ID: " . $id . ")");
 
 } catch (Exception $e) {
-    die("No se pudo desactivar el usuario: " . $e->getMessage());
+    Alerta::add_alerta("danger", "No se pudo desactivar el usuario.");
+    Alerta::add_alerta("secondary", $e->getMessage());
 }
 
+// Redirección al listado
 header('Location: ../index.php?sec=usuarios');
 exit;

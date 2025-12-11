@@ -4,6 +4,8 @@ require_once __DIR__ . '/../classes/secciones.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 $secciones = Secciones::secciones_del_sitio();
+$usuario = $_SESSION['loggedIn']['usuario'] ?? $_SESSION['loggedIn']['email'] ?? null;
+$rol     = $_SESSION['loggedIn']['rol'] ?? null;
 ?>
 
 <header>
@@ -15,54 +17,48 @@ $secciones = Secciones::secciones_del_sitio();
                 <img src="assets/imagenes/Apple_logo_black.svg" alt="apple-logo" style="height: 30px;">
             </a>
 
-            <!-- Botón hamburguesa para responsive -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <!-- Botón hamburguesa -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Ítems del menú -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
 
-                    <?php if (!empty($_SESSION['loggedIn'])): ?>
-    <li class="nav-item d-flex align-items-center me-3">
-        <span class="me-2">
-            <?= htmlspecialchars($_SESSION['loggedIn']['email'] ?? $_SESSION['loggedIn']['usuario'] ?? '') ?>
-        </span>
-        <span class="badge 
-            <?= (isset($_SESSION['loggedIn']['rol']) && mb_strtolower($_SESSION['loggedIn']['rol']) === 'admin') ? 'bg-danger' : 'bg-primary' ?> 
-            text-white">
-            <?= htmlspecialchars($_SESSION['loggedIn']['rol'] ?? '') ?>
-        </span>
-    </li>
-<?php endif; ?>
+                    <?php foreach ($secciones as $sec): 
+                        $vinculo = $sec->getVinculo();
+                        $mostrar = $sec->getInMenu();
 
-
-                    <?php foreach ($secciones as $sec): ?>
-                        <?php
-                            $vinculo = $sec->getVinculo();
-                            $mostrar = $sec->getInMenu();
-
-                            // Ocultar "Iniciar sesión" si ya hay sesión
-                            if ($vinculo === "login" && !empty($_SESSION['loggedIn'])) continue;
-
-                            // Ocultar "Cerrar sesión" si no hay sesión
-                            if ($vinculo === "logout" && empty($_SESSION['loggedIn'])) continue;
-                        ?>
-
+                        if ($vinculo === "login" && !empty($_SESSION['loggedIn'])) continue;
+                        if ($vinculo === "logout" && empty($_SESSION['loggedIn'])) continue;
+                    ?>
                         <?php if ($mostrar): ?>
-                            <li class="nav-item">
-                                <a class="nav-link" href="?sec=<?= $vinculo ?>">
-                                    <?= $sec->getTexto() ?>
-                                </a>
+                            <li class="nav-item me-2">
+                                <?php if ($vinculo === "logout"): ?>
+                                    <a class="btn btn-danger rounded-pill text-white" href="?sec=logout">
+                                        <?= $sec->getTexto() ?>
+                                    </a>
+                                <?php else: ?>
+                                    <a class="nav-link" href="?sec=<?= htmlspecialchars($vinculo) ?>">
+                                        <?= $sec->getTexto() ?>
+                                    </a>
+                                <?php endif; ?>
                             </li>
                         <?php endif; ?>
                     <?php endforeach; ?>
 
+                    <?php if ($usuario && $rol): ?>
+                        <li class="nav-item d-flex align-items-center ms-3">
+                            <span class="me-2"><?= htmlspecialchars($usuario) ?></span>
+                            <span class="badge <?= mb_strtolower($rol) === 'admin' ? 'bg-danger' : 'bg-primary' ?> text-white">
+                                <?= htmlspecialchars($rol) ?>
+                            </span>
+                        </li>
+                    <?php endif; ?>
+
                 </ul>
             </div>
-
         </div>
     </nav>
 </header>

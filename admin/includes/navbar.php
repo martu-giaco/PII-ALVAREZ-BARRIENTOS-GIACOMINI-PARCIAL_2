@@ -1,11 +1,9 @@
 <?php
 require_once __DIR__ . '/../../functions/autoload.php';
-require_once __DIR__ . '/functions.php'; // Asegurarte que functions.php se cargue primero
+require_once __DIR__ . '/functions.php';
 
-// Iniciar sesión si no está activa
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-// Obtener usuario y rol de manera segura
 $usuario = $_SESSION['loggedIn']['usuario'] ?? $_SESSION['loggedIn']['email'] ?? null;
 $rol     = $_SESSION['loggedIn']['rol'] ?? null;
 ?>
@@ -29,24 +27,35 @@ $rol     = $_SESSION['loggedIn']['rol'] ?? null;
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-center">
 
-                    <!-- Mostrar usuario y rol si existe sesión -->
+                    <!-- Menú dinámico -->
+                    <?php foreach (secciones_menu() as $vinculo => $texto): ?>
+                        <?php
+                        // Ocultar login/logout según sesión
+                        if ($vinculo === "login" && !empty($_SESSION['loggedIn'])) continue;
+                        if ($vinculo === "logout" && empty($_SESSION['loggedIn'])) continue;
+                        ?>
+                        <li class="nav-item me-2">
+                            <?php if ($vinculo === "logout"): ?>
+                                <a class="btn btn-danger rounded-pill text-white" href="?sec=logout">
+                                    <?= $texto ?>
+                                </a>
+                            <?php else: ?>
+                                <a class="nav-link" href="?sec=<?= htmlspecialchars($vinculo); ?>">
+                                    <?= $texto ?>
+                                </a>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+
+                    <!-- Usuario y rol -->
                     <?php if ($usuario && $rol): ?>
-                        <li class="nav-item d-flex align-items-center me-3">
+                        <li class="nav-item d-flex align-items-center ms-3">
                             <span class="me-2"><?= htmlspecialchars($usuario) ?></span>
                             <span class="badge <?= mb_strtolower($rol) === 'admin' ? 'bg-danger' : 'bg-primary' ?> text-white">
                                 <?= htmlspecialchars($rol) ?>
                             </span>
                         </li>
                     <?php endif; ?>
-
-                    <!-- Menú dinámico desde functions.php -->
-                    <?php foreach (secciones_menu() as $vinculo => $texto): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?sec=<?= htmlspecialchars($vinculo); ?>">
-                                <?= $texto /* Mantener iconos HTML */ ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
 
                 </ul>
             </div>

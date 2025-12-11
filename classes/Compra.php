@@ -124,7 +124,7 @@ class Compra
         $compras = [];
         while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $compras[] = new Compra(
-                $data['id_compra'],
+                $data['id'],
                 $data['id_usuario'],
                 $data['nombre_cliente'],
                 $data['email'],

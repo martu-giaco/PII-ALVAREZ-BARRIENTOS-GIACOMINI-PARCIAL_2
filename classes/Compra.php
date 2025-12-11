@@ -82,14 +82,14 @@ class Compra
     {
         $this->estado = $estado;
         $db = (new Conexion())->getConexion();
-        $stmt = $db->prepare("UPDATE compras SET estado = :estado WHERE id_compra = :id");
+        $stmt = $db->prepare("UPDATE compras SET estado = :estado WHERE id = :id");
         $stmt->execute(['estado' => $estado, 'id' => $this->id_compra]);
     }
 
     public function eliminar()
     {
         $db = (new Conexion())->getConexion();
-        $stmt = $db->prepare("DELETE FROM compras WHERE id_compra = :id");
+        $stmt = $db->prepare("DELETE FROM compras WHERE id = :id");
         return $stmt->execute(['id' => $this->id_compra]);
     }
 
@@ -97,12 +97,12 @@ class Compra
     public static function getPorId($id)
     {
         $db = (new Conexion())->getConexion();
-        $stmt = $db->prepare("SELECT * FROM compras WHERE id_compra = :id");
+        $stmt = $db->prepare("SELECT * FROM compras WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($data) {
             return new Compra(
-                $data['id_compra'],
+                $data['id'],
                 $data['id_usuario'],
                 $data['nombre_cliente'],
                 $data['email'],

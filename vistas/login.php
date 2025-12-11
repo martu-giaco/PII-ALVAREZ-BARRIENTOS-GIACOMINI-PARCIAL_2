@@ -18,7 +18,7 @@ require_once(__DIR__ . '/../functions/autoload.php');
         <!-- Campo para el nombre de usuario o email -->
         <div class="form-floating m-3">
             <input type="text" class="form-control" id="floatingInput" placeholder="Usuario" name="usuario" required>
-            <label for="floatingInput">Nombre de usuario</label>
+            <label for="floatingInput">Nombre de usuario o email</label>
         </div>
 
         <!-- Campo para la clave -->

@@ -1,42 +1,46 @@
 <?php
+// Usar ruta absoluta del archivo actual
 require_once __DIR__ . '/../../functions/autoload.php';
 
-$postData = $_POST;
+Autenticacion::verify(true);
 
-try {
-    // Validaciones básicas
-    if (empty($postData['id_usuario']) || empty($postData['usuario']) || empty($postData['email']) || empty($postData['clave'])) {
-        throw new Exception("Faltan datos obligatorios.");
+// Base relativa al panel admin
+$admin_base = dirname(dirname($_SERVER['PHP_SELF'])); // /admin
+
+$id_usuario = $_POST['id_usuario'] ?? null;
+$usuario_nuevo = trim($_POST['usuario'] ?? '');
+$email_nuevo = trim($_POST['email'] ?? '');
+$clave_nueva = $_POST['clave'] ?? '';
+$rol_nuevo = $_POST['rol'] ?? null;
+
+if (!$id_usuario) die("ID de usuario no proporcionado.");
+
+$usuario = Usuario::get_x_id((int)$id_usuario);
+if (!$usuario) die("Usuario no encontrado.");
+
+// Actualizar datos (clave opcional)
+$exito = $usuario->update($usuario_nuevo, $email_nuevo, $clave_nueva);
+
+if ($exito && $rol_nuevo) {
+    try {
+        $db = (new Conexion())->getConexion();
+
+        // Borrar rol anterior
+        $stmt = $db->prepare("DELETE FROM usuario_rol WHERE id_usuario = ?");
+        $stmt->execute([$usuario->getIdUsuario()]);
+
+        // Asignar nuevo rol
+        $stmt2 = $db->prepare("INSERT INTO usuario_rol (id_usuario, id_rol) VALUES (?, ?)");
+        $stmt2->execute([$usuario->getIdUsuario(), $rol_nuevo]);
+    } catch (Exception $e) {
+        Alerta::add_alerta('warning', 'Usuario editado, pero no se pudo actualizar el rol: ' . $e->getMessage());
+        header("Location: {$admin_base}/?sec=usuarios");
+        exit;
     }
-
-    $id = (int) $postData['id_usuario'];
-
-    // Cargar usuario por id
-    $usuario = Usuario::get_x_id($id);
-    if (!$usuario) {
-        throw new Exception("Usuario no encontrado.");
-    }
-
-    // Actualizar usuario
-    $usuario->update(
-        trim($postData['usuario']),
-        trim($postData['email']),
-        trim($postData['clave'])
-    );
-
-    // Alerta de éxito
-    Alerta::add_alerta("success", "Usuario editado correctamente: " . $postData['usuario'] . " (ID: " . $id . ")");
-
-    // Redirección al listado
-    header('Location: ../index.php?sec=usuarios');
-    exit;
-
-} catch (Exception $e) {
-    Alerta::add_alerta("danger", "No se pudo editar el usuario.");
-    Alerta::add_alerta("secondary", $e->getMessage());
-
-    // Volver al formulario de edición
-    $id_return = isset($postData['id_usuario']) ? (int)$postData['id_usuario'] : '';
-    header('Location: ../index.php?sec=editar_usuario&id=' . urlencode((string)$id_return));
-    exit;
 }
+
+Alerta::add_alerta('success', 'Usuario editado correctamente: ' . htmlspecialchars($usuario->getUsuario()) . ' (ID: ' . $usuario->getIdUsuario() . ')');
+
+// Redirigir al panel admin
+header("Location: {$admin_base}/?sec=usuarios");
+exit;

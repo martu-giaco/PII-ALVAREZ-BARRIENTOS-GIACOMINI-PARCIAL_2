@@ -48,7 +48,7 @@ class Autenticacion
 
     if ($rolNorm === 'admin') {
         // Desde admin/actions/* la ruta relativa al panel admin es: ../index.php?sec=usuarios
-        header("Location: ../index.php?sec=usuarios");
+        header("Location: ../index.php");
         exit;
     }
 

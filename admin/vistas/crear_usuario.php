@@ -1,67 +1,69 @@
 <?php
 require_once __DIR__ . '/../../functions/autoload.php';
 
-// descomentar para hacer autenticacion
+// Autenticación: solo admin puede crear usuarios
 Autenticacion::verify(true);
 
-// Preparar objeto usuario vacío (mantener estructura original)
-$usuario = new Usuario([
-    'id_usuario' => '',
-    'usuario' => '',
-    'email' => '',
-    'clave' => ''
-]);
+// Inicializar valores previos para repoblar el formulario si hubo error
+$usuario_val = $_SESSION['old_usuario'] ?? '';
+$email_val = $_SESSION['old_email'] ?? '';
+$clave_val = $_SESSION['old_clave'] ?? '';
+$rol_val = $_SESSION['old_rol'] ?? '';
 
-// Intentar obtener lista de roles desde la tabla `roles`.
-// Si la tabla no existe o falla la consulta, $roles quedará vacío.
+// Limpiar valores antiguos de sesión
+unset($_SESSION['old_usuario'], $_SESSION['old_email'], $_SESSION['old_clave'], $_SESSION['old_rol']);
+
+// Obtener lista de roles desde la base
 $roles = [];
 try {
     $db = (new Conexion())->getConexion();
     $roles = $db->query("SELECT * FROM roles ORDER BY rol")->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
-    // fallback: dejar $roles vacío para que el formulario siga funcionando
     $roles = [];
 }
 ?>
 
 <h2>Crear Usuario</h2>
-<form action="actions/crear_usuario_acc.php" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id_usuario" class="form-control" id="id_usuario">
 
+<?= Alerta::get_alertas(); ?>
+
+<form action="actions/crear_usuario_acc.php" method="post">
     <div class="mb-3">
         <label for="usuario" class="form-label">Nombre de usuario</label>
-        <input type="text" class="form-control" id="usuario" name="usuario">
+        <input type="text" class="form-control" id="usuario" name="usuario" 
+               value="<?= htmlspecialchars($usuario_val); ?>" required>
     </div>
     
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email">
+        <input type="email" class="form-control" id="email" name="email" 
+               value="<?= htmlspecialchars($email_val); ?>" required>
     </div>
+
     <div class="mb-3">
         <label for="clave" class="form-label">Clave</label>
-        <input type="password" class="form-control" id="clave" name="clave">
+        <input type="password" class="form-control" id="clave" name="clave" 
+               value="<?= htmlspecialchars($clave_val); ?>" required>
     </div>
 
     <div class="mb-3">
         <label for="rol" class="form-label">Rol</label>
-
-        <?php if (!empty($roles)): ?>
-            <select id="rol" name="rol" class="form-select">
-                <option value="">Seleccione un rol para este usuario</option>
+        <select id="rol" name="rol" class="form-select" required>
+            <option value="">Seleccione un rol para este usuario</option>
+            <?php if (!empty($roles)): ?>
                 <?php foreach ($roles as $r): ?>
-                    <option value="<?= htmlspecialchars($r['id_rol']); ?>"><?= htmlspecialchars($r['rol']); ?></option>
+                    <option value="<?= htmlspecialchars($r['id_rol']); ?>" 
+                        <?= ($rol_val == $r['id_rol']) ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($r['rol']); ?>
+                    </option>
                 <?php endforeach; ?>
-            </select>
-        <?php else: ?>
-            <!-- Si no hay tabla roles o no hay roles, mostrar un select mínimo con opciones comunes -->
-            <select id="rol" name="rol" class="form-select">
-                <option value="">Seleccione un rol para este usuario</option>
-                <option value="1">admin</option>
-                <option value="2">usuario</option>
-            </select>
-        <?php endif; ?>
+            <?php else: ?>
+                <option value="1" <?= ($rol_val == '1') ? 'selected' : ''; ?>>admin</option>
+                <option value="2" <?= ($rol_val == '2') ? 'selected' : ''; ?>>usuario</option>
+            <?php endif; ?>
+        </select>
     </div>
 
-    <input type="submit"  class="btn btn-primary py-3 px-5" value="Crear Usuario">
+    <input type="submit" class="btn btn-primary py-3 px-5" value="Crear Usuario">
     <a href="?sec=usuarios" class="btn btn-danger text-white py-3 px-5">Cancelar</a>
 </form>

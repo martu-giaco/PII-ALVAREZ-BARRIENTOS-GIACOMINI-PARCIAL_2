@@ -5,58 +5,51 @@ require_once __DIR__ . '/../../functions/autoload.php';
 $emailOrUser = $_POST['usuario'] ?? '';
 $password     = $_POST['clave'] ?? '';
 
+// Validación básica
 if (trim($emailOrUser) === '' || $password === '') {
     Alerta::add_alerta('danger', 'Usuario y clave son obligatorios.');
-    header('Location: ../index.php?sec=login');
+    header('Location: ../../index.php?sec=login'); // login general
     exit;
 }
 
-// Intentar iniciar sesión con la clase Autenticacion
+// Intentar iniciar sesión
 $result = Autenticacion::log_in($emailOrUser, $password);
 
-// Si Autenticacion::log_in devolvió false/null, ya añadió alertas; redirigir al login
+// Si falló autenticación
 if ($result === false || $result === null) {
-    header('Location: ../index.php?sec=login');
+    header('Location: ../../index.php?sec=login'); // login general
     exit;
 }
 
-// A partir de aquí, se espera que la sesión esté creada por Autenticacion::log_in
+// Sesión ya creada
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-// Obtiene rol desde sesión si existe
-$rolSesion = $_SESSION['loggedIn']['rol'] ?? null;
+// Obtener rol
+$rol = $_SESSION['loggedIn']['rol'] ?? null;
 
-// Si no está en sesión, consultar la BD directamente (robusto)
-if (empty($rolSesion)) {
-    // Intentar obtener el usuario por email o usuario
+// Si no está definido, consultar DB
+if (empty($rol)) {
     $usuarioObj = Usuario::obtenerPorUsuarioEmail($emailOrUser);
-
     if (!$usuarioObj) {
         Alerta::add_alerta('danger', 'Error interno: no se pudo recuperar el usuario tras autenticarlo.');
-        header('Location: ../index.php?sec=login');
+        header('Location: ../../index.php?sec=login'); // login general
         exit;
     }
-
     $rol = $usuarioObj->getRol();
-} else {
-    $rol = $rolSesion;
 }
 
-// Normalizar rol: quitar espacios y pasar a minúsculas para comparación fiable
 $rol_normalizado = mb_strtolower(trim($rol));
 
-// (Opcional) agregar alerta de debug temporal si querés ver qué rol se detectó
-// Alerta::add_alerta('secondary', 'Rol detectado: ' . $rol_normalizado);
-
+// Alerta bienvenida
 Alerta::add_alerta('success', 'Sesión iniciada correctamente. Bienvenido ' . htmlspecialchars($_SESSION['loggedIn']['usuario'] ?? $emailOrUser) . '.');
 
-// Redirigir según rol (solo admin va al panel admin)
+// Redirigir según rol
 if ($rol_normalizado === 'admin') {
-    header('Location: ../index.php?sec=usuarios'); // panel admin: ajustar si tu ruta es distinta
+    // Redirigir al panel admin
+    header('Location: ../index.php?sec=inicio'); 
     exit;
 }
 
-// Si no es admin, redirigir al front (cliente)
-// Ajustar la ruta pública según tu proyecto
-header('Location: ../../index.php');
+// Usuario común: redirigir al front
+header('Location: ../../index.php'); 
 exit;

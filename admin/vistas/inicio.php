@@ -22,6 +22,9 @@ $usuario = $_SESSION['loggedIn']['usuario'] ?? $_SESSION['loggedIn']['email'] ??
         <a href="?sec=categorias" class="btn btn-light border border-secondary py-3 px-4 shadow">
             <i class="fas fa-tags me-2"></i> Gestionar Categorías
         </a>
+        <a href="?sec=compras" class="btn btn-light border border-secondary py-3 px-4 shadow">
+            <i class="fas fa-tags me-2"></i> Gestionar Compras
+        </a>
     </div>
 
     <!-- Imagen decorativa -->

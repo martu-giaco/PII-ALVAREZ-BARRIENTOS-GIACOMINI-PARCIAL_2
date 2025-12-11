@@ -30,12 +30,6 @@
         "inMenu": true
     },
     {
-        "vinculo": "contactoEnviado",
-        "texto": "Formulario Enviado",
-        "title": "Formulario enviado con éxito",
-        "inMenu": false
-    },
-    {
         "vinculo": "alumnas",
         "texto": "Alumnas",
         "title": "Datos de las Alumnas",
@@ -46,12 +40,6 @@
         "texto": "<i class='fa-solid fa-cart-shopping mx-2'></i> Carrito",
         "title": "Carrito",
         "inMenu": true
-    },
-    {
-        "vinculo": "404",
-        "texto": "Error 404",
-        "title": "Página no encontrada",
-        "inMenu": false
     },
     {
         "vinculo": "categorias",
@@ -66,27 +54,21 @@
         "inMenu": true
     },
     {
-        "vinculo": "login",
-        "texto": "<i class='fa-solid fa-user mx-2'></i>Iniciar sesión",
-        "title": "Iniciar sesión",
+        "vinculo": "compras",
+        "texto": "Compras",
+        "title": "Gestión de Compras de Usuarios",
         "inMenu": true
     },
     {
-        "vinculo": "logout",
-        "texto": "<i class='fas fa-sign-out-alt mx-2'></i>Cerrar sesión",
-        "title": "Cerrar sesión",
-        "inMenu": true
-    },
-    {
-        "vinculo": "compra",
-        "texto": "Compra",
-        "title": "Resumen de la Compra",
+        "vinculo": "editar_compra",
+        "texto": "Editar Compra",
+        "title": "Editar estado de una compra",
         "inMenu": false
     },
     {
-        "vinculo": "compra-form",
-        "texto": "Formulario de Compra",
-        "title": "Formulario para Finalizar Compra",
+        "vinculo": "eliminar_compra",
+        "texto": "Eliminar Compra",
+        "title": "Eliminar una compra",
         "inMenu": false
     },
     {
@@ -156,21 +138,21 @@
         "inMenu": false
     },
     {
-        "vinculo": "pedidos",
-        "texto": "Pedidos",
-        "title": "Visualización de Pedidos",
-        "inMenu": true
-    },
-    {
         "vinculo": "crear_usuario",
         "texto": "Crear Usuario",
         "title": "Agregar un nuevo usuario",
         "inMenu": false
     },
     {
-        "vinculo": "cancelar_pedido",
-        "texto": "Cancelar Pedido",
-        "title": "Cancelar un pedido",
-        "inMenu": false
+        "vinculo": "login",
+        "texto": "<i class='fa-solid fa-user mx-2'></i>Iniciar sesión",
+        "title": "Iniciar sesión",
+        "inMenu": true
+    },
+    {
+        "vinculo": "logout",
+        "texto": "<i class='fas fa-sign-out-alt mx-2'></i>Cerrar sesión",
+        "title": "Cerrar sesión",
+        "inMenu": true
     }
 ]

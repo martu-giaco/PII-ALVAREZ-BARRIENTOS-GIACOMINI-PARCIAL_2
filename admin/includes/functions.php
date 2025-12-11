@@ -18,7 +18,7 @@ function secciones_menu(): array
     $menu = [];
 
     // Secciones permitidas en el menú admin
-    $permitidas = ["inicio", "productos", "categorias", "usuarios", "login", "logout"];
+    $permitidas = ["inicio", "productos", "categorias", "usuarios", "compras", "login", "logout"];
 
     foreach (Secciones::secciones_del_sitio() as $seccion) {
         $vinculo = $seccion->getVinculo();

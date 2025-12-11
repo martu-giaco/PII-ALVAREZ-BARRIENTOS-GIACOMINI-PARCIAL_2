@@ -6,6 +6,11 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 
 $usuario = $_SESSION['loggedIn']['usuario'] ?? $_SESSION['loggedIn']['email'] ?? null;
 $rol     = $_SESSION['loggedIn']['rol'] ?? null;
+
+// Obtener menú base
+$menu = secciones_menu();
+
+
 ?>
 
 <header class="container-fluid">
@@ -28,7 +33,7 @@ $rol     = $_SESSION['loggedIn']['rol'] ?? null;
                 <ul class="navbar-nav align-items-center">
 
                     <!-- Menú dinámico -->
-                    <?php foreach (secciones_menu() as $vinculo => $texto): ?>
+                    <?php foreach ($menu as $vinculo => $texto): ?>
                         <?php
                         // Ocultar login/logout según sesión
                         if ($vinculo === "login" && !empty($_SESSION['loggedIn'])) continue;

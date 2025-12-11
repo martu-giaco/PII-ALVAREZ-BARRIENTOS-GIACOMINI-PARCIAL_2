@@ -42,11 +42,30 @@
         "inMenu": true
     }, 
     {
+        "vinculo": "compras",
+        "texto": "Compras",
+        "title": "Compras de Usuarios",
+        "inMenu": true
+    },
+    {
+        "vinculo": "editar_compra",
+        "texto": "Editar Compra",
+        "title": "Editar estado de una compra",
+        "inMenu": false
+    },
+    {
+        "vinculo": "eliminar_compra",
+        "texto": "Eliminar Compra",
+        "title": "Eliminar una compra",
+        "inMenu": false
+    },
+    {
         "vinculo": "carrito",
         "texto": "<i class='fa-solid fa-cart-shopping mx-2'></i> Carrito",
         "title": "Carrito", 
         "inMenu": true
     }, 
+    
     {
         "vinculo": "404",
         "texto": "Error 404",
